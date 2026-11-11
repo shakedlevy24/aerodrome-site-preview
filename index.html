@@ -238,6 +238,15 @@ fieldset{border:0;margin:0;padding:0}
 .rise{opacity:0;translate:0 44px}
 .rise.seen{opacity:1;translate:none}
 @media (prefers-reduced-motion:reduce){.reveal>img,.hhero .frame video{transform:none}.tilt{transform:none}.rise{opacity:1;translate:none}}
+
+/* contact page */
+.contact-h1{font-weight:600;font-size:clamp(2.8rem,6.4vw,6rem);line-height:.98;letter-spacing:-.045em;max-width:8ch}
+.choices{display:flex;flex-direction:column;gap:10px}
+.field .choice{display:flex;margin-bottom:0;font-size:15.5px;color:rgba(242,242,239,.88)}
+.choice.box{align-items:center;padding:12px 16px;border:1px solid var(--line);border-radius:8px;transition:border-color .3s,background .3s}
+.choice.box:hover{border-color:rgba(242,242,239,.32)}
+.choice.box:has(input:checked){border-color:var(--orange);background:rgba(255,122,26,.08)}
+.choice.box input{margin:0}
 </style>
 <style>.cl body{visibility:hidden}</style>
 <script>if(/^https?:/.test(location.protocol)){document.documentElement.classList.add("cl");setTimeout(function(){document.documentElement.classList.remove("cl")},1500);}</script>
@@ -1270,22 +1279,18 @@ fieldset{border:0;margin:0;padding:0}
 <div class="page" data-page="contact" data-title="Contact Us">
   <!-- K1 · Form -->
   <section class="px thero" id="contact-form" aria-labelledby="contact-title" style="padding-bottom:120px">
-    <div class="row" style="align-items:flex-start;gap:48px 80px">
-      <div style="flex:1 1 380px">
+    <div class="row" style="align-items:flex-start;gap:48px 96px">
+      <div style="flex:1 1 400px">
         <p class="eyebrow in">Contact Us</p>
-        <h1 id="contact-title" class="l in" style="margin-top:20px;max-width:10ch;animation-delay:.1s">Let's talk about your reach</h1>
-        <p class="lead in" style="margin-top:28px;animation-delay:.25s">Tell us what you need and the right person on our team will answer you shortly.</p>
-        <dl class="kv in" style="margin-top:44px;max-width:460px;animation-delay:.35s">
-          <div><dt>Headquarters</dt><dd><span class="ph">[Address, to confirm]</span></dd></div>
-          <div><dt>Investors</dt><dd><span class="ph">[cfo email]</span></dd></div>
-        </dl>
+        <h1 id="contact-title" class="in contact-h1" style="margin-top:20px;animation-delay:.1s">Let's extend your reach.</h1>
+        <p class="lead in" style="margin-top:28px;max-width:34ch;animation-delay:.25s">We work with nations to deliver strategic reach that matters, and to keep it ready for the long term. Tell us about your mission. We'll answer you shortly.</p>
       </div>
 
-      <div class="card in" style="flex:1 1 480px;padding:32px;animation-delay:.3s">
+      <div class="in" style="flex:1 1 480px;max-width:620px;animation-delay:.3s">
         <h2 class="sr">Contact form</h2>
         <form data-form="contact" novalidate aria-describedby="contact-req-note">
-          <div class="fields">
-            <p class="note" id="contact-req-note">Fields marked <span class="req" aria-hidden="true">*</span><span class="sr">with an asterisk</span> are required.</p>
+          <div class="fields" style="gap:22px">
+            <p class="sr" id="contact-req-note">Fields marked with an asterisk are required.</p>
             <div class="frow">
               <div class="field"><label for="contact-first">First name <span class="req" aria-hidden="true">*</span></label><input type="text" id="contact-first" name="first_name" autocomplete="given-name" required></div>
               <div class="field"><label for="contact-last">Last name <span class="req" aria-hidden="true">*</span></label><input type="text" id="contact-last" name="last_name" autocomplete="family-name" required></div>
@@ -1294,23 +1299,220 @@ fieldset{border:0;margin:0;padding:0}
             <div class="frow">
               <div class="field"><label for="contact-country">Country <span class="req" aria-hidden="true">*</span></label>
                 <select id="contact-country" name="country" autocomplete="country-name" required>
-                  <option value="">Select your country</option>
-                  <option value="country-list">[Country list]</option>
+                  <option value="">Select country</option>
+                  <option>Afghanistan</option>
+                  <option>Albania</option>
+                  <option>Algeria</option>
+                  <option>Andorra</option>
+                  <option>Angola</option>
+                  <option>Antigua and Barbuda</option>
+                  <option>Argentina</option>
+                  <option>Armenia</option>
+                  <option>Australia</option>
+                  <option>Austria</option>
+                  <option>Azerbaijan</option>
+                  <option>Bahamas</option>
+                  <option>Bahrain</option>
+                  <option>Bangladesh</option>
+                  <option>Barbados</option>
+                  <option>Belarus</option>
+                  <option>Belgium</option>
+                  <option>Belize</option>
+                  <option>Benin</option>
+                  <option>Bhutan</option>
+                  <option>Bolivia</option>
+                  <option>Bosnia and Herzegovina</option>
+                  <option>Botswana</option>
+                  <option>Brazil</option>
+                  <option>Brunei</option>
+                  <option>Bulgaria</option>
+                  <option>Burkina Faso</option>
+                  <option>Burundi</option>
+                  <option>Cabo Verde</option>
+                  <option>Cambodia</option>
+                  <option>Cameroon</option>
+                  <option>Canada</option>
+                  <option>Central African Republic</option>
+                  <option>Chad</option>
+                  <option>Chile</option>
+                  <option>China</option>
+                  <option>Colombia</option>
+                  <option>Comoros</option>
+                  <option>Congo</option>
+                  <option>Costa Rica</option>
+                  <option>Côte d'Ivoire</option>
+                  <option>Croatia</option>
+                  <option>Cuba</option>
+                  <option>Cyprus</option>
+                  <option>Czechia</option>
+                  <option>Democratic Republic of the Congo</option>
+                  <option>Denmark</option>
+                  <option>Djibouti</option>
+                  <option>Dominica</option>
+                  <option>Dominican Republic</option>
+                  <option>Ecuador</option>
+                  <option>Egypt</option>
+                  <option>El Salvador</option>
+                  <option>Equatorial Guinea</option>
+                  <option>Eritrea</option>
+                  <option>Estonia</option>
+                  <option>Eswatini</option>
+                  <option>Ethiopia</option>
+                  <option>Fiji</option>
+                  <option>Finland</option>
+                  <option>France</option>
+                  <option>Gabon</option>
+                  <option>Gambia</option>
+                  <option>Georgia</option>
+                  <option>Germany</option>
+                  <option>Ghana</option>
+                  <option>Greece</option>
+                  <option>Grenada</option>
+                  <option>Guatemala</option>
+                  <option>Guinea</option>
+                  <option>Guinea-Bissau</option>
+                  <option>Guyana</option>
+                  <option>Haiti</option>
+                  <option>Honduras</option>
+                  <option>Hungary</option>
+                  <option>Iceland</option>
+                  <option>India</option>
+                  <option>Indonesia</option>
+                  <option>Iran</option>
+                  <option>Iraq</option>
+                  <option>Ireland</option>
+                  <option>Israel</option>
+                  <option>Italy</option>
+                  <option>Jamaica</option>
+                  <option>Japan</option>
+                  <option>Jordan</option>
+                  <option>Kazakhstan</option>
+                  <option>Kenya</option>
+                  <option>Kiribati</option>
+                  <option>Kosovo</option>
+                  <option>Kuwait</option>
+                  <option>Kyrgyzstan</option>
+                  <option>Laos</option>
+                  <option>Latvia</option>
+                  <option>Lebanon</option>
+                  <option>Lesotho</option>
+                  <option>Liberia</option>
+                  <option>Libya</option>
+                  <option>Liechtenstein</option>
+                  <option>Lithuania</option>
+                  <option>Luxembourg</option>
+                  <option>Madagascar</option>
+                  <option>Malawi</option>
+                  <option>Malaysia</option>
+                  <option>Maldives</option>
+                  <option>Mali</option>
+                  <option>Malta</option>
+                  <option>Marshall Islands</option>
+                  <option>Mauritania</option>
+                  <option>Mauritius</option>
+                  <option>Mexico</option>
+                  <option>Micronesia</option>
+                  <option>Moldova</option>
+                  <option>Monaco</option>
+                  <option>Mongolia</option>
+                  <option>Montenegro</option>
+                  <option>Morocco</option>
+                  <option>Mozambique</option>
+                  <option>Myanmar</option>
+                  <option>Namibia</option>
+                  <option>Nauru</option>
+                  <option>Nepal</option>
+                  <option>Netherlands</option>
+                  <option>New Zealand</option>
+                  <option>Nicaragua</option>
+                  <option>Niger</option>
+                  <option>Nigeria</option>
+                  <option>North Korea</option>
+                  <option>North Macedonia</option>
+                  <option>Norway</option>
+                  <option>Oman</option>
+                  <option>Pakistan</option>
+                  <option>Palau</option>
+                  <option>Panama</option>
+                  <option>Papua New Guinea</option>
+                  <option>Paraguay</option>
+                  <option>Peru</option>
+                  <option>Philippines</option>
+                  <option>Poland</option>
+                  <option>Portugal</option>
+                  <option>Qatar</option>
+                  <option>Romania</option>
+                  <option>Russia</option>
+                  <option>Rwanda</option>
+                  <option>Saint Kitts and Nevis</option>
+                  <option>Saint Lucia</option>
+                  <option>Saint Vincent and the Grenadines</option>
+                  <option>Samoa</option>
+                  <option>San Marino</option>
+                  <option>São Tomé and Príncipe</option>
+                  <option>Saudi Arabia</option>
+                  <option>Senegal</option>
+                  <option>Serbia</option>
+                  <option>Seychelles</option>
+                  <option>Sierra Leone</option>
+                  <option>Singapore</option>
+                  <option>Slovakia</option>
+                  <option>Slovenia</option>
+                  <option>Solomon Islands</option>
+                  <option>Somalia</option>
+                  <option>South Africa</option>
+                  <option>South Korea</option>
+                  <option>South Sudan</option>
+                  <option>Spain</option>
+                  <option>Sri Lanka</option>
+                  <option>Sudan</option>
+                  <option>Suriname</option>
+                  <option>Sweden</option>
+                  <option>Switzerland</option>
+                  <option>Syria</option>
+                  <option>Taiwan</option>
+                  <option>Tajikistan</option>
+                  <option>Tanzania</option>
+                  <option>Thailand</option>
+                  <option>Timor-Leste</option>
+                  <option>Togo</option>
+                  <option>Tonga</option>
+                  <option>Trinidad and Tobago</option>
+                  <option>Tunisia</option>
+                  <option>Türkiye</option>
+                  <option>Turkmenistan</option>
+                  <option>Tuvalu</option>
+                  <option>Uganda</option>
+                  <option>Ukraine</option>
+                  <option>United Arab Emirates</option>
+                  <option>United Kingdom</option>
+                  <option>United States</option>
+                  <option>Uruguay</option>
+                  <option>Uzbekistan</option>
+                  <option>Vanuatu</option>
+                  <option>Vatican City</option>
+                  <option>Venezuela</option>
+                  <option>Vietnam</option>
+                  <option>Yemen</option>
+                  <option>Zambia</option>
+                  <option>Zimbabwe</option>
                 </select>
               </div>
               <div class="field"><label for="contact-company">Company <span class="req" aria-hidden="true">*</span></label><input type="text" id="contact-company" name="company" autocomplete="organization" required></div>
             </div>
             <fieldset class="field">
               <legend>I am… <span class="req" aria-hidden="true">*</span><span class="sr">(required)</span></legend>
-              <label class="choice" for="contact-iam-team"><input type="radio" id="contact-iam-team" name="iam" value="team" required><span>looking to discuss our systems with the team</span></label>
-              <label class="choice" for="contact-iam-partnerships"><input type="radio" id="contact-iam-partnerships" name="iam" value="partnerships" required><span>a supplier or industry partner exploring collaboration</span></label>
-              <label class="choice" for="contact-iam-media"><input type="radio" id="contact-iam-media" name="iam" value="media" required><span>a journalist or content creator</span></label>
-              <label class="choice" for="contact-iam-general"><input type="radio" id="contact-iam-general" name="iam" value="general" required><span>reaching out for another reason</span></label>
+              <div class="choices">
+                <label class="choice box" for="contact-iam-team"><input type="radio" id="contact-iam-team" name="iam" value="team" required><span>looking to discuss our systems with the team</span></label>
+                <label class="choice box" for="contact-iam-partnerships"><input type="radio" id="contact-iam-partnerships" name="iam" value="partnerships" required><span>a supplier or industry partner exploring collaboration</span></label>
+                <label class="choice box" for="contact-iam-media"><input type="radio" id="contact-iam-media" name="iam" value="media" required><span>a journalist or content creator</span></label>
+                <label class="choice box" for="contact-iam-general"><input type="radio" id="contact-iam-general" name="iam" value="general" required><span>reaching out for another reason</span></label>
+              </div>
             </fieldset>
-            <div class="field"><label for="contact-message">Tell us about your mission or requirement <span class="faint">(optional)</span></label><textarea id="contact-message" name="message" rows="5"></textarea></div>
+            <div class="field"><label for="contact-message">Tell us about your mission or requirement</label><textarea id="contact-message" name="message" rows="5"></textarea></div>
             <label class="choice" for="contact-consent"><input type="checkbox" id="contact-consent" name="consent" value="yes" required><span>I agree to the <a href="#privacy" style="color:var(--camel);text-decoration:underline;text-underline-offset:3px">Privacy Policy</a>. <span class="req" aria-hidden="true">*</span></span></label>
             <p class="err" data-err hidden role="alert">Please complete the required fields marked with an asterisk and use a valid work email.</p>
-            <button type="submit" class="btn btn-solid" style="width:100%">Contact Us</button>
+            <button type="submit" class="btn btn-solid" style="align-self:flex-start">Contact Us</button>
           </div>
           <div data-ok hidden><p class="s">Thank you. We'll answer you shortly.</p><p class="note" style="margin-top:8px">Mockup: nothing was sent.</p></div>
         </form>
