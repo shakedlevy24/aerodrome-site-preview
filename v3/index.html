@@ -469,6 +469,14 @@ a.media-card:focus-visible{outline-offset:4px}
 
 .apex-hero-shot{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#0d0e10}
 .apex-hero-shot img{display:block;width:100%;height:auto}
+
+/* older pages brought in line: plain point lists, no icon boxes, no numbering */
+.grid2:has(>.pt),.grid3:has(>.pt),.grid4:has(>.pt){gap:36px 40px}
+.pt .mono{margin-top:14px}
+.hlead b{display:block;font-family:var(--display);font-weight:600;font-size:1.25em;line-height:1.2;letter-spacing:-.01em;color:var(--ink);margin-bottom:10px}
+.sample{margin:0;position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/10;background:#1a1b1e}
+.sample img{display:block;width:100%;height:100%;object-fit:cover}
+.sample figcaption{position:absolute;left:10px;bottom:10px;background:rgba(10,11,12,.8);font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:4px}
 </style>
 <style>.cl body{visibility:hidden}</style>
 <script>if(/^https?:/.test(location.protocol)){document.documentElement.classList.add("cl");setTimeout(function(){document.documentElement.classList.remove("cl")},1500);}</script>
@@ -535,7 +543,7 @@ a.media-card:focus-visible{outline-offset:4px}
       <div class="title">
         <p class="herotag">Long-range precision strike systems</p>
         <h1 id="home-title" class="xl"><span>Reach Further.</span> <span>Defend Stronger.</span></h1>
-        <p class="hlead">Empowering nations with advanced long-range strike capabilities, combining operational performance, cost efficiency and sovereign production.</p>
+        <p class="hlead"><b>The reach of a missile. Within every nation's reach.</b> Precision strike systems with strategic range and payload, at a price that allows scale.</p>
       </div>
     </div>
   </section>
@@ -620,7 +628,7 @@ a.media-card:focus-visible{outline-offset:4px}
 </div>
 
 <div class="page" data-page="what-we-do" data-title="What We Do">
-  <!-- W1 · Header: text hero, jump links, then the footage in a wide frame -->
+  <!-- W1 · Header: text hero and jump links -->
   <section class="thero px" aria-labelledby="wwd-title">
     <p class="crumb in"><a href="#home">Home</a> / What We Do</p>
     <p class="eyebrow in" style="margin-top:28px;animation-delay:.05s">What we do</p>
@@ -632,12 +640,6 @@ a.media-card:focus-visible{outline-offset:4px}
         <a class="more" href="#wwd-solutions">Solutions <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a>
       </nav>
     </div>
-    <div class="in" style="margin-top:64px;animation-delay:.4s">
-      <div style="position:relative;aspect-ratio:16/7;border-radius:12px;overflow:hidden;background:#000">
-        <video id="wwd-video" data-auto autoplay muted loop playsinline preload="metadata" poster="assets/flight-wide-poster.jpg" src="assets/flight-wide.mp4" aria-label="Phoenix in flight" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-        </video>
-      </div>
-    </div>
   </section>
 
   <!-- W2 · Products -->
@@ -647,11 +649,10 @@ a.media-card:focus-visible{outline-offset:4px}
         <p class="eyebrow">Products</p>
         <h2 id="wwd-products-title" class="l" style="margin-top:16px"><span class="ph" style="font-size:.42em;line-height:1.4;letter-spacing:0">[Group headline placeholder: the Phoenix family]</span></h2>
       </div>
-      <p class="muted" style="max-width:38ch">Move the light across each aircraft to see it.</p>
     </div>
     <div class="grid2">
       <article class="media-card">
-        <div class="reveal" style="aspect-ratio:16/10;--r:280px"><img src="assets/lt-front.jpg" alt="Phoenix LT seen from the front, studio photo on a black background" loading="lazy"><div class="veil"></div><span class="hint">Move to reveal</span></div>
+        <div class="reveal" style="aspect-ratio:16/10;--r:280px"><img src="assets/lt-front.jpg" alt="Phoenix LT seen from the front, studio photo on a black background" loading="lazy"><div class="veil"></div></div>
         <div class="body">
           <h3>Phoenix LT</h3>
           <p class="mono faint">Strategic range · up to 50 kg warhead</p>
@@ -660,7 +661,7 @@ a.media-card:focus-visible{outline-offset:4px}
         </div>
       </article>
       <article class="media-card">
-        <div class="reveal" style="aspect-ratio:16/10;--r:280px"><img src="assets/tapx-desert.jpg" alt="Phoenix TAP-X seen from above over desert, twin jet exhausts" loading="lazy" style="object-position:55% 50%"><div class="veil"></div><span class="hint">Move to reveal</span></div>
+        <div class="reveal" style="aspect-ratio:16/10;--r:280px"><img src="assets/tapx-desert.jpg" alt="Phoenix TAP-X seen from above over desert, twin jet exhausts" loading="lazy" style="object-position:55% 50%"><div class="veil"></div></div>
         <div class="body">
           <h3>Phoenix TAP-X</h3>
           <p class="mono faint">Jet engine</p>
@@ -707,10 +708,10 @@ a.media-card:focus-visible{outline-offset:4px}
       <h2 id="wwd-missions-title" class="l"><span class="ph" style="font-size:.42em;line-height:1.4;letter-spacing:0">[Headline placeholder: missions we support]</span></h2>
     </div>
     <div class="grid4">
-      <div class="card"><p class="eyebrow">01</p><h3><span class="ph">[Mission 1]</span></h3><p><span class="ph">[One line]</span></p></div>
-      <div class="card"><p class="eyebrow">02</p><h3><span class="ph">[Mission 2]</span></h3><p><span class="ph">[One line]</span></p></div>
-      <div class="card"><p class="eyebrow">03</p><h3><span class="ph">[Mission 3]</span></h3><p><span class="ph">[One line]</span></p></div>
-      <div class="card"><p class="eyebrow">04</p><h3><span class="ph">[Mission 4]</span></h3><p><span class="ph">[One line]</span></p></div>
+      <div class="pt"><h3><span class="ph">[Mission 1]</span></h3><p><span class="ph">[One line]</span></p></div>
+      <div class="pt"><h3><span class="ph">[Mission 2]</span></h3><p><span class="ph">[One line]</span></p></div>
+      <div class="pt"><h3><span class="ph">[Mission 3]</span></h3><p><span class="ph">[One line]</span></p></div>
+      <div class="pt"><h3><span class="ph">[Mission 4]</span></h3><p><span class="ph">[One line]</span></p></div>
     </div>
   </section>
 
@@ -732,7 +733,7 @@ a.media-card:focus-visible{outline-offset:4px}
     <img src="assets/lt-front.jpg" alt="Phoenix LT seen from the front, studio photo on a black background" style="object-position:50% 45%">
     <div class="veil"></div>
     <div class="shade"></div>
-    <span class="hint" style="left:auto;right:max(40px,env(safe-area-inset-right,0px));bottom:auto;top:120px">Move to reveal</span>
+    
     <div class="bottom px">
       <p class="crumb in"><a href="#what-we-do">What We Do</a> / Products / Phoenix LT</p>
       <p class="eyebrow in" style="margin-top:24px;animation-delay:.05s">Phoenix LT</p>
@@ -799,7 +800,7 @@ a.media-card:focus-visible{outline-offset:4px}
     <img src="assets/tapx-desert.jpg" alt="Phoenix TAP-X seen from above over desert, twin jet exhausts" style="object-position:55% 50%">
     <div class="veil"></div>
     <div class="shade"></div>
-    <span class="hint" style="left:auto;right:max(40px,env(safe-area-inset-right,0px));bottom:auto;top:120px">Move to reveal</span>
+    
     <div class="bottom px">
       <p class="crumb in"><a href="#what-we-do">What We Do</a> / Products / Phoenix TAP-X</p>
       <p class="eyebrow in" style="margin-top:24px;animation-delay:.05s">Phoenix TAP-X</p>
@@ -924,22 +925,19 @@ a.media-card:focus-visible{outline-offset:4px}
       <p class="lead" style="flex:1 1 420px">End-to-end aerial photography, mapping and data processing, from flight planning to final deliverables.</p>
       <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="aerial-services-hero">Contact Us</a>
     </div>
-    <div class="card in" style="margin-top:64px;aspect-ratio:16/7;justify-content:center;align-items:center;text-align:center;animation-delay:.4s"><span class="ph">[IMAGE: orthophoto or 3D model of a real project site]</span></div>
   </section>
 
   <!-- A2 · Two service lines -->
   <section class="px sec" aria-labelledby="aer-lines-title">
     <h2 id="aer-lines-title" class="eyebrow" style="margin-bottom:24px">Service lines</h2>
-    <div class="grid2">
-      <div class="card" style="padding:36px">
-        <p class="eyebrow">01</p>
-        <h3 class="m">Aerial photography, mapping and modelling</h3>
+    <div class="grid2" style="gap:40px">
+      <div class="pt">
+        <h3>Aerial photography, mapping and modelling</h3>
         <p style="margin-top:8px">Large sites, construction complexes, quarries and infrastructure routes, including periodic photography to track progress.</p>
         <p class="mono faint" style="margin-top:auto;padding-top:16px">Orthophoto maps · 3D models · terrain models</p>
       </div>
-      <div class="card" style="padding:36px">
-        <p class="eyebrow">02</p>
-        <h3 class="m">Flight, operation and integration</h3>
+      <div class="pt">
+        <h3>Flight, operation and integration</h3>
         <p style="margin-top:8px">Licensed, experienced pilots operating drones and UAVs of various sizes for companies developing unmanned systems: field trials, development support and integration.</p>
         <p class="mono faint" style="margin-top:auto;padding-top:16px">Clients worldwide</p>
       </div>
@@ -983,10 +981,10 @@ a.media-card:focus-visible{outline-offset:4px}
       <h2 id="aer-proc-title" class="l"><span class="ph" style="font-size:.42em;line-height:1.4;letter-spacing:0">[Headline placeholder: from flight plan to final output]</span></h2>
     </div>
     <ol class="grid4 steps" style="margin:0;padding:0;list-style:none">
-      <li class="step"><span class="n">01</span><h3>Plan the mission</h3></li>
-      <li class="step"><span class="n">02</span><h3>Collect in the field</h3></li>
-      <li class="step"><span class="n">03</span><h3>Process the data</h3></li>
-      <li class="step"><span class="n">04</span><h3>Deliver outputs</h3></li>
+      <li class="step"><h3>Plan the mission</h3></li>
+      <li class="step"><h3>Collect in the field</h3></li>
+      <li class="step"><h3>Process the data</h3></li>
+      <li class="step"><h3>Deliver outputs</h3></li>
     </ol>
   </section>
 
@@ -994,10 +992,11 @@ a.media-card:focus-visible{outline-offset:4px}
   <section class="px" style="padding-bottom:110px" aria-labelledby="aer-samp-title">
     <h2 id="aer-samp-title" class="eyebrow" style="margin-bottom:24px">Sample outputs</h2>
     <div class="grid3">
-      <div class="card" style="aspect-ratio:16/10;justify-content:center;align-items:center;text-align:center"><span class="ph">[SAMPLE: orthophoto]</span></div>
-      <div class="card" style="aspect-ratio:16/10;justify-content:center;align-items:center;text-align:center"><span class="ph">[SAMPLE: 3D model]</span></div>
-      <div class="card" style="aspect-ratio:16/10;justify-content:center;align-items:center;text-align:center"><span class="ph">[SAMPLE: terrain model]</span></div>
+      <figure class="sample"><img src="assets/ill-ortho.jpg" alt="Illustration of an orthophoto map with survey flight lines" loading="lazy"><figcaption>Orthophoto map</figcaption></figure>
+      <figure class="sample"><img src="assets/ill-3d.jpg" alt="Illustration of a 3D terrain model" loading="lazy"><figcaption>3D model</figcaption></figure>
+      <figure class="sample"><img src="assets/ill-terrain.jpg" alt="Illustration of a terrain contour model" loading="lazy"><figcaption>Terrain model</figcaption></figure>
     </div>
+    <p class="note" style="margin-top:14px">Illustrations. Real project outputs to come.</p>
   </section>
 
   <!-- A7 · CTA -->
@@ -1027,7 +1026,7 @@ a.media-card:focus-visible{outline-offset:4px}
         <p class="lead" style="margin-top:28px">Long-range strike has always belonged to the few who could afford cruise missiles. Aerodrome was built to change that: precision strike systems with strategic range and payload, at a price that allows scale.</p>
         <p class="lead muted" style="margin-top:18px">Built for mass production and tested in long-endurance field flights, our systems are supplied from our production line or produced and sustained in the customer's own country.</p>
       </div>
-      <div class="reveal" style="flex:1 1 440px;aspect-ratio:4/3;border-radius:10px;--r:300px"><img src="assets/launcher.jpg" alt="Phoenix LT on its rocket-booster launch rail at night" style="object-position:40% 35%"><div class="veil"></div><span class="hint">Move to reveal</span></div>
+      <div class="reveal" style="flex:1 1 440px;aspect-ratio:4/3;border-radius:12px;--r:300px"><img src="assets/launcher.jpg" alt="Phoenix LT on its rocket-booster launch rail at night" style="object-position:40% 35%"><div class="veil"></div></div>
     </div>
   </section>
 
@@ -1035,18 +1034,15 @@ a.media-card:focus-visible{outline-offset:4px}
   <section class="px" style="padding-bottom:110px" aria-labelledby="about-pillars-title">
     <h2 id="about-pillars-title" class="eyebrow" style="margin-bottom:28px">Our pillars</h2>
     <div class="grid3">
-      <div class="card">
-        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17c4-7 10-11 18-12"></path><path d="M16 4.5 21 5l-1.5 4.8"></path><circle cx="4" cy="17" r="1.6"></circle></svg></span>
+      <div class="pt">
         <h3>Strategic reach that matters</h3>
         <p>Strategic range with a warhead built for real targets.</p>
       </div>
-      <div class="card">
-        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="12" width="5" height="8"></rect><rect x="9.5" y="8" width="5" height="12"></rect><rect x="16" y="4" width="5" height="16"></rect></svg></span>
+      <div class="pt">
         <h3>Affordable at scale</h3>
         <p>Long-range effect at a fraction of a cruise missile's cost, built for mass production.</p>
       </div>
-      <div class="card">
-        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.5 19c.8-3.2 3-5 5.5-5s4.7 1.8 5.5 5"></path><path d="M16 5.5a3 3 0 0 1 0 5.6M18 14.4c1.4.7 2.3 2.2 2.6 4.6"></path></svg></span>
+      <div class="pt">
         <h3>Built with you, for the long term</h3>
         <p>Our line or local production, with lifecycle support.</p>
       </div>
@@ -1223,7 +1219,7 @@ a.media-card:focus-visible{outline-offset:4px}
     </div>
   </section>
   <div class="px">
-    <div class="reveal" style="height:clamp(280px,46vw,720px);border-radius:10px;--r:340px"><img src="assets/lt-front.jpg" alt="Phoenix LT, front view, in the studio" style="object-position:50% 55%"><div class="veil"></div><span class="hint">Move to reveal</span></div>
+    <div class="reveal" style="height:clamp(220px,32vw,440px);border-radius:12px;--r:340px"><img src="assets/lt-front.jpg" alt="Phoenix LT, front view, in the studio" style="object-position:50% 55%"><div class="veil"></div></div>
   </div>
 
   <!-- C2 · Open roles -->
