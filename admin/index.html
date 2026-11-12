@@ -118,7 +118,7 @@ input:focus{outline:none;border-color:var(--camel)}
 <div class="app" id="app" hidden>
   <div class="bar">
     <svg class="wm" viewBox="0 0 284.20 30.93" role="img" aria-label="Aerodrome" fill="currentColor"><use href="#wm"/></svg>
-    <span class="tag">Editor</span>
+    <span class="tag" id="edtag">Editor</span>
     <label class="sr" for="page" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Page</label>
     <select id="page" aria-label="Page"></select>
     <div class="seg" role="group" aria-label="Preview size">
@@ -169,6 +169,7 @@ input:focus{outline:none;border-color:var(--camel)}
 (function(){
   var OWNER = 'shakedlevy24', REPO = 'aerodrome-site-preview', BRANCH = 'main';
   var API = 'https://api.github.com/repos/' + OWNER + '/' + REPO;
+  var PFX = /\/v2\//.test(location.pathname) ? 'v2/' : '';
   var $ = function(id){ return document.getElementById(id); };
   var tok = null, content = { text: {}, media: {} }, draft = { text: {}, media: {} }, AE = null, pages = [];
 
@@ -189,7 +190,7 @@ input:focus{outline:none;border-color:var(--camel)}
     });
   }
   function fetchContent(){
-    return gh('/contents/content.json?ref=' + BRANCH + '&t=' + Date.now()).then(function(j){
+    return gh('/contents/' + PFX + 'content.json?ref=' + BRANCH + '&t=' + Date.now()).then(function(j){
       var c = JSON.parse(unb64(j.content)); c.text = c.text || {}; c.media = c.media || {};
       return { c: c, sha: j.sha };
     }, function(e){ if (e.status === 404) return { c: { text: {}, media: {} }, sha: null }; throw e; });
@@ -368,7 +369,7 @@ input:focus{outline:none;border-color:var(--camel)}
     uploads.forEach(function(k){ chain = chain.then(function(){
       var d = draft.media[k]; i++; setStatus('Uploading ' + i + ' of ' + uploads.length + '…');
       var path = 'assets/u/' + stamp + '-' + i + '-' + slug(d.name) + d.ext;
-      return gh('/contents/' + path, { method: 'PUT', body: JSON.stringify({ message: 'Site editor: upload ' + d.name, content: d.b64, branch: BRANCH }) }).then(function(){ d.path = path; });
+      return gh('/contents/' + PFX + path, { method: 'PUT', body: JSON.stringify({ message: 'Site editor: upload ' + d.name, content: d.b64, branch: BRANCH }) }).then(function(){ d.path = path; });
     }); });
     function save(attempt){
       return fetchContent().then(function(r){
@@ -382,7 +383,7 @@ input:focus{outline:none;border-color:var(--camel)}
           else next.media[k] = { orig: d.orig, src: src, alt: d.alt, origAlt: d.origAlt }; });
         var body = { message: 'Site editor: ' + n + (n === 1 ? ' change' : ' changes'), content: b64(JSON.stringify(next, null, 1) + '\n'), branch: BRANCH };
         if (r.sha) body.sha = r.sha;
-        return gh('/contents/content.json', { method: 'PUT', body: JSON.stringify(body) }).then(function(){ content = next; });
+        return gh('/contents/' + PFX + 'content.json', { method: 'PUT', body: JSON.stringify(body) }).then(function(){ content = next; });
       }).catch(function(e){ if ((e.status === 409 || e.status === 422) && attempt < 2) return save(attempt + 1); throw e; });
     }
     chain.then(function(){ setStatus('Saving…'); return save(0); }).then(function(){
@@ -396,6 +397,7 @@ input:focus{outline:none;border-color:var(--camel)}
   });
   window.addEventListener('beforeunload', function(e){ if (count()){ e.preventDefault(); e.returnValue = ''; } });
 
+  if (PFX) $('edtag').textContent = 'Editor · version 2';
   /* start */
   var saved = load('ae_tok');
   if (saved){ tok = saved; verify().catch(function(err){ store('ae_tok', null); tok = null; showLogin(err.message); }); }

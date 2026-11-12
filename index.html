@@ -1903,14 +1903,15 @@ fieldset{border:0;margin:0;padding:0}
    Editor (?edit=1 inside /admin/): makes text editable in place and pictures replaceable. */
 (function(){
   var EDIT = /[?&]edit=1/.test(location.search) && window.parent !== window;
-  var RAW = 'https://raw.githubusercontent.com/shakedlevy24/aerodrome-site-preview/main/';
+  var PFX = /\/v2\//.test(location.pathname) ? 'v2/' : '';
+  var RAW = 'https://raw.githubusercontent.com/shakedlevy24/aerodrome-site-preview/main/' + PFX;
   var root = document.documentElement;
   var INLINE = {B:1, STRONG:1, EM:1, I:1, BR:1, SMALL:1};
-  var SKIP = 'script,style,svg,select,option,textarea,noscript,video,.sr,.swap,.hint';
+  var SKIP = 'script,style,svg,select,option,textarea,noscript,video,.sr,.swap,.hint,.rl-count,.reticle';
   var T = {}, M = {}, order = [];
 
   function norm(s){ return (s || '').replace(/\s+/g, ' ').trim(); }
-  function inlineOk(el){ return INLINE[el.tagName] || (el.tagName === 'SPAN' && el.classList.contains('ph') && el.attributes.length === 1); }
+  function inlineOk(el){ return INLINE[el.tagName] || (el.tagName === 'SPAN' && ((el.classList.contains('ph') && el.attributes.length === 1) || el.classList.contains('w'))); }
   function okKids(el){
     for (var c = el.firstChild; c; c = c.nextSibling){
       if (c.nodeType === 3 || c.nodeType === 8) continue;
@@ -1967,7 +1968,7 @@ fieldset{border:0;margin:0;padding:0}
     return null;
   }
   function resolve(src){ return (EDIT && /^assets\/u\//.test(src)) ? RAW + src : src; }
-  function setText(e, text){ e.el.textContent = text; mark(e); }
+  function setText(e, text){ e.el.textContent = text; if (e.el.id === 'words' && window.AE_words) window.AE_words(); mark(e); }
   function mark(e){ if (EDIT) e.el.classList.toggle('ae-ch', norm(e.el.textContent) !== e.orig); }
   function setMedia(e, src, alt){
     var el = e.el;
@@ -2017,7 +2018,7 @@ fieldset{border:0;margin:0;padding:0}
     }, true);
     function mediaAt(e){
       var hit = e.target.closest && e.target.closest('[data-em]'); if (hit) return hit;
-      if (e.target.closest && e.target.closest('[data-ek],a,button,input,label,select,textarea')) return null;
+      if (e.target.closest && e.target.closest('[data-ek],input,label,select,textarea,form,.hdr,.mnav,footer')) return null;
       var all = document.elementsFromPoint(e.clientX, e.clientY);
       for (var i = 0; i < all.length; i++) if (all[i].hasAttribute && all[i].hasAttribute('data-em')) return all[i];
       return null;
@@ -2032,7 +2033,7 @@ fieldset{border:0;margin:0;padding:0}
     var hl = null, raf = false;
     document.addEventListener('mousemove', function(e){
       if (raf) return; raf = true;
-      requestAnimationFrame(function(){ raf = false; var m = mediaAt(e); var box = m ? (m.closest('.reveal,.frame,.shot,.apex-shot') || m) : null;
+      requestAnimationFrame(function(){ raf = false; var m = mediaAt(e); var box = m ? (m.closest('.reveal,.frame,.shot,.apex-shot,.panel,.cap,.band,.ill figure') || m) : null;
         if (box !== hl){ if (hl) hl.classList.remove('ae-mhl'); hl = box; if (hl) hl.classList.add('ae-mhl'); } });
     });
     var st = document.createElement('style');

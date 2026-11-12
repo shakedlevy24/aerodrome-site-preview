@@ -4,6 +4,8 @@ Temporary preview of the new Aerodrome Group website, for internal feedback.
 
 - Site: https://shakedlevy24.github.io/aerodrome-site-preview/
 - Editor: https://shakedlevy24.github.io/aerodrome-site-preview/admin/
+- Version 2 (brand book v1.1 look, new home page): https://shakedlevy24.github.io/aerodrome-site-preview/v2/
+- Version 2 editor: https://shakedlevy24.github.io/aerodrome-site-preview/v2/admin/
 
 ## Editing
 Open the editor, sign in with a GitHub access key, click text to change it, click a picture or the video to replace it, then press Publish.
