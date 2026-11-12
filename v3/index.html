@@ -1,0 +1,2278 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aerodrome Website v3</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Geist:wght@300;400;500;600&display=swap">
+<style>
+/* Aerodrome website v2. One committed dark look: real hardware and footage in the dark,
+   revealed by the pointer. Grotesk sans for words, mono for data. One accent: camel.
+   Pages live in one document and are routed by #hash. */
+:root{
+  --ground:#0A0B0C; --panel:#111214; --panel-2:#16171A; --ink:#F2F2EF;
+  --muted:rgba(242,242,239,0.68); --faint:rgba(242,242,239,0.52); --line:rgba(242,242,239,0.13);
+  --camel:#E9C98F; --on-camel:#0A0B0C; --orange:#FF7A1A; --orange-2:#FF9A4D; --on-orange:#140700;
+  --font:"Geist","Helvetica Neue",Arial,sans-serif; --mono:"Geist Mono",ui-monospace,Menlo,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:var(--ground)}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--ground)}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4,p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+:focus-visible{outline:2px solid var(--camel);outline-offset:3px;border-radius:2px}
+[tabindex="-1"]:focus{outline:none}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:fixed;left:12px;top:-60px;z-index:100;background:var(--ink);color:var(--ground);padding:10px 16px;border-radius:6px;font-weight:500}
+.skip:focus{top:calc(env(safe-area-inset-top,0px) + 12px)}
+
+/* layout */
+.px{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+@media(min-width:800px){.px{padding-left:max(40px,env(safe-area-inset-left,0px));padding-right:max(40px,env(safe-area-inset-right,0px))}}
+.sec{padding-top:110px;padding-bottom:110px}
+.sec-s{padding-top:72px;padding-bottom:72px}
+.row{display:flex;flex-wrap:wrap;gap:28px 80px}
+.row>*{min-width:0}
+.grid2,.grid3,.grid4,.grid5{display:grid;gap:16px}
+.grid2{grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr))}
+.grid3{grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.grid4{grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
+.grid5{grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+.grid2>*,.grid3>*,.grid4>*,.grid5>*{min-width:0}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 64px;margin-bottom:48px}
+.head>*{min-width:0}
+.page{display:none}.page.on{display:block}
+
+/* type */
+.xl{font-weight:500;font-size:clamp(3rem,9vw,9rem);line-height:.94;letter-spacing:-.055em;text-wrap:balance}
+.l{font-weight:500;font-size:clamp(2.2rem,4.8vw,4.6rem);line-height:1;letter-spacing:-.045em;text-wrap:balance}
+.m{font-weight:500;font-size:clamp(1.8rem,3.4vw,3.2rem);line-height:1.04;letter-spacing:-.04em;text-wrap:balance}
+.s{font-weight:500;font-size:24px;line-height:1.2;letter-spacing:-.025em}
+.eyebrow{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--camel)}
+.lead{font-size:19px;line-height:1.55;color:rgba(242,242,239,.84);max-width:48ch}
+.muted{color:var(--muted)}
+.faint{color:var(--faint)}
+.mono{font-family:var(--mono);font-size:13.5px;letter-spacing:.01em}
+.ph{display:inline-block;font-family:var(--mono);font-size:12.5px;color:var(--camel);border:1px dashed rgba(233,201,143,.55);border-radius:4px;padding:1px 7px}
+
+/* buttons and links */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border-radius:999px;font:500 15px var(--font);cursor:pointer;border:1px solid transparent;transition:background .3s,color .3s,border-color .3s;white-space:nowrap}
+.btn-solid{background:var(--orange);color:var(--on-orange);font-weight:600}
+.btn-solid:hover{background:var(--orange-2);color:var(--on-orange)}
+.btn-line{border-color:rgba(242,242,239,.35);color:var(--ink);background:transparent}
+.btn-line:hover{border-color:var(--camel);color:var(--camel)}
+.more{display:inline-flex;align-items:center;gap:10px;color:var(--camel);font-weight:500;min-height:44px}
+.go{transition:transform .5s var(--ease)}
+a:hover .go{transform:translateX(5px)}
+
+/* header */
+.hdr{position:absolute;left:0;right:0;top:env(safe-area-inset-top,0px);z-index:40}
+.hdr-in{display:flex;flex-wrap:wrap;align-items:center;gap:12px 30px;min-height:84px}
+.logo{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600;letter-spacing:.2em;color:var(--ink)}
+.wordmark{display:block;height:20px;width:auto}
+.ftr .wordmark{height:22px}
+.nav{margin-left:auto;display:flex;align-items:center;gap:6px 28px;font-size:14.5px}
+.nav>a,.nav .dd>button{color:rgba(242,242,239,.84)}
+.nav>a:hover,.nav .dd>button:hover,.nav a[aria-current="page"]{color:#fff}
+.dd{position:relative}
+.dd>button{display:inline-flex;align-items:center;gap:6px;background:none;border:0;padding:8px 0;font:inherit;cursor:pointer}
+.ddm{position:absolute;left:-16px;top:100%;padding-top:10px;z-index:50;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .3s,transform .3s,visibility .3s}
+.dd:hover .ddm,.dd.open .ddm{opacity:1;visibility:visible;transform:none}
+.dd.shut .ddm{opacity:0;visibility:hidden}
+.dd.open .ddm{transition:opacity .3s,transform .3s}
+.ddm-in{min-width:300px;padding:10px;border-radius:12px;background:rgba(17,18,20,.97);border:1px solid var(--line);display:flex;flex-direction:column}
+.ddm .grp{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);padding:10px 12px 4px}
+.ddm a{display:flex;justify-content:space-between;gap:16px;padding:10px 12px;border-radius:8px}
+.ddm a:hover{background:rgba(242,242,239,.07)}
+.ddm a span:last-child{color:var(--faint)}
+.ticker{font-family:var(--mono);font-size:12.5px;color:var(--faint);padding:6px 10px;border:1px solid var(--line);border-radius:999px}
+.ticker:hover{color:var(--ink)}
+.hdr .btn{min-height:40px;padding:0 18px;font-size:14px}
+.burger{display:none;margin-left:auto;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:500 14px var(--font);cursor:pointer}
+.mnav{position:fixed;inset:0;z-index:80;background:var(--ground);overflow:auto;padding-top:calc(env(safe-area-inset-top,0px) + 16px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 28px)}
+.mnav .top{display:flex;justify-content:space-between;align-items:center;min-height:52px}
+.mnav h2{margin-top:28px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:500}
+.mnav a{display:block;padding:12px 0;font-size:24px;font-weight:500;letter-spacing:-.02em;border-bottom:1px solid var(--line)}
+.mnav .btn{display:flex;margin-top:28px;font-size:16px}
+@media(max-width:1060px){.nav,.hdr .btn,.hdr .ticker{display:none}.burger{display:inline-flex;align-items:center}}
+
+/* reveal: a dark veil with a pointer-shaped hole */
+.reveal{position:relative;overflow:hidden;background:#000;cursor:crosshair;--x:-999px;--y:-999px;--r:300px}
+.reveal>img,.reveal>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.veil{position:absolute;inset:0;background:rgba(6,7,8,.87);-webkit-backdrop-filter:grayscale(1);backdrop-filter:grayscale(1);
+  -webkit-mask-image:radial-gradient(var(--r) circle at var(--x) var(--y),transparent 0,transparent 45%,#000 100%);
+          mask-image:radial-gradient(var(--r) circle at var(--x) var(--y),transparent 0,transparent 45%,#000 100%);transition:opacity .6s;pointer-events:none}
+.reveal.open .veil{opacity:0}
+.hint{position:absolute;left:20px;bottom:16px;font-family:var(--mono);font-size:12px;color:var(--faint);transition:opacity .4s;pointer-events:none}
+.reveal:hover .hint,.reveal.open .hint{opacity:0}
+@media (hover:none){.veil{background:rgba(6,7,8,.55)}.hint{display:none}}
+
+/* hero for inner pages: full-bleed media in the dark */
+.phero{min-height:820px;display:flex;flex-direction:column}
+.phero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,11,12,.7),rgba(10,11,12,0) 24%,rgba(10,11,12,0) 50%,rgba(10,11,12,.94));pointer-events:none}
+.phero .bottom{position:relative;z-index:2;margin-top:auto;padding-bottom:56px}
+.phero .bottom>*{pointer-events:auto}
+.crumb{font-family:var(--mono);font-size:12.5px;color:rgba(242,242,239,.65)}
+/* plain hero for text-led pages */
+.thero{padding-top:180px;padding-bottom:64px}
+
+/* surfaces */
+.card{border-radius:10px;background:var(--panel);border:1px solid rgba(242,242,239,.08);padding:28px;display:flex;flex-direction:column;gap:10px}
+.card h3{font-weight:500;font-size:22px;line-height:1.2;letter-spacing:-.02em}
+.card p{color:var(--muted)}
+.icon{width:40px;height:40px;border-radius:50%;border:1px solid rgba(233,201,143,.45);display:grid;place-items:center;color:var(--camel);margin-bottom:6px}
+.pt{border-top:1px solid var(--line);padding-top:22px}
+.pt h3{font-weight:500;font-size:24px;line-height:1.18;letter-spacing:-.025em;margin-top:8px}
+.pt p{margin-top:10px;color:var(--muted)}
+.media-card{display:flex;flex-direction:column;border-radius:10px;overflow:hidden;background:var(--panel);border:1px solid rgba(242,242,239,.08)}
+.media-card .body{padding:26px 26px 28px;display:flex;flex-direction:column;gap:10px;flex:1}
+.media-card h3{font-weight:500;font-size:32px;letter-spacing:-.04em;line-height:1}
+.linkcard{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:30px;border-radius:10px;background:var(--panel);border:1px solid rgba(242,242,239,.08)}
+.linkcard small{display:block;font-family:var(--mono);font-size:12px;color:var(--faint)}
+.linkcard b{display:block;margin-top:4px;font-weight:500;font-size:30px;letter-spacing:-.04em;line-height:1.1}
+.bullets li{padding:12px 0;border-bottom:1px solid var(--line);color:rgba(242,242,239,.86)}
+.bullets li:first-child{border-top:1px solid var(--line)}
+.kv{margin:0;border-top:1px solid var(--line)}
+.kv div{display:flex;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid var(--line)}
+.kv dt{color:var(--faint)}.kv dd{margin:0;text-align:right}
+.metric{font-weight:500;font-size:clamp(2.2rem,4vw,3.4rem);letter-spacing:-.04em;line-height:1}
+.steps{counter-reset:s}
+.step{border-top:1px solid var(--line);padding-top:20px}
+.step .n{font-family:var(--mono);font-size:13px;color:var(--camel)}
+.step h3{margin-top:8px;font-weight:500;font-size:22px;letter-spacing:-.02em}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th,td{text-align:left;padding:16px 18px;border-bottom:1px solid var(--line)}
+th{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)}
+tr:last-child td{border-bottom:0}
+.listrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px;padding:16px 0;border-bottom:1px solid var(--line)}
+.tag{font-family:var(--mono);font-size:11.5px;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.cta{border-top:1px solid var(--line);padding-top:72px;display:flex;flex-wrap:wrap;gap:28px 80px;align-items:flex-end;justify-content:space-between}
+.cta>*{min-width:0}
+.tabbtn{min-height:44px;padding:0 20px;border-radius:999px;border:1px solid rgba(242,242,239,.3);background:transparent;color:var(--ink);font:500 15px var(--font);cursor:pointer;transition:background .3s,color .3s,border-color .3s}
+.tabbtn[aria-selected="true"],.tabbtn[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.shot{border-radius:12px;overflow:hidden;border:1px solid rgba(242,242,239,.1);background:#0B1116}
+.shot img{display:block;width:100%;height:auto}
+.legaltext{max-width:72ch}
+.legaltext h2{font-weight:500;font-size:26px;letter-spacing:-.02em;margin-top:44px}
+.legaltext p{margin-top:12px;color:var(--muted)}
+
+/* bold "why" cards: warm ground, orange edge and icon */
+.why .card{background:linear-gradient(180deg,rgba(233,201,143,.14),rgba(233,201,143,.03) 60%),var(--panel);border:1px solid rgba(233,201,143,.28);border-top:3px solid var(--orange)}
+.why .card:hover{translate:0 -4px;border-color:rgba(233,201,143,.6)}
+.why .card h3{color:#fff}
+.why .icon{background:var(--orange);border-color:var(--orange);color:var(--on-orange);width:44px;height:44px}
+.why .card .mono{color:var(--orange-2)!important;font-size:15px}
+/* APEX LT card on What We Do: screenshot and text side by side, stacked when narrow */
+.apex-card{display:grid!important;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:center}
+.apex-shot{padding:20px;min-width:0}
+.apex-body{padding:28px 36px 36px!important}
+@media(max-width:980px){.apex-card{grid-template-columns:1fr}.apex-body{padding:8px 24px 28px!important}}
+
+/* word swap: "for" -> "with", once, on scroll-in */
+.swap{display:inline-grid;vertical-align:bottom}
+.swap>span{grid-area:1/1;transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.swap .b{opacity:0;transform:translateY(.35em);color:var(--camel)}
+.swap.done .a{opacity:0;transform:translateY(-.35em)}
+.swap.done .b{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.swap .a{opacity:0}.swap .b{opacity:1;transform:none}}
+
+/* forms */
+form .fields{display:flex;flex-direction:column;gap:16px}
+.frow{display:flex;flex-wrap:wrap;gap:16px}
+.frow>*{flex:1 1 220px;min-width:0}
+.field label,.field legend{display:block;font-size:13.5px;color:rgba(242,242,239,.72);margin-bottom:6px}
+.req{color:var(--camel)}
+input[type=text],input[type=email],select,textarea{display:block;width:100%;min-height:48px;padding:0 14px;border-radius:8px;border:1px solid rgba(242,242,239,.22);background:var(--panel);color:var(--ink);font:16px var(--font)}
+textarea{min-height:120px;padding:12px 14px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--camel);box-shadow:0 0 0 1px var(--camel)}
+fieldset{border:0;margin:0;padding:0}
+.choice{display:flex;align-items:flex-start;gap:12px;padding:10px 0;font-size:15.5px;color:rgba(242,242,239,.88);cursor:pointer}
+.choice input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--camel);flex:none}
+.err{font-size:14px;color:var(--camel)}
+.note{font-size:13.5px;color:var(--faint)}
+
+/* footer */
+.ftr{border-top:1px solid rgba(242,242,239,.1);padding-top:64px;padding-bottom:40px;color:rgba(242,242,239,.66);font-size:14.5px}
+.ftr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:36px}
+.ftr h2{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:12px}
+.ftr li{margin-bottom:8px}
+.ftr a:hover{color:var(--ink)}
+.ftr .legal{margin-top:48px;padding-top:20px;border-top:1px solid rgba(242,242,239,.08);display:flex;flex-wrap:wrap;gap:10px 24px;font-size:13.5px}
+
+@keyframes in{from{opacity:0;filter:blur(10px);transform:translateY(16px)}to{opacity:1;filter:none;transform:none}}
+.in{animation:in 1.6s var(--ease) both}
+@media (prefers-reduced-motion:reduce){.in{animation:none}}
+
+/* home hero: real footage that pulls back into a frame on scroll */
+.hhero{position:relative;height:1500px}
+.hhero .stick{position:sticky;top:0;height:max(640px,100svh);overflow:hidden;display:flex;flex-direction:column}
+.hhero .frame{position:absolute;inset:0;overflow:hidden;background:#000;will-change:transform}
+.hhero .frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:66% 40%}
+.hhero .grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,11,12,.6),rgba(10,11,12,.08) 30%,rgba(10,11,12,.15) 55%,rgba(10,11,12,.85))}
+.hhero .title{position:relative;z-index:2;margin-top:auto;padding-bottom:40px}
+.hhero .foot{position:relative;z-index:2;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding-bottom:28px;font-family:var(--mono);font-size:12px;color:rgba(242,242,239,.7)}
+.pill{min-height:38px;padding:0 16px;border-radius:999px;border:1px solid rgba(242,242,239,.35);background:rgba(10,11,12,.35);color:var(--ink);font:500 13px var(--font);cursor:pointer}
+@media(max-width:800px){.logo,.crumb a,.ftr a{display:inline-flex;align-items:center;min-height:44px}.ftr li{margin-bottom:0}.pill{min-height:44px}}
+@media(max-width:700px){.hhero{height:auto}.hhero .stick{position:relative;height:max(640px,92svh)}}
+
+/* depth: photos shift inside their frames, cards tilt toward the pointer, sections rise in */
+.reveal>img{transform:translate3d(calc(var(--px,0)*1%),calc((var(--py,0) + var(--sy,0))*1%),0) scale(1.09);transition:transform .7s var(--ease);will-change:transform}
+.hhero .frame video{transform:translate3d(calc(var(--px,0)*1%),calc(var(--py,0)*1%),0) scale(1.06);transition:transform 1.2s var(--ease)}
+.tilt,.rise{transition:transform .5s var(--ease),opacity .9s var(--ease),translate .9s var(--ease),box-shadow .5s,border-color .4s}
+.tilt{position:relative;transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+.tilt.live{transition:transform .1s linear,opacity .9s var(--ease),translate .9s var(--ease),box-shadow .5s,border-color .4s}
+.tilt:hover{box-shadow:0 34px 60px -34px rgba(0,0,0,.9);z-index:1}
+.tilt::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .4s;
+  background:radial-gradient(440px circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.075),transparent 62%)}
+.tilt:hover::after{opacity:1}
+.rise{opacity:0;translate:0 44px}
+.rise.seen{opacity:1;translate:none}
+@media (prefers-reduced-motion:reduce){.reveal>img,.hhero .frame video{transform:none}.tilt{transform:none}.rise{opacity:1;translate:none}}
+
+/* contact page */
+.contact-h1{font-weight:600;font-size:clamp(2.8rem,6.4vw,6rem);line-height:.98;letter-spacing:-.045em;max-width:8ch}
+.choices{display:flex;flex-direction:column;gap:10px}
+.field .choice{display:flex;margin-bottom:0;font-size:15.5px;color:rgba(242,242,239,.88)}
+.choice.box{align-items:center;padding:12px 16px;border:1px solid var(--line);border-radius:8px;transition:border-color .3s,background .3s}
+.choice.box:hover{border-color:rgba(242,242,239,.32)}
+.choice.box:has(input:checked){border-color:var(--orange);background:rgba(233,201,143,.08)}
+.choice.box input{margin:0}
+
+html{scroll-padding-top:92px}
+/* ===== Brand book v1.1: Ground, Ink, one Camel accent. Chakra Petch for voice, Geist for reading. ===== */
+:root{--display:"Chakra Petch","Arial Narrow",Arial,sans-serif;--mono:"Chakra Petch",Arial,sans-serif;--muted:rgba(242,242,239,.64);
+  --orange:#E9C98F;--orange-2:#F2F2EF;--on-orange:#0A0B0C}
+.xl{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(3rem,8.6vw,8.8rem);line-height:.9;letter-spacing:-.02em}
+.l{font-family:var(--display);font-weight:600;line-height:1;letter-spacing:-.02em}
+.m{font-family:var(--display);font-weight:600;letter-spacing:-.02em}
+.s{font-family:var(--display);font-weight:600;letter-spacing:-.01em}
+.eyebrow{font-family:var(--display);font-size:14px;font-weight:600;letter-spacing:.14em}
+.mono{font-family:var(--mono);font-weight:600;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase}
+.ph{font-weight:600;letter-spacing:.04em}
+.btn{font:600 15px var(--display);letter-spacing:.04em}
+.btn-solid{background:var(--camel);color:var(--on-camel)}
+.btn-solid:hover{background:var(--ink);color:var(--ground)}
+.hdr .btn-solid{background:var(--ink);color:var(--ground)}
+.hdr .btn-solid:hover{background:var(--camel);color:var(--on-camel)}
+.more{font-family:var(--display);font-weight:600;letter-spacing:.02em}
+.hdr{position:fixed;top:0;padding-top:env(safe-area-inset-top,0px);border-bottom:1px solid transparent;transition:background .4s,border-color .4s}
+.hdr.solid{background:rgba(10,11,12,.74);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom-color:var(--line)}
+.hdr-in{min-height:76px}
+.card,.media-card,.linkcard,.shot{border-radius:12px}
+.card h3{font-family:var(--display);font-weight:600;font-size:21px;line-height:1.15;letter-spacing:-.01em}
+.media-card{transition:border-color .4s}
+.media-card:hover{border-color:rgba(233,201,143,.4)}
+.media-card h3{font-family:var(--display);font-weight:700;font-size:clamp(28px,3vw,40px);letter-spacing:-.01em;line-height:1;text-transform:uppercase}
+.linkcard small{font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.linkcard b{font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:-.01em}
+.pt h3,.step h3,.legaltext h2{font-family:var(--display);font-weight:600;letter-spacing:-.01em}
+.metric{font-family:var(--display);font-weight:700;letter-spacing:-.02em}
+.tabbtn{font:600 14px var(--display);letter-spacing:.04em}
+.mnav a{font-family:var(--display);font-weight:600;letter-spacing:-.01em}
+.mnav h2,.ddm .grp,th,.crumb,.hint,.tag,.step .n{font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.ftr h2{font-family:var(--display);font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+.why .card .mono{color:var(--camel)!important}
+.why .icon{color:var(--on-camel)}
+
+/* home hero: headline centred over the footage */
+.hhero{height:200vh}
+.hhero .stick{align-items:center;justify-content:center}
+.hhero .frame{will-change:clip-path}
+.hhero .frame video{object-position:70% 20%}
+.hhero .grad{background:linear-gradient(180deg,rgba(10,11,12,.5) 0%,rgba(10,11,12,0) 30%,rgba(10,11,12,.1) 60%,rgba(10,11,12,.75) 100%)}
+.hhero .title{margin-top:0;padding:0 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:28px}
+.herotag{display:inline-block;background:var(--ink);color:var(--ground);font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:8px 12px;border-radius:6px}
+.hhero h1>span{display:block;opacity:0;transform:translateY(.25em);animation:hrise 1.2s var(--ease) forwards}
+.hhero h1>span+span{color:rgba(242,242,239,.62);animation-delay:.25s}
+.hlead{max-width:58ch;font-size:clamp(16px,1.4vw,19px);color:rgba(242,242,239,.86);opacity:0;animation:hrise 1.2s var(--ease) .5s forwards}
+@keyframes hrise{to{opacity:1;transform:none}}
+@media(max-width:700px){.hhero{height:auto}}
+
+/* scroll-lit statement */
+.words{max-width:20ch;font-family:var(--display);font-weight:600;font-size:clamp(2.1rem,5vw,5rem);line-height:1.06;letter-spacing:-.04em}
+.words .w{color:rgba(242,242,239,.16);transition:color .5s}
+.words .w.on{color:var(--ink)}
+.words .w.cam.on{color:var(--camel)}
+
+/* reach line */
+.reach{position:relative;height:260vh}
+.reach .stick{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:56px}
+.rl-wrap{position:relative;height:200px}
+.rl-base{position:absolute;left:0;right:0;top:120px;height:1px;background:var(--line)}
+.rl-solid{position:absolute;left:0;top:119px;height:3px;background:var(--camel);width:0}
+.rl-dash{position:absolute;top:120px;height:1px;width:0;background:repeating-linear-gradient(90deg,var(--camel) 0 10px,transparent 10px 18px)}
+.tick{position:absolute;top:110px;width:1px;height:21px;background:rgba(242,242,239,.3)}
+.tick span{position:absolute;top:30px;left:50%;transform:translateX(-50%);white-space:nowrap}
+.tick:first-of-type span{left:0;transform:none}
+.rl-head{position:absolute;top:96px;width:48px;height:48px;margin-left:-24px;pointer-events:none}
+.rl-head svg{width:48px;height:48px;display:block}
+.rl-count{font-family:var(--display);font-weight:700;font-size:clamp(4rem,12vw,12rem);line-height:.85;letter-spacing:-.06em;font-variant-numeric:tabular-nums}
+.rl-count small{font-size:.3em;letter-spacing:-.02em;color:var(--muted);margin-left:.15em}
+.marker{position:absolute;top:0;opacity:0;transform:translateY(8px);transition:opacity .6s var(--ease),transform .6s var(--ease);max-width:min(280px,46vw)}
+.marker.on{opacity:1;transform:none}
+.marker .pin{position:absolute;left:0;top:84px;width:1px;height:36px;background:var(--camel)}
+.marker h3{font-family:var(--display);font-weight:600;font-size:clamp(16px,1.6vw,22px);line-height:1.15}
+.reach-note{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 48px}
+@media(max-width:700px){.reach .stick{gap:36px}.tick.hm span{display:none}.rl-wrap{height:270px}#m2{top:158px;max-width:70vw}}
+
+/* why panels */
+.panels{display:flex;gap:10px;height:600px}
+.panel{position:relative;flex:1 1 0;min-width:0;border-radius:12px;overflow:hidden;cursor:pointer;border:1px solid var(--line);padding:0;background:var(--panel);color:var(--ink);text-align:left;font:inherit;transition:flex-grow .8s var(--ease)}
+.panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.45);transform:scale(1.08);transition:filter .8s var(--ease),transform 1.4s var(--ease)}
+.panel::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,11,12,0) 35%,rgba(10,11,12,.9) 100%);pointer-events:none}
+.panel .txt{position:absolute;left:20px;right:20px;bottom:22px;z-index:2;display:flex;flex-direction:column;gap:10px}
+.panel .h{font-family:var(--display);font-weight:600;font-size:21px;line-height:1.1;letter-spacing:-.01em;transition:font-size .6s var(--ease)}
+.panel .d{font-size:16px;color:rgba(242,242,239,.78);max-height:0;opacity:0;overflow:hidden;transition:opacity .5s var(--ease),max-height .8s var(--ease)}
+.panel.on{flex-grow:3.4}
+.panel.on img{filter:none;transform:scale(1)}
+.panel.on .h{font-size:clamp(26px,2.6vw,38px)}
+.panel.on .d{max-height:140px;opacity:1}
+@media(max-width:860px){.panels{flex-direction:column;height:auto}.panel{min-height:110px}.panel.on{min-height:380px}}
+
+/* band */
+.band{position:relative;min-height:88vh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;border-radius:12px;margin:0 clamp(10px,1.5vw,20px);background:#000}
+.band video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.band .grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,11,12,.35) 0%,rgba(10,11,12,0) 40%,rgba(10,11,12,.85) 100%)}
+.band .copy{position:relative;padding:0 clamp(20px,3vw,40px) clamp(40px,5vw,72px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px 48px}
+
+/* capabilities and the precision cursor */
+.caps{position:relative;background:radial-gradient(1100px 520px at 85% 8%,rgba(233,201,143,.16),transparent 62%),radial-gradient(900px 500px at 5% 100%,rgba(70,110,160,.18),transparent 60%)}
+.cap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:12px}
+.cap{position:relative;min-height:540px;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line);background:var(--panel)}
+.cap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 1.4s var(--ease),filter .8s}
+.cap::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,11,12,.05) 25%,rgba(10,11,12,.6) 55%,rgba(10,11,12,.96) 100%);pointer-events:none}
+.cap::before{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(circle 320px at var(--cx,50%) var(--cy,40%),rgba(233,201,143,.22),transparent 70%);opacity:0;transition:opacity .4s;mix-blend-mode:screen;pointer-events:none}
+.cap:hover::before{opacity:1}
+.cap:hover img{transform:scale(1.1)}
+.cap-body{position:relative;z-index:2;padding:30px;display:flex;flex-direction:column;gap:12px}
+.chip{align-self:flex-start;background:var(--camel);color:var(--on-camel);font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:6px 10px;border-radius:4px}
+.cap h3{font-family:var(--display);font-weight:700;font-size:clamp(26px,2.4vw,34px);line-height:1.02;text-transform:uppercase}
+.cap-body>p:last-child{color:rgba(242,242,239,.82)}
+.human{margin-top:12px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px;padding:22px 26px;border-radius:12px;background:var(--camel);color:var(--on-camel)}
+.human .big{font-family:var(--display);font-weight:700;font-size:20px;text-transform:uppercase;letter-spacing:.01em}
+.caps.cursor-on,.caps.cursor-on *{cursor:none}
+.reticle{position:fixed;left:0;top:0;width:44px;height:44px;pointer-events:none;z-index:60;opacity:0;transition:opacity .25s}
+.reticle.show{opacity:1}
+.reticle i{position:absolute;width:12px;height:12px;border:0 solid var(--camel)}
+.reticle i:nth-child(1){left:0;top:0;border-top-width:1.5px;border-left-width:1.5px}
+.reticle i:nth-child(2){right:0;top:0;border-top-width:1.5px;border-right-width:1.5px}
+.reticle i:nth-child(3){left:0;bottom:0;border-bottom-width:1.5px;border-left-width:1.5px}
+.reticle i:nth-child(4){right:0;bottom:0;border-bottom-width:1.5px;border-right-width:1.5px}
+.reticle b{position:absolute;left:50%;top:50%;width:4px;height:4px;margin:-2px 0 0 -2px;background:var(--camel);border-radius:50%;transition:opacity .25s}
+.reticle.lock b{opacity:0}
+.reticle .rl{position:absolute;left:0;bottom:-22px;font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.08em;color:var(--camel);white-space:nowrap;opacity:0;transition:opacity .25s}
+.reticle.lock .rl{opacity:1}
+@media (hover:none),(prefers-reduced-motion:reduce){.reticle{display:none}.caps.cursor-on,.caps.cursor-on *{cursor:auto}}
+
+/* aerial services illustrations */
+.ill{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:6px;aspect-ratio:4/3.1;padding:6px;background:#1a1b1e}
+.ill figure{margin:0;position:relative;overflow:hidden;border-radius:6px}
+.ill figure:first-child{grid-row:span 2}
+.ill img{display:block;width:100%;height:100%;object-fit:cover}
+.ill figcaption{position:absolute;left:8px;bottom:8px;background:rgba(10,11,12,.8);font-family:var(--mono);font-weight:600;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:4px 7px;border-radius:4px}
+
+/* about and careers tiles */
+.tile-about{flex:1.4 1 520px;min-width:0;min-height:480px;display:flex;border-radius:12px}
+.tile-about .in-tile{position:relative;z-index:2;margin-top:auto;padding:32px;max-width:560px}
+.tile-about h2,.tile-careers h2{margin-top:10px;font-family:var(--display);font-weight:700;font-size:clamp(28px,3vw,40px);line-height:1;letter-spacing:-.01em;text-transform:uppercase}
+.tile-go{margin-top:18px;display:inline-flex;align-items:center;gap:10px;font-weight:500}
+.tile-careers{flex:1 1 360px;min-width:0;min-height:480px;padding:32px;background:var(--camel);color:var(--on-camel);border-radius:12px;display:flex;flex-direction:column}
+.tile-careers .k{font-size:14px;font-weight:500}
+.tile-careers .d{margin-top:16px;max-width:32ch;font-size:17px;color:rgba(10,11,12,.78)}
+.tile-careers .tile-go{margin-top:auto}
+.tile-careers:focus-visible{outline-color:var(--ink)}
+
+/* contact: compact form framed by precision brackets */
+.ct{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(400px,100%),1fr));gap:40px 72px;align-items:start;border-top:1px solid var(--line);padding-top:80px}
+.ct.top{border-top:0;padding-top:0}
+.ct-h{margin-top:14px;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(2.4rem,4.6vw,4.4rem);line-height:.95;letter-spacing:-.01em;max-width:11ch}
+.formcard{position:relative;max-width:600px;width:100%;justify-self:end;background:linear-gradient(180deg,#15161a,#0f1012);border:1px solid var(--line);border-radius:14px;padding:30px}
+.formcard>i{position:absolute;width:16px;height:16px;border:0 solid var(--camel);pointer-events:none}
+.formcard>i:nth-of-type(1){left:-1px;top:-1px;border-top-width:2px;border-left-width:2px;border-top-left-radius:14px}
+.formcard>i:nth-of-type(2){right:-1px;top:-1px;border-top-width:2px;border-right-width:2px;border-top-right-radius:14px}
+.formcard>i:nth-of-type(3){left:-1px;bottom:-1px;border-bottom-width:2px;border-left-width:2px;border-bottom-left-radius:14px}
+.formcard>i:nth-of-type(4){right:-1px;bottom:-1px;border-bottom-width:2px;border-right-width:2px;border-bottom-right-radius:14px}
+.formcard form .fields{gap:14px}
+.formcard .frow{gap:14px}
+.formcard .frow>*{flex:1 1 180px}
+.formcard .field label,.formcard .field legend{display:flex;justify-content:space-between;width:100%;font-family:var(--display);font-weight:600;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-bottom:6px}
+.formcard label em{font-style:normal;font-weight:500;letter-spacing:.06em;color:var(--faint)}
+.formcard input[type=text],.formcard input[type=email],.formcard select,.formcard textarea{min-height:44px;background:#0A0B0C;border-color:rgba(242,242,239,.16);font-size:15px;transition:border-color .25s,box-shadow .25s}
+.formcard textarea{min-height:92px}
+.formcard select{-webkit-appearance:none;appearance:none;padding-right:36px;background-image:linear-gradient(45deg,transparent 50%,var(--camel) 50%),linear-gradient(135deg,var(--camel) 50%,transparent 50%);background-position:calc(100% - 19px) 19px,calc(100% - 13px) 19px;background-size:6px 6px;background-repeat:no-repeat}
+.formcard input:focus,.formcard select:focus,.formcard textarea:focus{box-shadow:0 0 0 3px rgba(233,201,143,.15)}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.formcard .field label.opt{position:relative;display:flex;align-items:center;justify-content:flex-start;min-height:44px;margin:0;padding:10px 12px;border:1px solid rgba(242,242,239,.16);border-radius:8px;cursor:pointer;font-family:var(--font);font-weight:400;font-size:14px;line-height:1.3;letter-spacing:0;text-transform:none;color:var(--muted);transition:border-color .25s,background .25s,color .25s}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.formcard .field label.opt:has(input:checked){border-color:var(--camel);background:rgba(233,201,143,.1);color:var(--ink)}
+.opt:has(input:focus-visible){outline:2px solid var(--camel);outline-offset:2px}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;color:var(--muted);cursor:pointer}
+.consent input{accent-color:var(--camel);width:18px;height:18px;flex:none;margin:1px 0 0}
+.consent a{color:var(--camel);text-decoration:underline;text-underline-offset:3px}
+.submit{width:100%;min-height:50px;border:0;border-radius:8px;background:var(--camel);color:var(--on-camel);font:700 15px var(--display);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .3s}
+.submit:hover{background:var(--ink)}
+.formnote{font-size:12.5px;color:var(--muted);margin:-4px 0 4px}
+.ok-h{font-family:var(--display);font-weight:700;font-size:24px;text-transform:uppercase}
+@media (prefers-reduced-motion:reduce){.hhero h1>span,.hlead{animation:none;opacity:1;transform:none}.words .w{color:var(--ink)}.words .w.cam{color:var(--camel)}}
+
+/* ===== Version 3: calmer. Fewer sections, one signature effect (the reach line), photos visible before the pointer reaches them. ===== */
+.veil{background:rgba(6,7,8,.44);-webkit-backdrop-filter:grayscale(.75);backdrop-filter:grayscale(.75)}
+@media (hover:none){.veil{background:rgba(6,7,8,.2);-webkit-backdrop-filter:none;backdrop-filter:none}}
+.reveal>img{transform:none}
+.hhero .frame video{transform:none}
+.xl{font-size:clamp(2.6rem,6.6vw,6.6rem);line-height:.94}
+.sec{padding-top:130px;padding-bottom:130px}
+.head{margin-bottom:56px}
+.hhero.one{height:auto}
+.hhero.one .stick{position:relative;height:max(620px,100svh)}
+.reach.short{height:190vh}
+.pt h3{font-size:22px;line-height:1.15;margin-top:0}
+.pt{padding-top:24px}
+.do{gap:14px}
+.do .media-card h3{font-size:clamp(24px,2vw,30px)}
+.do .media-card .body{padding:22px 22px 24px}
+.do .media-card .more{margin-top:auto;padding-top:6px}
+a.media-card:focus-visible{outline-offset:4px}
+.rise{translate:0 24px}
+</style>
+<style>.cl body{visibility:hidden}</style>
+<script>if(/^https?:/.test(location.protocol)){document.documentElement.classList.add("cl");setTimeout(function(){document.documentElement.classList.remove("cl")},1500);}</script>
+</head>
+<body>
+
+
+<a class="skip" href="#main">Skip to content</a>
+
+  <header class="hdr px">
+    <div class="hdr-in">
+      <a class="logo" href="#home" aria-label="Aerodrome, home">
+        <svg class="wordmark" viewBox="42.06 312.89 284.20 30.93" fill="currentColor" aria-hidden="true" focusable="false"><path d="M 82.73 330.63 L 98.85 330.63 L 98.85 326.05 L 82.73 326.05 L 82.73 318.02 L 99.61 318.02 L 99.61 313.41 L 77.96 313.41 L 77.96 343.31 L 99.97 343.31 L 99.97 338.7 L 82.73 338.7 Z M 82.73 330.63 "/><path d="M 160.02 328.43 C 159.99 333.8 156.78 339.21 149.69 339.21 C 142.13 339.21 139.38 333.4 139.31 328.43 C 139.27 325.16 140.3 322.29 142.21 320.35 C 144.03 318.52 146.61 317.54 149.68 317.54 C 157.32 317.58 160.02 323.44 160.02 328.43 M 149.69 312.93 C 140.77 312.93 134.54 319.29 134.54 328.4 C 134.54 335.83 139.28 343.83 149.69 343.83 C 160.01 343.83 164.76 335.86 164.8 328.45 L 164.8 328.44 C 164.82 324.33 163.49 320.54 161.05 317.75 C 158.32 314.61 154.39 312.95 149.69 312.93 "/><path d="M 191.79 328.06 C 191.85 331.11 190.79 333.98 188.88 335.93 C 187.08 337.77 184.57 338.74 181.61 338.74 L 175.54 338.74 L 175.54 318.02 L 181.61 318.02 C 188.48 318.02 191.68 323.07 191.79 328.06 M 181.61 313.41 L 170.76 313.41 L 170.76 343.31 L 181.61 343.31 C 191.96 343.31 196.6 335.66 196.6 328.08 C 196.6 321.02 191.91 313.41 181.61 313.41 "/><path d="M 256.54 328.43 C 256.5 333.8 253.29 339.21 246.2 339.21 C 238.64 339.21 235.89 333.4 235.82 328.43 C 235.78 325.16 236.81 322.29 238.73 320.35 C 240.54 318.51 243.12 317.54 246.19 317.54 C 253.83 317.58 256.54 323.44 256.54 328.43 M 246.2 312.93 C 237.28 312.93 231.04 319.29 231.04 328.4 C 231.04 335.83 235.79 343.83 246.2 343.83 C 256.52 343.83 261.27 335.86 261.31 328.45 C 261.33 323.98 259.8 319.96 256.98 317.12 C 254.29 314.4 250.56 312.95 246.2 312.93 "/><path d="M 281.9 328 L 272.23 313.41 L 267.27 313.41 L 267.27 343.31 L 272.04 343.31 L 272.04 321.55 L 280.98 334.82 L 282.83 334.82 L 291.72 321.73 L 291.72 343.31 L 296.5 343.31 L 296.5 313.41 L 291.46 313.41 Z M 281.9 328 "/><path d="M 309.03 338.7 L 309.03 330.63 L 325.14 330.63 L 325.14 326.05 L 309.03 326.05 L 309.03 318.02 L 325.91 318.02 L 325.91 313.41 L 304.26 313.41 L 304.26 343.31 L 326.26 343.31 L 326.26 338.7 Z M 309.03 338.7 "/><path d="M 129.85 323.25 C 129.81 318.35 126.62 313.41 119.61 313.41 L 106.09 313.41 L 106.09 343.31 L 110.86 343.31 L 110.86 318.02 L 119.61 318.02 C 123.03 318.02 125.07 319.98 125.07 323.25 C 125.07 326.53 123.02 328.41 119.45 328.41 L 117.51 328.41 C 116.75 328.41 116.13 329.02 116.13 329.79 L 116.13 331.61 C 116.13 332.14 116.32 332.66 116.68 333.05 L 125.91 343.31 L 132.21 343.31 L 122.46 332.57 C 127.05 331.62 129.89 328.12 129.85 323.25 "/><path d="M 226.36 323.25 C 226.32 318.35 223.14 313.41 216.11 313.41 L 202.6 313.41 L 202.6 343.31 L 207.37 343.31 L 207.37 318.02 L 216.11 318.02 C 219.54 318.02 221.59 319.98 221.59 323.25 C 221.59 326.53 219.54 328.41 215.96 328.41 L 214.02 328.41 C 213.26 328.41 212.64 329.02 212.64 329.79 L 212.64 331.61 C 212.64 332.14 212.83 332.66 213.19 333.05 L 222.42 343.31 L 228.73 343.31 L 218.97 332.57 C 223.56 331.62 226.41 328.12 226.36 323.25 "/><path d="M 55.46 312.89 L 42.06 340.39 L 43.89 343.31 L 53.58 343.31 L 53.57 338.69 L 48.23 338.69 L 57.32 319.92 L 66.4 338.69 L 61.29 338.69 L 61.29 343.31 L 70.76 343.31 L 72.59 340.39 L 59.19 312.89 Z M 55.46 312.89 "/></svg>
+      </a>
+      <nav class="nav" aria-label="Main">
+        <div class="dd">
+          <button type="button" aria-expanded="false">What We Do <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 4l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4"></path></svg></button>
+          <div class="ddm"><div class="ddm-in">
+            <a href="#what-we-do" data-nav="what-we-do"><span>Overview</span><span></span></a>
+            <div class="grp">Products</div>
+            <a href="#phoenix-lt" data-nav="phoenix-lt"><span>Phoenix LT</span><span>Strategic range</span></a>
+            <a href="#phoenix-tap-x" data-nav="phoenix-tap-x"><span>Phoenix TAP-X</span><span>Jet-powered</span></a>
+            <div class="grp">Solutions</div>
+            <a href="#apex-lt" data-nav="apex-lt"><span>APEX LT</span><span>Fleet platform</span></a>
+            <a href="#aerial-services" data-nav="aerial-services"><span>Aerial Services</span><span>Name TBD</span></a>
+          </div></div>
+        </div>
+        <div class="dd">
+          <button type="button" aria-expanded="false">Who We Are <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 4l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4"></path></svg></button>
+          <div class="ddm"><div class="ddm-in">
+            <a href="#about" data-nav="about"><span>About Us</span><span></span></a>
+            <a href="#management" data-nav="management"><span>Management</span><span></span></a>
+            <a href="#investors" data-nav="investors"><span>Investor Relations</span><span>TASE: ARDM</span></a>
+          </div></div>
+        </div>
+        <a href="#careers" data-nav="careers">Careers</a>
+      </nav>
+      <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="header">Contact Us</a>
+      <button type="button" class="burger" data-menu-open aria-expanded="false" aria-controls="mnav">Menu</button>
+    </div>
+  </header>
+
+
+<div class="mnav px" id="mnav" hidden role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="top"><span class="logo"><svg class="wordmark" viewBox="42.06 312.89 284.20 30.93" fill="currentColor" role="img" aria-label="Aerodrome"><path d="M 82.73 330.63 L 98.85 330.63 L 98.85 326.05 L 82.73 326.05 L 82.73 318.02 L 99.61 318.02 L 99.61 313.41 L 77.96 313.41 L 77.96 343.31 L 99.97 343.31 L 99.97 338.7 L 82.73 338.7 Z M 82.73 330.63 "/><path d="M 160.02 328.43 C 159.99 333.8 156.78 339.21 149.69 339.21 C 142.13 339.21 139.38 333.4 139.31 328.43 C 139.27 325.16 140.3 322.29 142.21 320.35 C 144.03 318.52 146.61 317.54 149.68 317.54 C 157.32 317.58 160.02 323.44 160.02 328.43 M 149.69 312.93 C 140.77 312.93 134.54 319.29 134.54 328.4 C 134.54 335.83 139.28 343.83 149.69 343.83 C 160.01 343.83 164.76 335.86 164.8 328.45 L 164.8 328.44 C 164.82 324.33 163.49 320.54 161.05 317.75 C 158.32 314.61 154.39 312.95 149.69 312.93 "/><path d="M 191.79 328.06 C 191.85 331.11 190.79 333.98 188.88 335.93 C 187.08 337.77 184.57 338.74 181.61 338.74 L 175.54 338.74 L 175.54 318.02 L 181.61 318.02 C 188.48 318.02 191.68 323.07 191.79 328.06 M 181.61 313.41 L 170.76 313.41 L 170.76 343.31 L 181.61 343.31 C 191.96 343.31 196.6 335.66 196.6 328.08 C 196.6 321.02 191.91 313.41 181.61 313.41 "/><path d="M 256.54 328.43 C 256.5 333.8 253.29 339.21 246.2 339.21 C 238.64 339.21 235.89 333.4 235.82 328.43 C 235.78 325.16 236.81 322.29 238.73 320.35 C 240.54 318.51 243.12 317.54 246.19 317.54 C 253.83 317.58 256.54 323.44 256.54 328.43 M 246.2 312.93 C 237.28 312.93 231.04 319.29 231.04 328.4 C 231.04 335.83 235.79 343.83 246.2 343.83 C 256.52 343.83 261.27 335.86 261.31 328.45 C 261.33 323.98 259.8 319.96 256.98 317.12 C 254.29 314.4 250.56 312.95 246.2 312.93 "/><path d="M 281.9 328 L 272.23 313.41 L 267.27 313.41 L 267.27 343.31 L 272.04 343.31 L 272.04 321.55 L 280.98 334.82 L 282.83 334.82 L 291.72 321.73 L 291.72 343.31 L 296.5 343.31 L 296.5 313.41 L 291.46 313.41 Z M 281.9 328 "/><path d="M 309.03 338.7 L 309.03 330.63 L 325.14 330.63 L 325.14 326.05 L 309.03 326.05 L 309.03 318.02 L 325.91 318.02 L 325.91 313.41 L 304.26 313.41 L 304.26 343.31 L 326.26 343.31 L 326.26 338.7 Z M 309.03 338.7 "/><path d="M 129.85 323.25 C 129.81 318.35 126.62 313.41 119.61 313.41 L 106.09 313.41 L 106.09 343.31 L 110.86 343.31 L 110.86 318.02 L 119.61 318.02 C 123.03 318.02 125.07 319.98 125.07 323.25 C 125.07 326.53 123.02 328.41 119.45 328.41 L 117.51 328.41 C 116.75 328.41 116.13 329.02 116.13 329.79 L 116.13 331.61 C 116.13 332.14 116.32 332.66 116.68 333.05 L 125.91 343.31 L 132.21 343.31 L 122.46 332.57 C 127.05 331.62 129.89 328.12 129.85 323.25 "/><path d="M 226.36 323.25 C 226.32 318.35 223.14 313.41 216.11 313.41 L 202.6 313.41 L 202.6 343.31 L 207.37 343.31 L 207.37 318.02 L 216.11 318.02 C 219.54 318.02 221.59 319.98 221.59 323.25 C 221.59 326.53 219.54 328.41 215.96 328.41 L 214.02 328.41 C 213.26 328.41 212.64 329.02 212.64 329.79 L 212.64 331.61 C 212.64 332.14 212.83 332.66 213.19 333.05 L 222.42 343.31 L 228.73 343.31 L 218.97 332.57 C 223.56 331.62 226.41 328.12 226.36 323.25 "/><path d="M 55.46 312.89 L 42.06 340.39 L 43.89 343.31 L 53.58 343.31 L 53.57 338.69 L 48.23 338.69 L 57.32 319.92 L 66.4 338.69 L 61.29 338.69 L 61.29 343.31 L 70.76 343.31 L 72.59 340.39 L 59.19 312.89 Z M 55.46 312.89 "/></svg></span><button type="button" class="burger" style="display:inline-flex" data-menu-close>Close</button></div>
+  <h2>What We Do</h2>
+  <a href="#what-we-do">Overview</a><a href="#phoenix-lt">Phoenix LT</a><a href="#phoenix-tap-x">Phoenix TAP-X</a><a href="#apex-lt">APEX LT</a><a href="#aerial-services">Aerial Services</a>
+  <h2>Who We Are</h2>
+  <a href="#about">About Us</a><a href="#management">Management</a><a href="#investors">Investor Relations</a>
+  <h2>More</h2>
+  <a href="#careers">Careers</a>
+  <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="mobile-menu">Contact Us</a>
+</div>
+
+<main id="main" tabindex="-1">
+<div class="page" data-page="home" data-title="">
+  <!-- 1 · Hero: one screen, real flight footage -->
+  <section class="hhero one" aria-labelledby="home-title">
+    <div class="stick">
+      <div class="frame">
+        <video id="home-video" data-auto autoplay muted loop playsinline preload="auto" poster="assets/flight-hero-poster.jpg" src="assets/flight-hero.mp4" aria-label="Phoenix in flight through cloud"></video>
+        <div class="grad"></div>
+      </div>
+      <div class="title">
+        <p class="herotag">Long-range precision strike systems</p>
+        <h1 id="home-title" class="xl"><span>Reach Further.</span> <span>Defend Stronger.</span></h1>
+        <p class="hlead">Empowering nations with advanced long-range strike capabilities, combining operational performance, cost efficiency and sovereign production.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · Reach line -->
+  <section class="reach short" id="reach" aria-labelledby="home-reach-title">
+    <div class="stick px">
+      <div class="reach-note">
+        <div><p class="eyebrow">Long-range capability. Within reach.</p><h2 id="home-reach-title" class="l" style="margin-top:14px;max-width:16ch">How far is far enough?</h2></div>
+        <div class="rl-count" aria-hidden="true"><span id="km">0</span><small>km</small></div>
+      </div>
+      <div class="rl-wrap" id="rlwrap">
+        <div class="rl-base" aria-hidden="true"></div>
+        <div class="tick" style="left:0" aria-hidden="true"><span class="mono muted">0</span></div>
+        <div class="tick hm" style="left:10%" aria-hidden="true"><span class="mono muted">100</span></div>
+        <div class="tick" style="left:20%" aria-hidden="true"><span class="mono muted">200</span></div>
+        <div class="tick hm" style="left:30%" aria-hidden="true"><span class="mono muted">300</span></div>
+        <div class="tick hm" style="left:40%" aria-hidden="true"><span class="mono muted">400</span></div>
+        <div class="tick" style="left:50%" aria-hidden="true"><span class="mono" style="color:var(--camel)">500 km</span></div>
+        <div class="rl-solid" id="rlsolid" aria-hidden="true"></div>
+        <div class="rl-dash" id="rldash" style="left:50%" aria-hidden="true"></div>
+        <div class="rl-head" id="rlhead" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M14 2.5 26 24.5 14 18.8 2 24.5Z" fill="#E9C98F" transform="rotate(90 14 14)"></path></svg></div>
+        <div class="marker" id="m1" style="left:50%"><div class="pin"></div><div style="padding-left:14px"><p class="mono" style="color:var(--camel)">Phoenix TAP-X</p><h3>Up to 500 km, jet-powered</h3></div></div>
+        <div class="marker" id="m2" style="left:auto;right:0;text-align:right"><div style="padding-right:4px"><p class="mono" style="color:var(--camel)">Phoenix LT</p><h3>Strategic range. The full figure is shared in a briefing.</h3></div></div>
+      </div>
+      <p class="muted" style="max-width:62ch">Strategic range without a fighter jet or a pilot at risk, at a price that lets a nation field it in numbers.</p>
+    </div>
+  </section>
+
+  <!-- 3 · Why Aerodrome: four points, all visible -->
+  <section class="px sec" aria-labelledby="home-why-title">
+    <div class="head">
+      <h2 id="home-why-title" class="l">Why Aerodrome</h2>
+    </div>
+    <div class="grid4" style="gap:40px">
+      <div class="pt"><h3>Engineered by aviation and defence-industry veterans</h3><p>A team that has designed, built and flown unmanned systems.</p></div>
+      <div class="pt"><h3>Long, accessible reach</h3><p>Strategic range and payload at a price that allows scale. A fraction of a cruise missile's cost.</p></div>
+      <div class="pt"><h3>Built for mass production</h3><p>Designed for serial production and resupply in long conflicts.</p></div>
+      <div class="pt"><h3>Tested where it counts</h3><p>Long-endurance flights in the field, not prototypes on paper.</p></div>
+    </div>
+  </section>
+
+  <!-- 4 · What we do: two products, two solutions -->
+  <section class="px" style="padding-bottom:130px" aria-labelledby="home-do-title">
+    <div class="head">
+      <h2 id="home-do-title" class="l">What we do</h2>
+      <p class="muted" style="max-width:40ch;font-size:17px">One Phoenix family in two ranges, the ground platform that runs the fleet, and aerial data services.</p>
+    </div>
+    <div class="grid4 do">
+      <a class="media-card" href="#phoenix-lt">
+        <div class="reveal" style="aspect-ratio:4/3;--r:220px"><img src="assets/lt-front.jpg" alt="Phoenix LT seen from the front" style="object-position:50% 45%"><div class="veil"></div></div>
+        <div class="body"><p class="mono" style="color:var(--camel)">Strategic range</p><h3>Phoenix LT</h3><p class="muted">Long-range precision strike, designed for autonomy and simple operation.</p><span class="more">Explore <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></span></div>
+      </a>
+      <a class="media-card" href="#phoenix-tap-x">
+        <div class="reveal" style="aspect-ratio:4/3;--r:220px"><img src="assets/tapx-desert.jpg" alt="Phoenix TAP-X in flight over desert" style="object-position:55% 50%"><div class="veil"></div></div>
+        <div class="body"><p class="mono" style="color:var(--camel)">Jet engine</p><h3>Phoenix TAP-X</h3><p class="muted">Jet-powered precision strike, with the full Phoenix feature set.</p><span class="more">Explore <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></span></div>
+      </a>
+      <a class="media-card" href="#apex-lt">
+        <div class="reveal" style="aspect-ratio:4/3;--r:220px"><img src="assets/apex-fleet.jpg" alt="APEX LT fleet overview screen" style="object-position:50% 40%"><div class="veil"></div></div>
+        <div class="body"><p class="mono" style="color:var(--camel)">Ground platform</p><h3>APEX LT</h3><p class="muted">One platform. Complete fleet visibility.</p><span class="more">Explore <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></span></div>
+      </a>
+      <a class="media-card" href="#aerial-services">
+        <div class="reveal" style="aspect-ratio:4/3;--r:220px"><img src="assets/ill-3d.jpg" alt="Illustration of a 3D terrain model"><div class="veil"></div></div>
+        <div class="body"><p class="mono" style="color:var(--camel)">Aerial data</p><h3>Aerial Services</h3><p class="muted">Aerial photography, mapping and modelling, plus flight and integration services.</p><span class="more">Explore <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 5 · Contact -->
+  <section class="px" style="padding-bottom:130px" aria-labelledby="home-cta-title">
+    <div class="cta" style="align-items:center">
+      <div style="flex:1 1 480px">
+        <h2 id="home-cta-title" class="ct-h" style="margin-top:0">Let's extend your reach.</h2>
+        <p class="lead muted" style="margin-top:20px">Tell us about your mission. We'll answer you shortly.</p>
+      </div>
+      <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="home-cta">Contact Us</a>
+    </div>
+  </section>
+</div>
+
+<div class="page" data-page="what-we-do" data-title="What We Do">
+  <!-- W1 · Header: text hero, jump links, then the footage in a wide frame -->
+  <section class="thero px" aria-labelledby="wwd-title">
+    <p class="crumb in"><a href="#home">Home</a> / What We Do</p>
+    <p class="eyebrow in" style="margin-top:28px;animation-delay:.05s">What we do</p>
+    <h1 id="wwd-title" class="xl in" style="margin-top:20px;max-width:14ch;animation-delay:.1s"><span class="ph" style="font-size:.3em;line-height:1.4;letter-spacing:0">[H1 placeholder: one line covering strike systems and solutions]</span></h1>
+    <div class="row in" style="margin-top:36px;align-items:flex-end;justify-content:space-between;gap:24px 48px;animation-delay:.25s">
+      <p class="lead" style="flex:1 1 420px"><span class="ph">[Intro, 1–2 sentences: the Phoenix family, the APEX LT platform that runs it, and our aerial services.]</span></p>
+      <nav aria-label="On this page" style="display:flex;flex-wrap:wrap;gap:4px 32px">
+        <a class="more" href="#wwd-products">Products <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a>
+        <a class="more" href="#wwd-solutions">Solutions <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a>
+      </nav>
+    </div>
+    <div class="in" style="margin-top:64px;animation-delay:.4s">
+      <div style="position:relative;aspect-ratio:16/7;border-radius:12px;overflow:hidden;background:#000">
+        <video id="wwd-video" data-auto autoplay muted loop playsinline preload="metadata" poster="assets/flight-wide-poster.jpg" src="assets/flight-wide.mp4" aria-label="Phoenix in flight" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- W2 · Products -->
+  <section class="px sec" id="wwd-products" aria-labelledby="wwd-products-title">
+    <div class="head">
+      <div>
+        <p class="eyebrow">Products</p>
+        <h2 id="wwd-products-title" class="l" style="margin-top:16px"><span class="ph" style="font-size:.42em;line-height:1.4;letter-spacing:0">[Group headline placeholder: the Phoenix family]</span></h2>
+      </div>
+      <p class="muted" style="max-width:38ch">Move the light across each aircraft to see it.</p>
+    </div>
+    <div class="grid2">
+      <article class="media-card">
+        <div class="reveal" style="aspect-ratio:16/10;--r:280px"><img src="assets/lt-front.jpg" alt="Phoenix LT seen from the front, studio photo on a black background" loading="lazy"><div class="veil"></div><span class="hint">Move to reveal</span></div>
+        <div class="body">
+          <h3>Phoenix LT</h3>
+          <p class="mono faint">Strategic range · up to 50 kg warhead</p>
+          <p class="muted">Long-range precision strike, designed for autonomy and simple operation.</p>
+          <a class="more" href="#phoenix-lt">See Phoenix LT <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a>
+        </div>
+      </article>
+      <article class="media-card">
+        <div class="reveal" style="aspect-ratio:16/10;--r:280px"><img src="assets/tapx-desert.jpg" alt="Phoenix TAP-X seen from above over desert, twin jet exhausts" loading="lazy" style="object-position:55% 50%"><div class="veil"></div><span class="hint">Move to reveal</span></div>
+        <div class="body">
+          <h3>Phoenix TAP-X</h3>
+          <p class="mono faint">Jet engine</p>
+          <p class="muted">Jet-powered precision strike, with the full Phoenix feature set.</p>
+          <a class="more" href="#phoenix-tap-x">See Phoenix TAP-X <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- W3 · Solutions: APEX LT first and shown clearly; Aerial Services quieter -->
+  <section class="px" style="padding-bottom:110px" id="wwd-solutions" aria-labelledby="wwd-solutions-title">
+    <div class="head">
+      <div>
+        <p class="eyebrow">Solutions</p>
+        <h2 id="wwd-solutions-title" class="l" style="margin-top:16px"><span class="ph" style="font-size:.42em;line-height:1.4;letter-spacing:0">[Group headline placeholder: the platform and services around Phoenix]</span></h2>
+      </div>
+    </div>
+    <article class="media-card apex-card">
+      <div class="apex-shot">
+        <div class="shot"><img src="assets/apex-fleet.jpg" alt="APEX LT fleet overview screen: a map with aircraft positions beside fleet status panels, shown in training mode" width="2000" height="1119" loading="lazy"></div>
+      </div>
+      <div class="body apex-body">
+        <p class="eyebrow">Fleet platform</p>
+        <h3>APEX LT</h3>
+        <p class="muted">One platform. Complete fleet visibility. Fleet management, mission planning and technician diagnostics for Phoenix customers.</p>
+        <p class="note">Shown in training mode with synthetic telemetry.</p>
+        <a class="more" href="#apex-lt">See APEX LT <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a>
+      </div>
+    </article>
+    <a class="linkcard" href="#aerial-services" style="margin-top:16px;background:transparent">
+      <span style="min-width:0">
+        <small>Services</small>
+        <b style="font-size:24px"><span class="ph">[Name TBD]</span> Aerial Services</b>
+        <span class="muted" style="display:block;margin-top:8px;max-width:60ch">Aerial photography, mapping and modelling, plus flight, operation and integration services.</span>
+      </span>
+      <svg class="go" width="20" height="20" viewBox="0 0 16 16" aria-hidden="true" style="flex:none;color:var(--camel)"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg>
+    </a>
+  </section>
+
+  <!-- W4 · Missions (placeholders until names are approved) -->
+  <section class="px" style="padding-bottom:110px" aria-labelledby="wwd-missions-title">
+    <div class="head">
+      <h2 id="wwd-missions-title" class="l"><span class="ph" style="font-size:.42em;line-height:1.4;letter-spacing:0">[Headline placeholder: missions we support]</span></h2>
+    </div>
+    <div class="grid4">
+      <div class="card"><p class="eyebrow">01</p><h3><span class="ph">[Mission 1]</span></h3><p><span class="ph">[One line]</span></p></div>
+      <div class="card"><p class="eyebrow">02</p><h3><span class="ph">[Mission 2]</span></h3><p><span class="ph">[One line]</span></p></div>
+      <div class="card"><p class="eyebrow">03</p><h3><span class="ph">[Mission 3]</span></h3><p><span class="ph">[One line]</span></p></div>
+      <div class="card"><p class="eyebrow">04</p><h3><span class="ph">[Mission 4]</span></h3><p><span class="ph">[One line]</span></p></div>
+    </div>
+  </section>
+
+  <!-- W5 · CTA -->
+  <section class="px" style="padding-bottom:120px" aria-labelledby="wwd-cta-title">
+    <div class="cta">
+      <div style="flex:1 1 420px">
+        <h2 id="wwd-cta-title" class="l" style="max-width:12ch">Let's extend your reach</h2>
+        <p class="lead muted" style="margin-top:22px">Tell us about your mission. We'll answer you shortly.</p>
+      </div>
+      <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="what-we-do-cta">Contact Us</a>
+    </div>
+  </section>
+</div>
+
+<div class="page" data-page="phoenix-lt" data-title="Phoenix LT">
+  <!-- P1 · Product hero: real hardware in the dark, one CTA -->
+  <section class="reveal phero" style="--r:440px" aria-labelledby="plt-title">
+    <img src="assets/lt-front.jpg" alt="Phoenix LT seen from the front, studio photo on a black background" style="object-position:50% 45%">
+    <div class="veil"></div>
+    <div class="shade"></div>
+    <span class="hint" style="left:auto;right:max(40px,env(safe-area-inset-right,0px));bottom:auto;top:120px">Move to reveal</span>
+    <div class="bottom px">
+      <p class="crumb in"><a href="#what-we-do">What We Do</a> / Products / Phoenix LT</p>
+      <p class="eyebrow in" style="margin-top:24px;animation-delay:.05s">Phoenix LT</p>
+      <h1 id="plt-title" class="xl in" style="margin-top:18px;max-width:11ch;animation-delay:.1s">Deep Strike. At Scale.</h1>
+      <div class="row in" style="margin-top:32px;align-items:flex-end;justify-content:space-between;gap:24px 48px;animation-delay:.25s">
+        <p class="lead" style="flex:1 1 420px">Long-range precision strike, designed for autonomy and simple operation.</p>
+        <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="phoenix-lt-hero">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- P2 · Capabilities -->
+  <section class="px sec" aria-labelledby="plt-cap-title">
+    <div class="head">
+      <h2 id="plt-cap-title" class="l" style="max-width:14ch">Every part built for the mission</h2>
+    </div>
+    <div class="grid3">
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 18 6"></path><path d="M11 5.5h7.5V13"></path><path d="M3 14.5l3.5 1.5 1.5 3.5"></path></svg></span>
+        <h3>Launches anywhere</h3>
+        <p>Rocket-booster launch. No runway needed.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"></circle><path d="M15.5 8.5 13.4 13.4 8.5 15.5l2.1-4.9z"></path></svg></span>
+        <h3>Resilient navigation</h3>
+        <p>Image-based navigation that holds course when GPS is jammed, with anti-jam GPS and inertial navigation.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2"></circle><path d="M12 2v4M12 18v4M2 12h4M18 12h4"></path></svg></span>
+        <h3>Optical homing</h3>
+        <p>A nose-mounted homing camera and homing computer for precise terminal guidance (Advanced configuration).</p>
+        <p><span class="ph">[In development: confirm wording]</span></p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="6" width="12" height="12" rx="1.5"></rect><rect x="9.5" y="9.5" width="5" height="5"></rect><path d="M9 2.5V6M15 2.5V6M9 18v3.5M15 18v3.5M2.5 9H6M2.5 15H6M18 9h3.5M18 15h3.5"></path></svg></span>
+        <h3>In-house avionics</h3>
+        <p>Autopilot, mission computer and precision navigation developed by Aerodrome.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="11" height="11" rx="1.5"></rect><path d="M7 7V4.5A1.5 1.5 0 0 1 8.5 3h11A1.5 1.5 0 0 1 21 4.5v11a1.5 1.5 0 0 1-1.5 1.5H14"></path></svg></span>
+        <h3>Redundant by design</h3>
+        <p>Redundant servo-driven control surfaces and a power system with dedicated flight, ignition and starter batteries.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"></circle><circle cx="12" cy="12" r="2"></circle><path d="M12 10c0-3 1-5 3-6.2M13.7 13c2.6 1.5 3.9 3.3 3.8 5.7M10.3 13c-2.6 1.5-4.7 1.7-6.6.4"></path></svg></span>
+        <h3>Our own engine</h3>
+        <p>The Aerodrome 550 engine, built to reduce dependence on outside suppliers.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20a9 9 0 0 1 0-13l13 13a9 9 0 0 1-13 0z"></path><path d="M10.5 13.5 14 10"></path><path d="M15 3a6 6 0 0 1 6 6M15 6.5A2.5 2.5 0 0 1 17.5 9"></path></svg></span>
+        <h3>Satellite communications</h3>
+        <p>Beyond-line-of-sight connectivity as an option.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"></path></svg></span>
+        <h3>Open Mission Architecture</h3>
+        <p>Build and run your own mission applications in-house.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="7.5" r="3.2"></circle><path d="M3.5 19.5c.8-3.4 3.3-5.5 6.5-5.5 1.3 0 2.5.3 3.5 1"></path><path d="M15 18l2 2 4-4.5"></path></svg></span>
+        <h3>Human control</h3>
+        <p>A human authorises every engagement.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- P3 · Delivery: "for" swaps to "with" once on scroll-in -->
+  <section class="px" style="padding-bottom:110px" aria-labelledby="plt-del-title">
+    <div class="head">
+      <h2 id="plt-del-title" class="l" style="max-width:16ch">Built <span class="sr">with</span><span class="swap" aria-hidden="true"><span class="a">for</span><span class="b">with</span></span> you, for the long term</h2>
+    </div>
+    <div class="grid3">
+      <div class="pt"><p class="eyebrow">01</p><h3>Supply from our line</h3><p>Phoenix systems delivered from our production line, with integration and field delivery.</p></div>
+      <div class="pt"><p class="eyebrow">02</p><h3>Produce in your country</h3><p>Modular sections a local line can assemble, integrate and maintain with your industry.</p></div>
+      <div class="pt"><p class="eyebrow">03</p><h3>Train, sustain, upgrade</h3><p>Operator and technician training, spares and upgrades for 10+ years, with APEX LT for fleet and mission management.</p></div>
+    </div>
+  </section>
+
+  <!-- P4 · Gallery: hardware detail, launch, flight -->
+  <section class="px" style="padding-bottom:110px" aria-labelledby="plt-gal-title">
+    <h2 id="plt-gal-title" class="eyebrow" style="margin-bottom:24px">Gallery</h2>
+    <div class="grid3">
+      <figure style="margin:0">
+        <div class="reveal" style="aspect-ratio:4/5;border-radius:10px;--r:240px"><img src="assets/lt-top.jpg" alt="Phoenix LT airframe seen from above, studio photo" loading="lazy"><div class="veil"></div><span class="hint">Move to reveal</span></div>
+        <figcaption class="mono faint" style="margin-top:12px">Airframe, from above</figcaption>
+      </figure>
+      <figure style="margin:0">
+        <div class="reveal" style="aspect-ratio:4/5;border-radius:10px;--r:240px"><img src="assets/launcher.jpg" alt="Phoenix LT on its rocket-booster launch rail at night" loading="lazy" style="object-position:40% 40%"><div class="veil"></div><span class="hint">Move to reveal</span></div>
+        <figcaption class="mono faint" style="margin-top:12px">On the launch rail</figcaption>
+      </figure>
+      <figure style="margin:0">
+        <div style="position:relative;aspect-ratio:4/5;border-radius:10px;overflow:hidden;background:#000">
+          <video id="plt-video" data-auto autoplay muted loop playsinline preload="metadata" poster="assets/flight-wide-poster.jpg" src="assets/flight-wide.mp4" aria-label="Phoenix in flight" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          </video>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- P5 · CTA -->
+  <section class="px" style="padding-bottom:120px" aria-labelledby="plt-cta-title">
+    <div class="cta">
+      <div style="flex:1 1 420px">
+        <h2 id="plt-cta-title" class="l" style="max-width:13ch">Put Phoenix LT within your reach</h2>
+        <p class="lead muted" style="margin-top:22px">Full specifications are shared under NDA. Tell us about your mission and we'll answer you shortly.</p>
+        <a class="more" href="#phoenix-tap-x" style="margin-top:18px">See also: Phoenix TAP-X <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a>
+      </div>
+      <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="phoenix-lt-cta">Contact Us</a>
+    </div>
+  </section>
+</div>
+
+<div class="page" data-page="phoenix-tap-x" data-title="Phoenix TAP-X">
+  <!-- P1 · Product hero: real hardware in the dark, one CTA -->
+  <section class="reveal phero" style="--r:440px" aria-labelledby="ptx-title">
+    <img src="assets/tapx-desert.jpg" alt="Phoenix TAP-X seen from above over desert, twin jet exhausts" style="object-position:55% 50%">
+    <div class="veil"></div>
+    <div class="shade"></div>
+    <span class="hint" style="left:auto;right:max(40px,env(safe-area-inset-right,0px));bottom:auto;top:120px">Move to reveal</span>
+    <div class="bottom px">
+      <p class="crumb in"><a href="#what-we-do">What We Do</a> / Products / Phoenix TAP-X</p>
+      <p class="eyebrow in" style="margin-top:24px;animation-delay:.05s">Phoenix TAP-X</p>
+      <h1 id="ptx-title" class="xl in" style="margin-top:18px;max-width:11ch;animation-delay:.1s">Jet Speed. Precise Strike.</h1>
+      <div class="row in" style="margin-top:32px;align-items:flex-end;justify-content:space-between;gap:24px 48px;animation-delay:.25s">
+        <p class="lead" style="flex:1 1 420px">Jet-powered precision strike, with the full Phoenix feature set.</p>
+        <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="phoenix-tap-x-hero">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- P2 · Capabilities -->
+  <section class="px sec" aria-labelledby="ptx-cap-title">
+    <div class="head">
+      <h2 id="ptx-cap-title" class="l" style="max-width:15ch">The full Phoenix feature set, jet-powered</h2>
+      <p><span class="ph">[To confirm: which Phoenix LT capabilities carry over to TAP-X]</span></p>
+    </div>
+    <div class="grid3">
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8h9M3 12h13M3 16h9"></path><path d="M14 6l7 6-7 6"></path></svg></span>
+        <h3>Jet propulsion</h3>
+        <p><span class="ph">[One line, to confirm with Aerodrome]</span></p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 18 6"></path><path d="M11 5.5h7.5V13"></path><path d="M3 14.5l3.5 1.5 1.5 3.5"></path></svg></span>
+        <h3>Launches anywhere</h3>
+        <p>Rocket-booster launch. No runway needed.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"></circle><path d="M15.5 8.5 13.4 13.4 8.5 15.5l2.1-4.9z"></path></svg></span>
+        <h3>Resilient navigation</h3>
+        <p>Image-based navigation, anti-jam GPS and inertial navigation.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2"></circle><path d="M12 2v4M12 18v4M2 12h4M18 12h4"></path></svg></span>
+        <h3>Optical homing</h3>
+        <p>Precise terminal guidance (Advanced configuration).</p>
+        <p><span class="ph">[In development: confirm wording]</span></p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"></path></svg></span>
+        <h3>Open Mission Architecture</h3>
+        <p>Build and run your own mission applications.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="7.5" r="3.2"></circle><path d="M3.5 19.5c.8-3.4 3.3-5.5 6.5-5.5 1.3 0 2.5.3 3.5 1"></path><path d="M15 18l2 2 4-4.5"></path></svg></span>
+        <h3>Human control</h3>
+        <p>A human authorises every engagement.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- P3 · Delivery: same three cards and swap as Phoenix LT -->
+  <section class="px" style="padding-bottom:110px" aria-labelledby="ptx-del-title">
+    <div class="head">
+      <h2 id="ptx-del-title" class="l" style="max-width:16ch">Built <span class="sr">with</span><span class="swap" aria-hidden="true"><span class="a">for</span><span class="b">with</span></span> you, for the long term</h2>
+    </div>
+    <div class="grid3">
+      <div class="pt"><p class="eyebrow">01</p><h3>Supply from our line</h3><p>Phoenix systems delivered from our production line, with integration and field delivery.</p></div>
+      <div class="pt"><p class="eyebrow">02</p><h3>Produce in your country</h3><p>Modular sections a local line can assemble, integrate and maintain with your industry.</p></div>
+      <div class="pt"><p class="eyebrow">03</p><h3>Train, sustain, upgrade</h3><p>Operator and technician training, spares and upgrades for 10+ years, with APEX LT for fleet and mission management.</p></div>
+    </div>
+  </section>
+
+  <!-- P4 · Gallery: hardware detail, launch, flight -->
+  <section class="px" style="padding-bottom:110px" aria-labelledby="ptx-gal-title">
+    <h2 id="ptx-gal-title" class="eyebrow" style="margin-bottom:24px">Gallery</h2>
+    <div class="grid3">
+      <figure style="margin:0">
+        <div class="reveal" style="aspect-ratio:4/5;border-radius:10px;--r:240px"><img src="assets/tapx-desert.jpg" alt="Phoenix TAP-X airframe and twin jet exhausts, seen from above" loading="lazy" style="object-position:62% 50%"><div class="veil"></div><span class="hint">Move to reveal</span></div>
+        <figcaption class="mono faint" style="margin-top:12px">Airframe, from above</figcaption>
+      </figure>
+      <figure style="margin:0">
+        <div class="card" style="aspect-ratio:4/5;justify-content:center;align-items:center;text-align:center"><span class="ph">[PHOTO: Phoenix TAP-X launch]</span></div>
+        <figcaption class="mono faint" style="margin-top:12px">Launch</figcaption>
+      </figure>
+      <figure style="margin:0">
+        <div style="position:relative;aspect-ratio:4/5;border-radius:10px;overflow:hidden;background:#000">
+          <video id="ptx-video" data-auto autoplay muted loop playsinline preload="metadata" poster="assets/flight-wide-poster.jpg" src="assets/flight-wide.mp4" aria-label="Phoenix in flight" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          </video>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- P5 · CTA -->
+  <section class="px" style="padding-bottom:120px" aria-labelledby="ptx-cta-title">
+    <div class="cta">
+      <div style="flex:1 1 420px">
+        <h2 id="ptx-cta-title" class="l" style="max-width:13ch">Put Phoenix TAP-X within your reach</h2>
+        <p class="lead muted" style="margin-top:22px">Tell us about your mission and we'll answer you shortly.</p>
+        <a class="more" href="#phoenix-lt" style="margin-top:18px">See also: Phoenix LT <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a>
+      </div>
+      <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="phoenix-tap-x-cta">Contact Us</a>
+    </div>
+  </section>
+</div>
+
+<div class="page" data-page="apex-lt" data-title="APEX LT">
+  <!-- X1 · Hero: the platform behind the veil, one CTA -->
+  <section class="reveal phero" style="--r:440px" aria-labelledby="apex-title">
+    <img src="assets/apex-fleet.jpg" alt="APEX LT fleet overview screen in training mode, with synthetic telemetry" style="object-position:50% 30%">
+    <div class="veil"></div>
+    <div class="shade"></div>
+    <span class="hint" style="left:auto;right:max(40px,env(safe-area-inset-right,0px));bottom:auto;top:120px">Move to reveal</span>
+    <div class="bottom px">
+      <p class="crumb in"><a href="#what-we-do">What We Do</a> / Solutions / APEX LT</p>
+      <p class="eyebrow in" style="margin-top:24px;animation-delay:.05s">APEX LT · UAV fleet management and ground operations platform</p>
+      <h1 id="apex-title" class="xl in" style="margin-top:18px;max-width:17ch;animation-delay:.1s">One Platform. Complete Fleet Visibility.</h1>
+      <div class="row in" style="margin-top:32px;align-items:flex-end;justify-content:space-between;gap:24px 48px;animation-delay:.25s">
+        <div style="flex:1 1 420px">
+          <p class="lead">See the bigger picture. Plan with confidence. Stay connected to every part of your operation.</p>
+          <p class="muted" style="margin-top:14px;max-width:56ch">APEX LT brings fleet overview, mission planning and technician diagnostics together in one ground-side platform, for every Phoenix customer.</p>
+        </div>
+        <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="apex-lt-hero">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- X2 · Three integrated capabilities, as tabs -->
+  <section class="px sec" aria-labelledby="apex-cap-title">
+    <div class="head">
+      <h2 id="apex-cap-title" class="l" style="max-width:14ch">Three integrated capabilities</h2>
+    </div>
+    <div data-tabs>
+      <div role="tablist" aria-label="APEX LT capabilities" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:40px">
+        <button type="button" class="tabbtn" role="tab" id="apex-tab-0" aria-controls="apex-panel-0" data-tab="0">Fleet management and control</button>
+        <button type="button" class="tabbtn" role="tab" id="apex-tab-1" aria-controls="apex-panel-1" data-tab="1">Mission planning</button>
+        <button type="button" class="tabbtn" role="tab" id="apex-tab-2" aria-controls="apex-panel-2" data-tab="2">Technician diagnostics</button>
+      </div>
+
+      <div role="tabpanel" id="apex-panel-0" aria-labelledby="apex-tab-0" data-panel="0" tabindex="0">
+        <div class="row" style="align-items:center;gap:40px 64px">
+          <figure style="flex:1 1 600px;margin:0">
+            <div class="shot"><img src="assets/apex-fleet.jpg" alt="APEX LT fleet overview: a map with aircraft positions, beside fleet status and event panels" width="2000" height="1119" loading="lazy"></div>
+            <figcaption class="note" style="margin-top:12px">Shown in training mode with synthetic telemetry.</figcaption>
+          </figure>
+          <div style="flex:1 1 340px">
+            <p class="eyebrow">Fleet management and control</p>
+            <h3 class="m" style="margin-top:14px">One view. Your entire fleet.</h3>
+            <ul class="bullets" style="margin-top:28px">
+              <li>Multi-aircraft fleet overview in a single interface</li>
+              <li>Map-based aircraft visualisation and fleet awareness</li>
+              <li>Centralised status and event visibility</li>
+              <li>A scalable interface for growing fleets</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div role="tabpanel" id="apex-panel-1" aria-labelledby="apex-tab-1" data-panel="1" tabindex="0">
+        <div class="row" style="align-items:center;gap:40px 64px">
+          <div style="flex:1 1 600px">
+            <div class="card" style="aspect-ratio:16/10;justify-content:center;align-items:center;text-align:center"><span class="ph">[SCREENSHOT: mission planning, sanitised]</span></div>
+          </div>
+          <div style="flex:1 1 340px">
+            <p class="eyebrow">Mission planning</p>
+            <h3 class="m" style="margin-top:14px">Plan smarter. Prepare with confidence.</h3>
+            <ul class="bullets" style="margin-top:28px">
+              <li>Structured mission-planning workspace</li>
+              <li>Route and waypoint visualisation</li>
+              <li>Mission information organised in one place</li>
+              <li>Plan review and validation workflow</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div role="tabpanel" id="apex-panel-2" aria-labelledby="apex-tab-2" data-panel="2" tabindex="0">
+        <div class="row" style="align-items:center;gap:40px 64px">
+          <div style="flex:1 1 600px">
+            <div class="card" style="aspect-ratio:16/10;justify-content:center;align-items:center;text-align:center"><span class="ph">[SCREENSHOT: technician diagnostics, sanitised]</span></div>
+          </div>
+          <div style="flex:1 1 340px">
+            <p class="eyebrow">Technician diagnostics</p>
+            <h3 class="m" style="margin-top:14px">Know more. Maintain better.</h3>
+            <ul class="bullets" style="margin-top:28px">
+              <li>Dedicated diagnostics environment</li>
+              <li>Structured diagnostic workflows and test sequences</li>
+              <li>System-health overview and test-result records</li>
+              <li>Technician notes and maintenance history</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- X3 · One platform: HTML diagram, one centre connected to three work environments -->
+  <section class="px" style="padding-bottom:110px" aria-labelledby="apex-one-title">
+    <div class="row" style="align-items:center;gap:48px 80px">
+      <div style="flex:1 1 380px">
+        <h2 id="apex-one-title" class="l" style="max-width:14ch">One platform. Three purpose-built work environments.</h2>
+        <p class="lead muted" style="margin-top:24px">Operators, planners and technicians each get a workspace designed for their role, connected in one consistent ground-side experience.</p>
+      </div>
+      <figure style="flex:1 1 520px;margin:0" aria-labelledby="apex-diagram-cap">
+        <figcaption id="apex-diagram-cap" class="sr">Diagram: APEX LT at the centre, connected to three work environments: Fleet Overview, Mission Planning and Technician Diagnostics.</figcaption>
+        <div class="card" style="max-width:300px;margin:0 auto;align-items:center;text-align:center;border-color:rgba(233,201,143,.45)" aria-hidden="true">
+          <p class="eyebrow">One platform</p>
+          <p class="s">APEX LT</p>
+        </div>
+        <div style="width:1px;height:40px;margin:0 auto;background:var(--camel)" aria-hidden="true"></div>
+        <div style="border:1px solid var(--line);border-radius:12px;padding:16px">
+          <ul class="grid3" style="grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr));gap:12px">
+            <li class="card" style="padding:20px;gap:6px"><span class="mono faint">Operators</span><span class="s" style="font-size:19px">Fleet Overview</span></li>
+            <li class="card" style="padding:20px;gap:6px"><span class="mono faint">Planners</span><span class="s" style="font-size:19px">Mission Planning</span></li>
+            <li class="card" style="padding:20px;gap:6px"><span class="mono faint">Technicians</span><span class="s" style="font-size:19px">Technician Diagnostics</span></li>
+          </ul>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- X4 · Designed to scale -->
+  <section class="px" style="padding-bottom:110px" aria-labelledby="apex-scale-title">
+    <div class="cta" style="align-items:flex-start">
+      <h2 id="apex-scale-title" class="l" style="flex:1 1 420px;max-width:14ch">From a single aircraft to a growing fleet</h2>
+      <p class="lead muted" style="flex:1 1 380px">Configurable fleet sizes and an interface that stays clear as your operation grows, on a foundation that evolves with your needs.</p>
+    </div>
+  </section>
+
+  <!-- X5 · Why APEX LT -->
+  <section class="px" style="padding-bottom:110px" aria-labelledby="apex-why-title">
+    <div class="head">
+      <h2 id="apex-why-title" class="l">Why APEX LT</h2>
+    </div>
+    <div class="grid5 why">
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 9h18M9 9v11"></path></svg></span>
+        <h3>One unified environment</h3>
+        <p>Fleet overview, mission preparation and technical support together.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
+        <h3>Clear operational awareness</h3>
+        <p>Fleet information in a structured, easy-to-read view.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="5.5" cy="6" r="2"></circle><circle cx="18.5" cy="18" r="2"></circle><path d="M7.5 6H15a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h7.5"></path></svg></span>
+        <h3>Simplified workflows</h3>
+        <p>Purpose-built environments for operators, planners and technicians.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="12" width="5" height="8"></rect><rect x="9.5" y="8" width="5" height="12"></rect><rect x="16" y="4" width="5" height="16"></rect></svg></span>
+        <h3>Scalable by design</h3>
+        <p>Supports evolving fleet requirements.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17l6-6 4 4 8-8"></path><path d="M15 7h6v6"></path></svg></span>
+        <h3>Built for future growth</h3>
+        <p>A platform that develops as requirements mature.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- X6 · Closing CTA -->
+  <section class="px" style="padding-bottom:120px" aria-labelledby="apex-cta-title">
+    <div class="cta">
+      <h2 id="apex-cta-title" class="l" style="flex:1 1 420px;max-width:16ch">See the fleet. Plan the mission. Support the team.</h2>
+      <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="apex-lt-cta">Contact Us</a>
+    </div>
+  </section>
+</div>
+
+<div class="page" data-page="aerial-services" data-title="Aerial Services">
+  <!-- A1 · Hero: text-led (no approved project imagery yet) -->
+  <section class="thero px" aria-labelledby="aer-title">
+    <p class="crumb in"><a href="#what-we-do">What We Do</a> / Solutions / Aerial Services</p>
+    <p class="eyebrow in" style="margin-top:28px;animation-delay:.05s"><span class="ph">[Name TBD]</span> Aerial Services</p>
+    <h1 id="aer-title" class="xl in" style="margin-top:20px;max-width:14ch;animation-delay:.1s"><span class="ph" style="font-size:.3em;line-height:1.4;letter-spacing:0">[Headline placeholder: aerial data for large projects]</span></h1>
+    <div class="row in" style="margin-top:36px;align-items:flex-end;justify-content:space-between;gap:24px 48px;animation-delay:.25s">
+      <p class="lead" style="flex:1 1 420px">End-to-end aerial photography, mapping and data processing, from flight planning to final deliverables.</p>
+      <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="aerial-services-hero">Contact Us</a>
+    </div>
+    <div class="card in" style="margin-top:64px;aspect-ratio:16/7;justify-content:center;align-items:center;text-align:center;animation-delay:.4s"><span class="ph">[IMAGE: orthophoto or 3D model of a real project site]</span></div>
+  </section>
+
+  <!-- A2 · Two service lines -->
+  <section class="px sec" aria-labelledby="aer-lines-title">
+    <h2 id="aer-lines-title" class="eyebrow" style="margin-bottom:24px">Service lines</h2>
+    <div class="grid2">
+      <div class="card" style="padding:36px">
+        <p class="eyebrow">01</p>
+        <h3 class="m">Aerial photography, mapping and modelling</h3>
+        <p style="margin-top:8px">Large sites, construction complexes, quarries and infrastructure routes, including periodic photography to track progress.</p>
+        <p class="mono faint" style="margin-top:auto;padding-top:16px">Orthophoto maps · 3D models · terrain models</p>
+      </div>
+      <div class="card" style="padding:36px">
+        <p class="eyebrow">02</p>
+        <h3 class="m">Flight, operation and integration</h3>
+        <p style="margin-top:8px">Licensed, experienced pilots operating drones and UAVs of various sizes for companies developing unmanned systems: field trials, development support and integration.</p>
+        <p class="mono faint" style="margin-top:auto;padding-top:16px">Clients worldwide</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- A3 · Sectors -->
+  <section class="px" style="padding-bottom:110px" aria-labelledby="aer-sec-title">
+    <div class="head">
+      <h2 id="aer-sec-title" class="l"><span class="ph" style="font-size:.42em;line-height:1.4;letter-spacing:0">[Headline placeholder: who we work with]</span></h2>
+    </div>
+    <ul class="grid4">
+      <li class="pt"><h3>Infrastructure</h3></li>
+      <li class="pt"><h3>Engineering</h3></li>
+      <li class="pt"><h3>Construction</h3></li>
+      <li class="pt"><h3>Real estate</h3></li>
+    </ul>
+  </section>
+
+  <!-- A4 · Deliverables -->
+  <section class="px" style="padding-bottom:110px" aria-labelledby="aer-del-title">
+    <div class="head">
+      <h2 id="aer-del-title" class="m">Deliverables</h2>
+    </div>
+    <div class="tbl" role="region" aria-labelledby="aer-del-title" tabindex="0">
+      <table>
+        <caption class="sr">Deliverables and what they are used for</caption>
+        <thead><tr><th scope="col">Deliverable</th><th scope="col">Used for</th></tr></thead>
+        <tbody>
+          <tr><td>Orthophoto maps</td><td class="muted">Planning, surveying, engineering documentation</td></tr>
+          <tr><td>3D models</td><td class="muted">Planning, control, progress tracking</td></tr>
+          <tr><td>Terrain models</td><td class="muted">Surveying, volume calculations</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- A5 · Process -->
+  <section class="px" style="padding-bottom:110px" aria-labelledby="aer-proc-title">
+    <div class="head">
+      <h2 id="aer-proc-title" class="l"><span class="ph" style="font-size:.42em;line-height:1.4;letter-spacing:0">[Headline placeholder: from flight plan to final output]</span></h2>
+    </div>
+    <ol class="grid4 steps" style="margin:0;padding:0;list-style:none">
+      <li class="step"><span class="n">01</span><h3>Plan the mission</h3></li>
+      <li class="step"><span class="n">02</span><h3>Collect in the field</h3></li>
+      <li class="step"><span class="n">03</span><h3>Process the data</h3></li>
+      <li class="step"><span class="n">04</span><h3>Deliver outputs</h3></li>
+    </ol>
+  </section>
+
+  <!-- A6 · Sample outputs (placeholders until approved project examples exist) -->
+  <section class="px" style="padding-bottom:110px" aria-labelledby="aer-samp-title">
+    <h2 id="aer-samp-title" class="eyebrow" style="margin-bottom:24px">Sample outputs</h2>
+    <div class="grid3">
+      <div class="card" style="aspect-ratio:16/10;justify-content:center;align-items:center;text-align:center"><span class="ph">[SAMPLE: orthophoto]</span></div>
+      <div class="card" style="aspect-ratio:16/10;justify-content:center;align-items:center;text-align:center"><span class="ph">[SAMPLE: 3D model]</span></div>
+      <div class="card" style="aspect-ratio:16/10;justify-content:center;align-items:center;text-align:center"><span class="ph">[SAMPLE: terrain model]</span></div>
+    </div>
+  </section>
+
+  <!-- A7 · CTA -->
+  <section class="px" style="padding-bottom:120px" aria-labelledby="aer-cta-title">
+    <div class="cta">
+      <div style="flex:1 1 420px">
+        <h2 id="aer-cta-title" class="l"><span class="ph" style="font-size:.42em;line-height:1.4;letter-spacing:0">[CTA headline placeholder]</span></h2>
+        <p class="lead muted" style="margin-top:22px">We'll answer you shortly.</p>
+      </div>
+      <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="aerial-services-cta">Contact Us</a>
+    </div>
+  </section>
+</div>
+
+<div class="page" data-page="about" data-title="About Us">
+  <!-- B1 · Vision -->
+  <section class="px thero" aria-labelledby="about-title">
+    <p class="eyebrow in">Our vision</p>
+    <h1 id="about-title" class="l in" style="margin-top:20px;max-width:20ch;animation-delay:.1s">To make effective long-range deterrence accessible to the nations that need it</h1>
+  </section>
+
+  <!-- B2 · Story -->
+  <section class="px" style="padding-top:46px;padding-bottom:110px" aria-labelledby="about-story-title">
+    <div class="row" style="align-items:center;gap:40px 80px">
+      <div style="flex:1 1 440px">
+        <h2 id="about-story-title" class="m" style="max-width:18ch">The reach of a missile. Within every nation's reach.</h2>
+        <p class="lead" style="margin-top:28px">Long-range strike has always belonged to the few who could afford cruise missiles. Aerodrome was built to change that: precision strike systems with strategic range and payload, at a price that allows scale.</p>
+        <p class="lead muted" style="margin-top:18px">Built for mass production and tested in long-endurance field flights, our systems are supplied from our production line or produced and sustained in the customer's own country.</p>
+      </div>
+      <div class="reveal" style="flex:1 1 440px;aspect-ratio:4/3;border-radius:10px;--r:300px"><img src="assets/launcher.jpg" alt="Phoenix LT on its rocket-booster launch rail at night" style="object-position:40% 35%"><div class="veil"></div><span class="hint">Move to reveal</span></div>
+    </div>
+  </section>
+
+  <!-- B3 · Pillars -->
+  <section class="px" style="padding-bottom:110px" aria-labelledby="about-pillars-title">
+    <h2 id="about-pillars-title" class="eyebrow" style="margin-bottom:28px">Our pillars</h2>
+    <div class="grid3">
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17c4-7 10-11 18-12"></path><path d="M16 4.5 21 5l-1.5 4.8"></path><circle cx="4" cy="17" r="1.6"></circle></svg></span>
+        <h3>Strategic reach that matters</h3>
+        <p>Strategic range with a warhead built for real targets.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="12" width="5" height="8"></rect><rect x="9.5" y="8" width="5" height="12"></rect><rect x="16" y="4" width="5" height="16"></rect></svg></span>
+        <h3>Affordable at scale</h3>
+        <p>Long-range effect at a fraction of a cruise missile's cost, built for mass production.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.5 19c.8-3.2 3-5 5.5-5s4.7 1.8 5.5 5"></path><path d="M16 5.5a3 3 0 0 1 0 5.6M18 14.4c1.4.7 2.3 2.2 2.6 4.6"></path></svg></span>
+        <h3>Built with you, for the long term</h3>
+        <p>Our line or local production, with lifecycle support.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- B4 · Key facts -->
+  <section class="px" style="padding-bottom:110px" aria-labelledby="about-facts-title">
+    <h2 id="about-facts-title" class="eyebrow" style="margin-bottom:28px">Key facts</h2>
+    <ul class="grid4">
+      <li class="pt"><p class="metric" style="color:var(--ink)">TASE</p><p class="muted" style="margin-top:14px">Listed: ARDM</p></li>
+      <li class="pt"><p class="metric" style="color:var(--ink)"><span class="ph" style="letter-spacing:0">[Year]</span></p><p class="muted" style="margin-top:14px">Founded</p></li>
+      <li class="pt"><p class="metric" style="color:var(--ink)">2</p><p class="muted" style="margin-top:14px">Phoenix systems</p></li>
+      <li class="pt"><p class="metric" style="color:var(--ink)"><span class="ph" style="letter-spacing:0">[X] h</span></p><p class="muted" style="margin-top:14px">Field flight hours</p></li>
+    </ul>
+  </section>
+
+  <!-- CTA -->
+  <section class="px" style="padding-bottom:120px" aria-labelledby="about-cta-title">
+    <div class="cta">
+      <div style="flex:1 1 420px">
+        <h2 id="about-cta-title" class="l" style="max-width:12ch">Let's extend your reach</h2>
+        <p class="lead muted" style="margin-top:22px">Tell us about your mission. We'll answer you shortly.</p>
+      </div>
+      <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="about-cta">Contact Us</a>
+    </div>
+  </section>
+</div>
+
+<div class="page" data-page="management" data-title="Management">
+  <!-- M1 · Intro -->
+  <section class="px thero" aria-labelledby="management-title">
+    <div class="row" style="align-items:flex-end;gap:40px 80px">
+      <div style="flex:1 1 520px">
+        <p class="eyebrow in">Management</p>
+        <h1 id="management-title" class="l in" style="margin-top:20px;max-width:16ch;animation-delay:.1s">Engineered by aviation and defence-industry veterans</h1>
+        <p class="lead in" style="margin-top:28px;animation-delay:.25s">A leadership team that has designed, built and flown unmanned systems for defence customers.</p>
+        <p style="margin-top:20px"><span class="ph">PROOF NEEDED: confirmed team backgrounds before publishing</span></p>
+      </div>
+      <div class="card" style="flex:1 1 380px;aspect-ratio:16/10;justify-content:center;align-items:center;text-align:center"><span class="ph">[PHOTO: real team at the production line or field test]</span></div>
+    </div>
+  </section>
+
+  <!-- M2 · Leadership -->
+  <section class="px" style="padding-top:46px;padding-bottom:110px" aria-labelledby="management-team-title" id="management-team">
+    <div class="head">
+      <h2 id="management-team-title" class="l">Meet the team</h2>
+    </div>
+    <ul class="grid3">
+      <li class="card" style="gap:14px">
+        <div style="display:flex;align-items:center;gap:18px">
+          <span aria-hidden="true" style="flex:none;width:72px;height:72px;border-radius:50%;background:var(--panel-2);border:1px solid var(--line)"></span>
+          <div>
+            <h3><span class="ph">[Name]</span></h3>
+            <p class="eyebrow" style="margin-top:8px">CEO</p>
+          </div>
+        </div>
+        <p><span class="ph">[2-line background: aviation / defence roles]</span></p>
+        <a class="more" href="#management-team">LinkedIn<span class="sr">: CEO profile</span></a>
+      </li>
+      <li class="card" style="gap:14px">
+        <div style="display:flex;align-items:center;gap:18px">
+          <span aria-hidden="true" style="flex:none;width:72px;height:72px;border-radius:50%;background:var(--panel-2);border:1px solid var(--line)"></span>
+          <div>
+            <h3><span class="ph">[Name]</span></h3>
+            <p class="eyebrow" style="margin-top:8px">CFO</p>
+          </div>
+        </div>
+        <p><span class="ph">[2-line background]</span></p>
+        <a class="more" href="#management-team">LinkedIn<span class="sr">: CFO profile</span></a>
+      </li>
+      <li class="card" style="gap:14px">
+        <div style="display:flex;align-items:center;gap:18px">
+          <span aria-hidden="true" style="flex:none;width:72px;height:72px;border-radius:50%;background:var(--panel-2);border:1px solid var(--line)"></span>
+          <div>
+            <h3><span class="ph">[Name]</span></h3>
+            <p class="eyebrow" style="margin-top:8px">VP Business Development</p>
+          </div>
+        </div>
+        <p><span class="ph">[2-line background]</span></p>
+        <a class="more" href="#management-team">LinkedIn<span class="sr">: VP Business Development profile</span></a>
+      </li>
+    </ul>
+  </section>
+
+  <!-- CTA -->
+  <section class="px" style="padding-bottom:120px" aria-labelledby="management-cta-title">
+    <div class="cta">
+      <div style="flex:1 1 420px">
+        <h2 id="management-cta-title" class="l" style="max-width:14ch">Long-range capability. Within reach.</h2>
+        <p class="lead muted" style="margin-top:22px">Tell us what you need and the right person on our team will answer you shortly.</p>
+      </div>
+      <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="management-cta">Contact Us</a>
+    </div>
+  </section>
+</div>
+
+<div class="page" data-page="investors" data-title="Investor Relations">
+  <!-- I1 · IR header + stock -->
+  <section class="px thero" aria-labelledby="investors-title">
+    <div class="row" style="align-items:flex-end;gap:40px 80px">
+      <div style="flex:1 1 480px">
+        <p class="eyebrow in">Investor relations</p>
+        <h1 id="investors-title" class="l in" style="margin-top:20px;max-width:14ch;animation-delay:.1s">Aerodrome Group Ltd. · TASE: ARDM</h1>
+        <p class="lead in" style="margin-top:28px;animation-delay:.25s">Reports, filings and presentations for shareholders and analysts.</p>
+      </div>
+      <section class="card in" id="investors-stock" aria-labelledby="investors-stock-title" style="flex:1 1 420px;gap:14px;animation-delay:.35s">
+        <h2 id="investors-stock-title" class="sr">Stock info</h2>
+        <p class="mono">ARDM · TASE</p>
+        <p class="metric" style="color:var(--ink)"><span class="ph" style="letter-spacing:0">[Price]</span></p>
+        <p class="mono"><span class="ph">[Change %]</span> · <span class="ph">[Market cap]</span> · delayed quote</p>
+        <div style="margin-top:8px;aspect-ratio:16/7;border:1px dashed var(--line);border-radius:8px;display:flex;justify-content:center;align-items:center;text-align:center;padding:16px"><span class="ph">Stock chart widget (licensed data feed)</span></div>
+      </section>
+    </div>
+  </section>
+
+  <!-- I2 · Documents -->
+  <section class="px" style="padding-top:46px;padding-bottom:110px" aria-labelledby="investors-docs-title">
+    <div class="head">
+      <h2 id="investors-docs-title" class="l">Documents</h2>
+    </div>
+    <div class="grid3">
+      <section class="card" id="investors-financial-reports" aria-labelledby="investors-fr-title">
+        <h3 id="investors-fr-title">Financial Reports</h3>
+        <ul style="margin-top:6px">
+          <li><a class="listrow" href="#investors" data-doc="financial-report-1"><span><span class="ph">[Period]</span> report</span><span class="tag">PDF</span></a></li>
+          <li><a class="listrow" href="#investors" data-doc="financial-report-2"><span><span class="ph">[Period]</span> report</span><span class="tag">PDF</span></a></li>
+        </ul>
+        <a class="more" href="#investors" data-doc="financial-reports-all">All reports <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a>
+      </section>
+      <section class="card" id="investors-filings" aria-labelledby="investors-rf-title">
+        <h3 id="investors-rf-title">Regulatory Filings</h3>
+        <ul style="margin-top:6px">
+          <li><a class="listrow" href="#investors" data-doc="filing-1"><span><span class="ph">[Date]</span> · <span class="ph">[Filing title]</span></span><span class="tag">MAYA</span></a></li>
+          <li><a class="listrow" href="#investors" data-doc="filing-2"><span><span class="ph">[Date]</span> · <span class="ph">[Filing title]</span></span><span class="tag">MAYA</span></a></li>
+        </ul>
+        <a class="more" href="#investors" data-doc="filings-all-maya">All filings on MAYA <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a>
+      </section>
+      <section class="card" id="investors-presentations" aria-labelledby="investors-ip-title">
+        <h3 id="investors-ip-title">Investor Presentations</h3>
+        <ul style="margin-top:6px">
+          <li><a class="listrow" href="#investors" data-doc="presentation-1"><span><span class="ph">[Date]</span> · <span class="ph">[Title]</span></span><span class="tag">PDF</span></a></li>
+          <li><a class="listrow" href="#investors" data-doc="presentation-2"><span><span class="ph">[Date]</span> · <span class="ph">[Title]</span></span><span class="tag">PDF</span></a></li>
+        </ul>
+        <a class="more" href="#investors" data-doc="presentations-all">All presentations <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a>
+      </section>
+    </div>
+  </section>
+
+  <!-- I3 · IR contact -->
+  <section class="px" style="padding-bottom:120px" aria-labelledby="investors-contact-title" id="investors-contact">
+    <div class="cta" style="align-items:flex-start">
+      <div style="flex:1 1 380px">
+        <h2 id="investors-contact-title" class="l">Investor contact</h2>
+        <p class="lead" style="margin-top:22px"><span class="ph">[CFO name]</span>, Chief Financial Officer</p>
+        <p class="mono" style="margin-top:10px"><span class="ph">[cfo email]</span></p>
+      </div>
+      <div class="card" style="flex:1 1 420px">
+        <p class="eyebrow" style="color:var(--faint)">Forward-looking statements</p>
+        <p style="font-size:14px">Forward-looking statements disclaimer: <span class="ph">[legal text from counsel]</span></p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="page" data-page="careers" data-title="Careers">
+  <!-- C1 · Hero -->
+  <section class="px thero" aria-labelledby="careers-title">
+    <p class="eyebrow in">Careers</p>
+    <h1 id="careers-title" class="xl in" style="margin-top:20px;max-width:13ch;animation-delay:.1s">Build long-range capability with us</h1>
+    <div class="row in" style="margin-top:32px;align-items:flex-end;justify-content:space-between;gap:24px 48px;animation-delay:.25s">
+      <p class="lead" style="flex:1 1 420px">Engineers, operators and production specialists who want their work in the air.</p>
+      <a class="more" href="#careers-roles">See open roles <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a>
+    </div>
+  </section>
+  <div class="px">
+    <div class="reveal" style="height:clamp(280px,46vw,720px);border-radius:10px;--r:340px"><img src="assets/lt-front.jpg" alt="Phoenix LT, front view, in the studio" style="object-position:50% 55%"><div class="veil"></div><span class="hint">Move to reveal</span></div>
+  </div>
+
+  <!-- C2 · Open roles -->
+  <section class="px sec" aria-labelledby="careers-roles-title" id="careers-roles">
+    <div class="head">
+      <h2 id="careers-roles-title" class="l">Open roles</h2>
+      <div data-filter="careers-roles-list" role="group" aria-label="Filter roles by team" style="display:flex;flex-wrap:wrap;gap:8px">
+        <button type="button" class="tabbtn" aria-pressed="true" data-value="all">All</button>
+        <button type="button" class="tabbtn" aria-pressed="false" data-value="engineering">Engineering</button>
+        <button type="button" class="tabbtn" aria-pressed="false" data-value="production">Production</button>
+        <button type="button" class="tabbtn" aria-pressed="false" data-value="flight-test">Flight test</button>
+        <button type="button" class="tabbtn" aria-pressed="false" data-value="software">Software</button>
+      </div>
+    </div>
+    <ul id="careers-roles-list" style="border-top:1px solid var(--line)">
+      <li class="listrow" data-item data-value="engineering" style="padding:24px 0">
+        <div>
+          <h3 class="s"><span class="ph">[Role title]</span></h3>
+          <p class="mono muted" style="margin-top:8px">Engineering · <span class="ph">[Team]</span></p>
+        </div>
+        <span class="tag"><span class="sr">Location: </span><span class="ph" style="border:0;padding:0">[Location]</span></span>
+      </li>
+      <li class="listrow" data-item data-value="production" style="padding:24px 0">
+        <div>
+          <h3 class="s"><span class="ph">[Role title]</span></h3>
+          <p class="mono muted" style="margin-top:8px">Production · <span class="ph">[Team]</span></p>
+        </div>
+        <span class="tag"><span class="sr">Location: </span><span class="ph" style="border:0;padding:0">[Location]</span></span>
+      </li>
+      <li class="listrow" data-item data-value="software" style="padding:24px 0">
+        <div>
+          <h3 class="s"><span class="ph">[Role title]</span></h3>
+          <p class="mono muted" style="margin-top:8px">Software · <span class="ph">[Team]</span></p>
+        </div>
+        <span class="tag"><span class="sr">Location: </span><span class="ph" style="border:0;padding:0">[Location]</span></span>
+      </li>
+    </ul>
+    <p class="lead muted" style="margin-top:32px;max-width:none">No matching role? Send your CV to <span class="ph">[careers email]</span>.</p>
+  </section>
+
+  <!-- CTA -->
+  <section class="px" style="padding-bottom:120px" aria-labelledby="careers-cta-title">
+    <div class="cta">
+      <div style="flex:1 1 420px">
+        <h2 id="careers-cta-title" class="l" style="max-width:14ch">Long-range capability. Within reach.</h2>
+        <p class="lead muted" style="margin-top:22px">Tell us what you need and the right person on our team will answer you shortly.</p>
+      </div>
+      <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="careers-cta">Contact Us</a>
+    </div>
+  </section>
+</div>
+
+<div class="page" data-page="contact" data-title="Contact Us">
+  <!-- K1 · Form -->
+  <section class="px thero" id="contact-form" aria-labelledby="contact-title" style="padding-bottom:120px">
+    <div class="ct top">
+      <div><p class="eyebrow in">Contact Us</p><h1 id="contact-title" class="ct-h in" style="animation-delay:.1s">Let's extend your reach.</h1><p class="lead in" style="margin-top:24px;max-width:36ch;animation-delay:.25s">We work with nations to deliver strategic reach that matters, and to keep it ready for the long term. Tell us about your mission. We'll answer you shortly.</p></div>
+      <div class="formcard"><i></i><i></i><i></i><i></i>
+        <form data-form="contact" novalidate>
+          <div class="fields">
+            <p class="formnote">All fields are required unless marked optional.</p>
+            <div class="frow">
+              <div class="field"><label for="contact-first">First name</label><input type="text" id="contact-first" name="first_name" autocomplete="given-name" required></div>
+              <div class="field"><label for="contact-last">Last name</label><input type="text" id="contact-last" name="last_name" autocomplete="family-name" required></div>
+            </div>
+            <div class="frow">
+              <div class="field"><label for="contact-email">Work email</label><input type="email" id="contact-email" name="email" autocomplete="email" required></div>
+              <div class="field"><label for="contact-company">Company</label><input type="text" id="contact-company" name="company" autocomplete="organization" required></div>
+            </div>
+            <div class="field"><label for="contact-country">Country</label>
+              <select id="contact-country" name="country" autocomplete="country-name" required>
+                <option value="">Select country</option>
+                  <option>Afghanistan</option>
+                  <option>Albania</option>
+                  <option>Algeria</option>
+                  <option>Andorra</option>
+                  <option>Angola</option>
+                  <option>Antigua and Barbuda</option>
+                  <option>Argentina</option>
+                  <option>Armenia</option>
+                  <option>Australia</option>
+                  <option>Austria</option>
+                  <option>Azerbaijan</option>
+                  <option>Bahamas</option>
+                  <option>Bahrain</option>
+                  <option>Bangladesh</option>
+                  <option>Barbados</option>
+                  <option>Belarus</option>
+                  <option>Belgium</option>
+                  <option>Belize</option>
+                  <option>Benin</option>
+                  <option>Bhutan</option>
+                  <option>Bolivia</option>
+                  <option>Bosnia and Herzegovina</option>
+                  <option>Botswana</option>
+                  <option>Brazil</option>
+                  <option>Brunei</option>
+                  <option>Bulgaria</option>
+                  <option>Burkina Faso</option>
+                  <option>Burundi</option>
+                  <option>Cabo Verde</option>
+                  <option>Cambodia</option>
+                  <option>Cameroon</option>
+                  <option>Canada</option>
+                  <option>Central African Republic</option>
+                  <option>Chad</option>
+                  <option>Chile</option>
+                  <option>China</option>
+                  <option>Colombia</option>
+                  <option>Comoros</option>
+                  <option>Congo</option>
+                  <option>Costa Rica</option>
+                  <option>Côte d'Ivoire</option>
+                  <option>Croatia</option>
+                  <option>Cuba</option>
+                  <option>Cyprus</option>
+                  <option>Czechia</option>
+                  <option>Democratic Republic of the Congo</option>
+                  <option>Denmark</option>
+                  <option>Djibouti</option>
+                  <option>Dominica</option>
+                  <option>Dominican Republic</option>
+                  <option>Ecuador</option>
+                  <option>Egypt</option>
+                  <option>El Salvador</option>
+                  <option>Equatorial Guinea</option>
+                  <option>Eritrea</option>
+                  <option>Estonia</option>
+                  <option>Eswatini</option>
+                  <option>Ethiopia</option>
+                  <option>Fiji</option>
+                  <option>Finland</option>
+                  <option>France</option>
+                  <option>Gabon</option>
+                  <option>Gambia</option>
+                  <option>Georgia</option>
+                  <option>Germany</option>
+                  <option>Ghana</option>
+                  <option>Greece</option>
+                  <option>Grenada</option>
+                  <option>Guatemala</option>
+                  <option>Guinea</option>
+                  <option>Guinea-Bissau</option>
+                  <option>Guyana</option>
+                  <option>Haiti</option>
+                  <option>Honduras</option>
+                  <option>Hungary</option>
+                  <option>Iceland</option>
+                  <option>India</option>
+                  <option>Indonesia</option>
+                  <option>Iran</option>
+                  <option>Iraq</option>
+                  <option>Ireland</option>
+                  <option>Israel</option>
+                  <option>Italy</option>
+                  <option>Jamaica</option>
+                  <option>Japan</option>
+                  <option>Jordan</option>
+                  <option>Kazakhstan</option>
+                  <option>Kenya</option>
+                  <option>Kiribati</option>
+                  <option>Kosovo</option>
+                  <option>Kuwait</option>
+                  <option>Kyrgyzstan</option>
+                  <option>Laos</option>
+                  <option>Latvia</option>
+                  <option>Lebanon</option>
+                  <option>Lesotho</option>
+                  <option>Liberia</option>
+                  <option>Libya</option>
+                  <option>Liechtenstein</option>
+                  <option>Lithuania</option>
+                  <option>Luxembourg</option>
+                  <option>Madagascar</option>
+                  <option>Malawi</option>
+                  <option>Malaysia</option>
+                  <option>Maldives</option>
+                  <option>Mali</option>
+                  <option>Malta</option>
+                  <option>Marshall Islands</option>
+                  <option>Mauritania</option>
+                  <option>Mauritius</option>
+                  <option>Mexico</option>
+                  <option>Micronesia</option>
+                  <option>Moldova</option>
+                  <option>Monaco</option>
+                  <option>Mongolia</option>
+                  <option>Montenegro</option>
+                  <option>Morocco</option>
+                  <option>Mozambique</option>
+                  <option>Myanmar</option>
+                  <option>Namibia</option>
+                  <option>Nauru</option>
+                  <option>Nepal</option>
+                  <option>Netherlands</option>
+                  <option>New Zealand</option>
+                  <option>Nicaragua</option>
+                  <option>Niger</option>
+                  <option>Nigeria</option>
+                  <option>North Korea</option>
+                  <option>North Macedonia</option>
+                  <option>Norway</option>
+                  <option>Oman</option>
+                  <option>Pakistan</option>
+                  <option>Palau</option>
+                  <option>Panama</option>
+                  <option>Papua New Guinea</option>
+                  <option>Paraguay</option>
+                  <option>Peru</option>
+                  <option>Philippines</option>
+                  <option>Poland</option>
+                  <option>Portugal</option>
+                  <option>Qatar</option>
+                  <option>Romania</option>
+                  <option>Russia</option>
+                  <option>Rwanda</option>
+                  <option>Saint Kitts and Nevis</option>
+                  <option>Saint Lucia</option>
+                  <option>Saint Vincent and the Grenadines</option>
+                  <option>Samoa</option>
+                  <option>San Marino</option>
+                  <option>São Tomé and Príncipe</option>
+                  <option>Saudi Arabia</option>
+                  <option>Senegal</option>
+                  <option>Serbia</option>
+                  <option>Seychelles</option>
+                  <option>Sierra Leone</option>
+                  <option>Singapore</option>
+                  <option>Slovakia</option>
+                  <option>Slovenia</option>
+                  <option>Solomon Islands</option>
+                  <option>Somalia</option>
+                  <option>South Africa</option>
+                  <option>South Korea</option>
+                  <option>South Sudan</option>
+                  <option>Spain</option>
+                  <option>Sri Lanka</option>
+                  <option>Sudan</option>
+                  <option>Suriname</option>
+                  <option>Sweden</option>
+                  <option>Switzerland</option>
+                  <option>Syria</option>
+                  <option>Taiwan</option>
+                  <option>Tajikistan</option>
+                  <option>Tanzania</option>
+                  <option>Thailand</option>
+                  <option>Timor-Leste</option>
+                  <option>Togo</option>
+                  <option>Tonga</option>
+                  <option>Trinidad and Tobago</option>
+                  <option>Tunisia</option>
+                  <option>Türkiye</option>
+                  <option>Turkmenistan</option>
+                  <option>Tuvalu</option>
+                  <option>Uganda</option>
+                  <option>Ukraine</option>
+                  <option>United Arab Emirates</option>
+                  <option>United Kingdom</option>
+                  <option>United States</option>
+                  <option>Uruguay</option>
+                  <option>Uzbekistan</option>
+                  <option>Vanuatu</option>
+                  <option>Vatican City</option>
+                  <option>Venezuela</option>
+                  <option>Vietnam</option>
+                  <option>Yemen</option>
+                  <option>Zambia</option>
+                  <option>Zimbabwe</option>
+              </select>
+            </div>
+            <fieldset class="field">
+              <legend>I am…</legend>
+              <div class="opts">
+                <label class="opt" for="contact-iam-team"><input type="radio" id="contact-iam-team" name="iam" value="team" required><span>Looking to discuss our systems with the team</span></label>
+                <label class="opt" for="contact-iam-partner"><input type="radio" id="contact-iam-partner" name="iam" value="partnerships" required><span>A supplier or industry partner exploring collaboration</span></label>
+                <label class="opt" for="contact-iam-media"><input type="radio" id="contact-iam-media" name="iam" value="media" required><span>A journalist or content creator</span></label>
+                <label class="opt" for="contact-iam-other"><input type="radio" id="contact-iam-other" name="iam" value="general" required><span>Reaching out for another reason</span></label>
+              </div>
+            </fieldset>
+            <div class="field"><label for="contact-message">Your mission or requirement <em>Optional</em></label><textarea id="contact-message" name="message" rows="3"></textarea></div>
+            <label class="consent" for="contact-consent"><input type="checkbox" id="contact-consent" name="consent" value="yes" required><span>I agree to the <a href="#privacy">Privacy Policy</a>.</span></label>
+            <p class="err" data-err hidden role="alert">Please complete the required fields and agree to the Privacy Policy.</p>
+            <button type="submit" class="submit">Contact Us</button>
+          </div>
+          <div data-ok hidden><p class="ok-h">Thank you.</p><p style="margin-top:6px;font-size:17px">We'll answer you shortly.</p><p class="note" style="margin-top:8px">Mockup: nothing was sent.</p></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="page" data-page="accessibility" data-title="Accessibility Statement">
+  <!-- L1 · Statement -->
+  <section class="px thero" aria-labelledby="accessibility-title">
+    <p class="eyebrow in">Legal</p>
+    <h1 id="accessibility-title" class="xl in" style="margin-top:20px;max-width:12ch;animation-delay:.1s">Accessibility Statement</h1>
+  </section>
+
+  <section class="px" style="padding-top:46px;padding-bottom:72px" aria-labelledby="accessibility-details-title">
+    <h2 id="accessibility-details-title" class="sr">Statement details</h2>
+    <div class="grid2">
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12.5 10 17l9-10"></path></svg></span>
+        <h3>Compliance level</h3>
+        <p>This site meets Standard IS 5568 at level AA, based on WCAG 2.x AA. Last reviewed: <span class="ph">[date]</span>.</p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.2"></circle><path d="M5.5 20c.8-3.6 3.4-5.6 6.5-5.6s5.7 2 6.5 5.6"></path></svg></span>
+        <h3>Accessibility coordinator</h3>
+        <p><span class="ph">[Name]</span> · <span class="ph">[Phone]</span> · <span class="ph">[Email]</span> · <span class="ph">[Alternative channel, e.g. postal address]</span></p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20V9l8-5 8 5v11"></path><path d="M9.5 20v-6h5v6"></path></svg></span>
+        <h3>Physical accessibility at our offices</h3>
+        <p><span class="ph">[Accessible parking]</span> · <span class="ph">[Elevators]</span> · <span class="ph">[Induction loops]</span> · <span class="ph">[Accessible restrooms]</span></p>
+      </div>
+      <div class="card">
+        <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5v5.5M12 16.2v.3"></path></svg></span>
+        <h3>Known exceptions</h3>
+        <p><span class="ph">[Components not yet accessible, with the legal basis and expected fix date. “None” if none.]</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="px" style="padding-bottom:120px" aria-labelledby="accessibility-features-title">
+    <div class="row" style="gap:28px 80px">
+      <h2 id="accessibility-features-title" class="m" style="flex:1 1 320px;max-width:12ch">Site accessibility features</h2>
+      <ul class="bullets" style="flex:2 1 520px">
+        <li>Full keyboard navigation (Tab, Shift+Tab, Enter) with a clear focus indicator</li>
+        <li>Semantic structure: one H1 per page, headings H1–H6 in order, ARIA landmarks and labels</li>
+        <li>Contrast ratios that meet AA; resizable text with no loss of content</li>
+        <li>Alt text for every meaningful image and diagram</li>
+        <li>Captions for all videos, including recorded investor calls</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<div class="page" data-page="privacy" data-title="Privacy Policy">
+  <!-- 07 · Legal template -->
+  <section class="px thero" aria-labelledby="privacy-title">
+    <p class="eyebrow in">Legal</p>
+    <h1 id="privacy-title" class="xl in" style="margin-top:20px;max-width:12ch;animation-delay:.1s">Privacy Policy</h1>
+    <p class="mono muted in" style="margin-top:28px;animation-delay:.25s">Last updated: <span class="ph">[date]</span></p>
+  </section>
+
+  <div class="px" style="padding-top:46px;padding-bottom:120px">
+    <div class="row" style="align-items:flex-start;gap:40px 80px">
+      <nav aria-labelledby="privacy-toc-title" style="flex:1 1 260px;max-width:360px">
+        <p id="privacy-toc-title" class="eyebrow" style="margin-bottom:14px">Contents</p>
+        <ol style="margin:0;padding:0;list-style:none;border-top:1px solid var(--line)">
+          <li><a class="listrow" href="#privacy-data"><span>Data we collect</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#privacy-cookies"><span>Cookies</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#privacy-purpose"><span>Purpose of processing</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#privacy-retention"><span>Retention</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#privacy-rights"><span>Your rights</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#privacy-contact"><span>Contact</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+        </ol>
+      </nav>
+      <div class="legaltext" style="flex:3 1 480px">
+        <section id="privacy-data" aria-labelledby="privacy-data-title">
+          <h2 id="privacy-data-title" style="margin-top:0">Data we collect</h2>
+          <p>The personal data collected through the forms on this site.</p>
+          <p><span class="ph">[Text from counsel]</span></p>
+        </section>
+        <section id="privacy-cookies" aria-labelledby="privacy-cookies-title">
+          <h2 id="privacy-cookies-title">Cookies</h2>
+          <p>The cookies and similar technologies this site uses.</p>
+          <p><span class="ph">[Text from counsel]</span></p>
+        </section>
+        <section id="privacy-purpose" aria-labelledby="privacy-purpose-title">
+          <h2 id="privacy-purpose-title">Purpose of processing</h2>
+          <p>Why the data is collected and how it is used.</p>
+          <p><span class="ph">[Text from counsel]</span></p>
+        </section>
+        <section id="privacy-retention" aria-labelledby="privacy-retention-title">
+          <h2 id="privacy-retention-title">Retention</h2>
+          <p>How long the data is kept.</p>
+          <p><span class="ph">[Text from counsel]</span></p>
+        </section>
+        <section id="privacy-rights" aria-labelledby="privacy-rights-title">
+          <h2 id="privacy-rights-title">Your rights</h2>
+          <p>The rights you have over your personal data and how to use them.</p>
+          <p><span class="ph">[Text from counsel]</span></p>
+        </section>
+        <section id="privacy-contact" aria-labelledby="privacy-contact-title">
+          <h2 id="privacy-contact-title">Contact</h2>
+          <p>Who to contact with questions about privacy.</p>
+          <p><span class="ph">[Text from counsel]</span></p>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page" data-page="terms" data-title="Terms of Use">
+  <!-- 07 · Legal template -->
+  <section class="px thero" aria-labelledby="terms-title">
+    <p class="eyebrow in">Legal</p>
+    <h1 id="terms-title" class="xl in" style="margin-top:20px;max-width:12ch;animation-delay:.1s">Terms of Use</h1>
+    <p class="mono muted in" style="margin-top:28px;animation-delay:.25s">Last updated: <span class="ph">[date]</span></p>
+  </section>
+
+  <div class="px" style="padding-top:46px;padding-bottom:120px">
+    <div class="row" style="align-items:flex-start;gap:40px 80px">
+      <nav aria-labelledby="terms-toc-title" style="flex:1 1 260px;max-width:360px">
+        <p id="terms-toc-title" class="eyebrow" style="margin-bottom:14px">Contents</p>
+        <ol style="margin:0;padding:0;list-style:none;border-top:1px solid var(--line)">
+          <li><a class="listrow" href="#terms-use"><span>Use of this site</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#terms-ip"><span>Intellectual property</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#terms-liability"><span>Liability</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#terms-law"><span>Governing law</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+        </ol>
+      </nav>
+      <div class="legaltext" style="flex:3 1 480px">
+        <section id="terms-use" aria-labelledby="terms-use-title">
+          <h2 id="terms-use-title" style="margin-top:0">Use of this site</h2>
+          <p>The conditions for using this site.</p>
+          <p><span class="ph">[Text from counsel]</span></p>
+        </section>
+        <section id="terms-ip" aria-labelledby="terms-ip-title">
+          <h2 id="terms-ip-title">Intellectual property</h2>
+          <p>Ownership of the content, names and marks on this site.</p>
+          <p><span class="ph">[Text from counsel]</span></p>
+        </section>
+        <section id="terms-liability" aria-labelledby="terms-liability-title">
+          <h2 id="terms-liability-title">Liability</h2>
+          <p>The limits of our liability for the use of this site.</p>
+          <p><span class="ph">[Text from counsel]</span></p>
+        </section>
+        <section id="terms-law" aria-labelledby="terms-law-title">
+          <h2 id="terms-law-title">Governing law</h2>
+          <p>The law and jurisdiction that apply to these terms.</p>
+          <p><span class="ph">[Text from counsel]</span></p>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page" data-page="disclaimers" data-title="Disclaimers">
+  <!-- 07 · Legal template -->
+  <section class="px thero" aria-labelledby="disclaimers-title">
+    <p class="eyebrow in">Legal</p>
+    <h1 id="disclaimers-title" class="xl in" style="margin-top:20px;max-width:12ch;animation-delay:.1s">Disclaimers</h1>
+    <p class="mono muted in" style="margin-top:28px;animation-delay:.25s">Last updated: <span class="ph">[date]</span></p>
+  </section>
+
+  <div class="px" style="padding-top:46px;padding-bottom:120px">
+    <div class="row" style="align-items:flex-start;gap:40px 80px">
+      <nav aria-labelledby="disclaimers-toc-title" style="flex:1 1 260px;max-width:360px">
+        <p id="disclaimers-toc-title" class="eyebrow" style="margin-bottom:14px">Contents</p>
+        <ol style="margin:0;padding:0;list-style:none;border-top:1px solid var(--line)">
+          <li><a class="listrow" href="#disclaimers-forward"><span>Forward-looking statements</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#disclaimers-specs"><span>Specifications subject to change</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#disclaimers-export"><span>Export licensing</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#disclaimers-securities"><span>No offer of securities</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+        </ol>
+      </nav>
+      <div class="legaltext" style="flex:3 1 480px">
+        <section id="disclaimers-forward" aria-labelledby="disclaimers-forward-title">
+          <h2 id="disclaimers-forward-title" style="margin-top:0">Forward-looking statements</h2>
+          <p>Statements on this site about future plans and expectations.</p>
+          <p><span class="ph">[Text from counsel]</span></p>
+        </section>
+        <section id="disclaimers-specs" aria-labelledby="disclaimers-specs-title">
+          <h2 id="disclaimers-specs-title">Specifications subject to change</h2>
+          <p>Product descriptions and capabilities may change without notice.</p>
+          <p><span class="ph">[Text from counsel]</span></p>
+        </section>
+        <section id="disclaimers-export" aria-labelledby="disclaimers-export-title">
+          <h2 id="disclaimers-export-title">Export licensing</h2>
+          <p>Supply of our systems is subject to export licensing.</p>
+          <p><span class="ph">[Text from counsel]</span></p>
+        </section>
+        <section id="disclaimers-securities" aria-labelledby="disclaimers-securities-title">
+          <h2 id="disclaimers-securities-title">No offer of securities</h2>
+          <p>Nothing on this site is an offer to buy or sell securities.</p>
+          <p><span class="ph">[Text from counsel]</span></p>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+  <footer class="ftr px">
+    <div class="ftr-grid">
+      <div>
+        <span class="logo" style="color:var(--ink)"><svg class="wordmark" viewBox="42.06 312.89 284.20 30.93" fill="currentColor" role="img" aria-label="Aerodrome"><path d="M 82.73 330.63 L 98.85 330.63 L 98.85 326.05 L 82.73 326.05 L 82.73 318.02 L 99.61 318.02 L 99.61 313.41 L 77.96 313.41 L 77.96 343.31 L 99.97 343.31 L 99.97 338.7 L 82.73 338.7 Z M 82.73 330.63 "/><path d="M 160.02 328.43 C 159.99 333.8 156.78 339.21 149.69 339.21 C 142.13 339.21 139.38 333.4 139.31 328.43 C 139.27 325.16 140.3 322.29 142.21 320.35 C 144.03 318.52 146.61 317.54 149.68 317.54 C 157.32 317.58 160.02 323.44 160.02 328.43 M 149.69 312.93 C 140.77 312.93 134.54 319.29 134.54 328.4 C 134.54 335.83 139.28 343.83 149.69 343.83 C 160.01 343.83 164.76 335.86 164.8 328.45 L 164.8 328.44 C 164.82 324.33 163.49 320.54 161.05 317.75 C 158.32 314.61 154.39 312.95 149.69 312.93 "/><path d="M 191.79 328.06 C 191.85 331.11 190.79 333.98 188.88 335.93 C 187.08 337.77 184.57 338.74 181.61 338.74 L 175.54 338.74 L 175.54 318.02 L 181.61 318.02 C 188.48 318.02 191.68 323.07 191.79 328.06 M 181.61 313.41 L 170.76 313.41 L 170.76 343.31 L 181.61 343.31 C 191.96 343.31 196.6 335.66 196.6 328.08 C 196.6 321.02 191.91 313.41 181.61 313.41 "/><path d="M 256.54 328.43 C 256.5 333.8 253.29 339.21 246.2 339.21 C 238.64 339.21 235.89 333.4 235.82 328.43 C 235.78 325.16 236.81 322.29 238.73 320.35 C 240.54 318.51 243.12 317.54 246.19 317.54 C 253.83 317.58 256.54 323.44 256.54 328.43 M 246.2 312.93 C 237.28 312.93 231.04 319.29 231.04 328.4 C 231.04 335.83 235.79 343.83 246.2 343.83 C 256.52 343.83 261.27 335.86 261.31 328.45 C 261.33 323.98 259.8 319.96 256.98 317.12 C 254.29 314.4 250.56 312.95 246.2 312.93 "/><path d="M 281.9 328 L 272.23 313.41 L 267.27 313.41 L 267.27 343.31 L 272.04 343.31 L 272.04 321.55 L 280.98 334.82 L 282.83 334.82 L 291.72 321.73 L 291.72 343.31 L 296.5 343.31 L 296.5 313.41 L 291.46 313.41 Z M 281.9 328 "/><path d="M 309.03 338.7 L 309.03 330.63 L 325.14 330.63 L 325.14 326.05 L 309.03 326.05 L 309.03 318.02 L 325.91 318.02 L 325.91 313.41 L 304.26 313.41 L 304.26 343.31 L 326.26 343.31 L 326.26 338.7 Z M 309.03 338.7 "/><path d="M 129.85 323.25 C 129.81 318.35 126.62 313.41 119.61 313.41 L 106.09 313.41 L 106.09 343.31 L 110.86 343.31 L 110.86 318.02 L 119.61 318.02 C 123.03 318.02 125.07 319.98 125.07 323.25 C 125.07 326.53 123.02 328.41 119.45 328.41 L 117.51 328.41 C 116.75 328.41 116.13 329.02 116.13 329.79 L 116.13 331.61 C 116.13 332.14 116.32 332.66 116.68 333.05 L 125.91 343.31 L 132.21 343.31 L 122.46 332.57 C 127.05 331.62 129.89 328.12 129.85 323.25 "/><path d="M 226.36 323.25 C 226.32 318.35 223.14 313.41 216.11 313.41 L 202.6 313.41 L 202.6 343.31 L 207.37 343.31 L 207.37 318.02 L 216.11 318.02 C 219.54 318.02 221.59 319.98 221.59 323.25 C 221.59 326.53 219.54 328.41 215.96 328.41 L 214.02 328.41 C 213.26 328.41 212.64 329.02 212.64 329.79 L 212.64 331.61 C 212.64 332.14 212.83 332.66 213.19 333.05 L 222.42 343.31 L 228.73 343.31 L 218.97 332.57 C 223.56 331.62 226.41 328.12 226.36 323.25 "/><path d="M 55.46 312.89 L 42.06 340.39 L 43.89 343.31 L 53.58 343.31 L 53.57 338.69 L 48.23 338.69 L 57.32 319.92 L 66.4 338.69 L 61.29 338.69 L 61.29 343.31 L 70.76 343.31 L 72.59 340.39 L 59.19 312.89 Z M 55.46 312.89 "/></svg></span>
+        <p style="margin-top:14px">Long-range capability. Within reach.</p>
+        <p class="mono" style="margin-top:6px">TASE: ARDM</p>
+      </div>
+      <nav aria-label="What We Do"><h2>What We Do</h2><ul><li><a href="#phoenix-lt">Phoenix LT</a></li><li><a href="#phoenix-tap-x">Phoenix TAP-X</a></li><li><a href="#apex-lt">APEX LT</a></li><li><a href="#aerial-services">Aerial Services</a></li></ul></nav>
+      <nav aria-label="Who We Are"><h2>Who We Are</h2><ul><li><a href="#about">About Us</a></li><li><a href="#management">Management</a></li><li><a href="#investors">Investor Relations</a></li><li><a href="#careers">Careers</a></li></ul></nav>
+      <div><h2>Contact</h2><ul><li><a href="#contact" data-track="cta_contact_click" data-section="footer">Contact Us</a></li><li><span class="ph">[HQ address]</span></li><li><a href="#contact">LinkedIn</a></li></ul></div>
+    </div>
+    <nav class="legal" aria-label="Legal"><a href="#accessibility">Accessibility Statement</a><a href="#privacy">Privacy Policy</a><a href="#terms">Terms of Use</a><a href="#disclaimers">Disclaimers</a><span style="margin-left:auto">© 2026 Aerodrome Group Ltd.</span></nav>
+  </footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* tracking: events go to window.dataLayer for the analytics tool */
+  window.dataLayer = window.dataLayer || [];
+  function track(ev, props){ var o = Object.assign({event: ev, page: current}, props || {}); window.dataLayer.push(o); }
+  window.aeTrack = track;
+
+  
+  /* dropdowns: hover, focus, or click/Enter; Esc closes */
+  document.querySelectorAll('.dd').forEach(function(dd){
+    var b=dd.querySelector('button');
+    b.addEventListener('click',function(){ var o=!dd.classList.contains('open'); dd.classList.remove('shut'); document.querySelectorAll('.dd.open').forEach(function(x){x.classList.remove('open');x.querySelector('button').setAttribute('aria-expanded','false');}); dd.classList.toggle('open',o); b.setAttribute('aria-expanded',o); });
+    dd.addEventListener('mouseleave',function(){ dd.classList.remove('open','shut'); b.setAttribute('aria-expanded','false'); });
+    dd.addEventListener('focusout',function(e){ if(!dd.contains(e.relatedTarget)){ dd.classList.remove('open'); b.setAttribute('aria-expanded','false'); } });
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ document.querySelectorAll('.dd.open').forEach(function(x){x.classList.remove('open');x.querySelector('button').setAttribute('aria-expanded','false');x.querySelector('button').focus();}); document.querySelectorAll('.dd:hover').forEach(function(x){x.classList.add('shut');}); if(!mnav.hidden) closeMenu(); } });
+
+  /* mobile menu */
+  var mnav=document.getElementById('mnav'), lastOpener=null;
+  function closeMenu(){ mnav.hidden=true; document.body.style.overflow=''; document.querySelectorAll('[data-menu-open]').forEach(function(b){b.setAttribute('aria-expanded','false');}); if(lastOpener) lastOpener.focus(); }
+  document.addEventListener('click',function(e){
+    var o=e.target.closest('[data-menu-open]'); if(o){ lastOpener=o; mnav.hidden=false; o.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; mnav.querySelector('[data-menu-close]').focus(); return; }
+    if(e.target.closest('[data-menu-close]')){ closeMenu(); return; }
+    if(!mnav.hidden && e.target.closest('#mnav a')){ lastOpener=null; closeMenu(); }
+    var t=e.target.closest('[data-track]'); if(t) track(t.dataset.track,{section:t.dataset.section||''});
+  });
+
+  mnav.addEventListener('keydown',function(e){ if(e.key!=='Tab') return; var f=mnav.querySelectorAll('a[href],button'), a=f[0], z=f[f.length-1];
+    if(e.shiftKey && document.activeElement===a){ e.preventDefault(); z.focus(); } else if(!e.shiftKey && document.activeElement===z){ e.preventDefault(); a.focus(); } });
+
+  /* routing */
+  var titles={};
+  document.querySelectorAll('.page').forEach(function(p){ titles[p.dataset.page]=p.dataset.title||''; });
+  var current='home';
+  function route(){
+    var h=(location.hash||'#home').slice(1), target=null, anchor=null;
+    if(!titles.hasOwnProperty(h)){ anchor=document.getElementById(h); var pg=anchor&&anchor.closest('.page'); if(pg){ target=anchor; h=pg.dataset.page; } else if(anchor && routed){ history.replaceState(null,'','#'+current); anchor.focus(); return; } else h='home'; }
+    current=h;
+    document.querySelectorAll('.page').forEach(function(p){ p.classList.toggle('on', p.dataset.page===h); });
+    document.querySelectorAll('[data-nav]').forEach(function(a){ if(a.dataset.nav===h) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+    document.title = titles[h] ? titles[h] + ' · Aerodrome' : 'Aerodrome · Long-range capability. Within reach.';
+    document.querySelectorAll('.dd.open').forEach(function(x){x.classList.remove('open');});
+    if(target){ setTimeout(function(){ target.scrollIntoView({behavior: reduce?'auto':'smooth'}); if(!target.matches('a[href],button,input,select,textarea,[tabindex]')) target.setAttribute('tabindex','-1'); target.focus({preventScroll:true}); },30); }
+    else { window.scrollTo(0,0); var h1=document.querySelector('.page.on h1'); if(h1 && routed){ h1.setAttribute('tabindex','-1'); h1.focus({preventScroll:true}); } }
+    routed=true;
+    document.querySelectorAll('video[data-auto]').forEach(function(v){ var on=v.closest('.page').classList.contains('on'); if(on && !v.dataset.userPaused && !reduce){ var p=v.play(); if(p&&p.catch)p.catch(function(){}); } else v.pause(); });
+    window.dispatchEvent(new Event('scroll'));
+  }
+  var routed=false;
+  addEventListener('hashchange',route);
+
+  /* reveal: the pointer lights the photo; tap or Enter opens it fully */
+  document.querySelectorAll('.reveal').forEach(function(r){
+    r.addEventListener('pointermove',function(e){ if(e.pointerType==='touch') return; var b=r.getBoundingClientRect(); r.style.setProperty('--x',(e.clientX-b.left)+'px'); r.style.setProperty('--y',(e.clientY-b.top)+'px'); });
+    r.addEventListener('pointerleave',function(){ r.style.setProperty('--x','-999px'); r.style.setProperty('--y','-999px'); });
+    r.addEventListener('click',function(e){ if(r.tagName==='A' || (e.target.closest && e.target.closest('a,button,input,select,textarea'))) return; r.classList.toggle('open'); if(r.hasAttribute('aria-pressed')) r.setAttribute('aria-pressed', r.classList.contains('open')); });
+    var im=r.querySelector('img');
+    if(im && r.tagName!=='A' && !r.closest('a') && !r.querySelector('a,button,input,select,textarea')){ r.tabIndex=0; r.setAttribute('role','button'); r.setAttribute('aria-pressed','false'); var hn=r.querySelector('.hint'); r.setAttribute('aria-label',(hn?hn.textContent.trim():'Show photo')+': '+(im.alt||''));
+      r.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); r.click(); } }); }
+  });
+
+  /* videos: pause buttons and play tracking */
+  document.querySelectorAll('[data-video-btn]').forEach(function(b){
+    var v=document.getElementById(b.dataset.videoBtn);
+    b.addEventListener('click',function(){ if(v.paused){ delete v.dataset.userPaused; var p=v.play(); if(p&&p.catch)p.catch(function(){}); b.textContent='Pause video'; b.setAttribute('aria-pressed','false'); } else { v.dataset.userPaused='1'; v.pause(); b.textContent='Play video'; b.setAttribute('aria-pressed','true'); } });
+    if(reduce){ v.dataset.userPaused='1'; b.textContent='Play video'; b.setAttribute('aria-pressed','true'); }
+  });
+  document.querySelectorAll('video').forEach(function(v){ v.addEventListener('play',function(){ if(!v.dataset.tracked){ v.dataset.tracked='1'; track('video_play',{video:v.id||''}); } }); });
+
+  /* home hero: the footage pulls back into a frame as you scroll */
+  var hero=document.getElementById('hhero'), frame=document.getElementById('hframe'), htitle=document.getElementById('htitle'), tick=false;
+  function onScroll(){
+    if(tick||!hero) return; tick=true;
+    requestAnimationFrame(function(){ tick=false;
+      if(current!=='home' || reduce || innerWidth<=700){ frame.style.clipPath=''; htitle.style.opacity=''; htitle.style.transform=''; return; }
+      var p=Math.max(0,Math.min(1,-hero.getBoundingClientRect().top/Math.max(1,hero.offsetHeight-innerHeight)));
+      var ins=p*Math.min(innerWidth*.06,64); frame.style.clipPath='inset('+(ins*1.2).toFixed(1)+'px '+ins.toFixed(1)+'px round '+(p*18).toFixed(1)+'px)';
+      htitle.style.transform='translate3d(0,'+Math.round(-p*60)+'px,0)'; htitle.style.opacity=Math.max(0,1-p*1.2).toFixed(2);
+    });
+  }
+  addEventListener('scroll',onScroll,{passive:true}); addEventListener('resize',onScroll);
+
+  /* "for" -> "with" swap, once, when it scrolls into view */
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ var el=e.target; setTimeout(function(){ el.classList.add('done'); }, reduce?0:700); io.unobserve(el); } }); },{threshold:.8});
+    document.querySelectorAll('.swap').forEach(function(s){ io.observe(s); });
+  } else document.querySelectorAll('.swap').forEach(function(s){ s.classList.add('done'); });
+
+  /* tabs: [data-tabs] holds buttons [data-tab=i] and panels [data-panel=i] */
+  document.querySelectorAll('[data-tabs]').forEach(function(box){
+    var btns=box.querySelectorAll('[data-tab]'), panels=box.querySelectorAll('[data-panel]');
+    function sel(i){ btns.forEach(function(b){ b.setAttribute('aria-selected', b.dataset.tab===i?'true':'false'); b.tabIndex = b.dataset.tab===i?0:-1; }); panels.forEach(function(p){ p.hidden = p.dataset.panel!==i; }); }
+    btns.forEach(function(b,k){ b.addEventListener('click',function(){ sel(b.dataset.tab); });
+      b.addEventListener('keydown',function(e){ var n=null; if(e.key==='ArrowRight') n=btns[(k+1)%btns.length]; if(e.key==='ArrowLeft') n=btns[(k-1+btns.length)%btns.length]; if(n){ e.preventDefault(); n.focus(); sel(n.dataset.tab); } }); });
+    sel(btns[0].dataset.tab);
+  });
+
+  /* filters: [data-filter] buttons with data-value, items [data-item] with data-value */
+  document.querySelectorAll('[data-filter]').forEach(function(box){
+    var target=document.getElementById(box.dataset.filter), btns=box.querySelectorAll('button');
+    btns.forEach(function(b){ b.addEventListener('click',function(){ btns.forEach(function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); });
+      var n=0; target.querySelectorAll('[data-item]').forEach(function(it){ it.hidden = !(b.dataset.value==='all' || it.dataset.value===b.dataset.value); if(!it.hidden) n++; });
+      status.textContent = n ? n + (n===1?' role':' roles') + ' shown.' : 'No open roles in this team right now.'; }); });
+    var status=document.createElement('p'); status.className='note'; status.setAttribute('role','status'); status.style.marginTop='16px'; target.insertAdjacentElement('afterend',status);
+  });
+
+  /* forms: [data-form] validates [required], shows [data-ok] on success */
+  document.querySelectorAll('form[data-form]').forEach(function(f){
+    var started=false;
+    f.addEventListener('input',function(){ if(!started){ started=true; track('form_start',{form:f.dataset.form}); } });
+    f.addEventListener('submit',function(e){ e.preventDefault();
+      var bad=null; f.querySelectorAll('[required]').forEach(function(el){
+        var ok = el.type==='checkbox' ? el.checked : el.type==='radio' ? !!f.querySelector('input[name="'+el.name+'"]:checked') : (el.value.trim()!=='' && (el.type!=='email' || /.+@.+\..+/.test(el.value)));
+        el.setAttribute('aria-invalid', ok?'false':'true'); if(!ok && !bad) bad=el; });
+      var err=f.querySelector('[data-err]');
+      if(bad){ if(err) err.hidden=false; bad.focus(); return; }
+      if(err) err.hidden=true;
+      var iam=f.querySelector('input[name="iam"]:checked');
+      track('form_submit',{form:f.dataset.form, i_am: iam?iam.value:''});
+      f.querySelector('.fields').hidden=true; var ok=f.querySelector('[data-ok]'); ok.hidden=false; ok.setAttribute('tabindex','-1'); ok.focus();
+    });
+  });
+
+  /* IR documents */
+  document.addEventListener('click',function(e){ var d=e.target.closest('[data-doc]'); if(d){ e.preventDefault(); track('ir_document_download',{doc:d.dataset.doc}); } });
+
+
+
+  /* brand devices: solid header on scroll, scroll-lit words, reach line, why panels, precision cursor */
+  var hdr=document.querySelector('.hdr'), words=document.getElementById('words'), ws=[];
+  function escH(t){ return t.replace(/[&<>]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+  function splitWords(){ if(!words) return;
+    var cam=(words.dataset.cam||'').trim().split(/\s+/).filter(Boolean), toks=words.textContent.trim().split(/\s+/), ci=-1;
+    for(var i=0; cam.length && i+cam.length<=toks.length; i++){ var ok=true; for(var j=0;j<cam.length;j++){ if(toks[i+j]!==cam[j]){ ok=false; break; } } if(ok){ ci=i; break; } }
+    words.innerHTML=toks.map(function(w,k){ return '<span class="w'+(ci>=0&&k>=ci&&k<ci+cam.length?' cam':'')+'">'+escH(w)+'</span>'; }).join(' ');
+    ws=[].slice.call(words.querySelectorAll('.w')); }
+  splitWords();
+  var reach=document.getElementById('reach'), rlsolid=document.getElementById('rlsolid'), rldash=document.getElementById('rldash'), rlhead=document.getElementById('rlhead'), km=document.getElementById('km'), m1=document.getElementById('m1'), m2=document.getElementById('m2');
+  function c01(v){ return Math.max(0,Math.min(1,v)); }
+  var btick=false;
+  function brand(){ if(btick) return; btick=true; requestAnimationFrame(function(){ btick=false; var vh=innerHeight;
+    if(hdr) hdr.classList.toggle('solid', scrollY>40);
+    if(current!=='home') return;
+    if(words){ ws=[].slice.call(words.querySelectorAll('.w')); var wr=words.getBoundingClientRect(), wp=reduce?1:c01((vh*.85-wr.top)/(wr.height+vh*.35)), n=Math.round(wp*ws.length); ws.forEach(function(w,i){ w.classList.toggle('on',i<n); }); }
+    if(reach){ var rr=reach.getBoundingClientRect(), rp=reduce?1:c01(-rr.top/Math.max(1,reach.offsetHeight-vh)), a=c01(rp/.55), b=c01((rp-.6)/.35);
+      rlsolid.style.width=(a*50)+'%'; rldash.style.width=(b*50)+'%'; rlhead.style.left=(a<1?a*50:50+b*50)+'%'; km.textContent=Math.round(a*500);
+      m1.classList.toggle('on',a>=1); m2.classList.toggle('on',b>.85); }
+  }); }
+  addEventListener('scroll',brand,{passive:true}); addEventListener('resize',brand);
+  window.AE_words=function(){ splitWords(); brand(); };
+
+  var panels=[].slice.call(document.querySelectorAll('.panel'));
+  function actPanel(p){ panels.forEach(function(x){ var on=x===p; x.classList.toggle('on',on); x.setAttribute('aria-expanded',on?'true':'false'); }); }
+  panels.forEach(function(p){ p.addEventListener('mouseenter',function(){ actPanel(p); }); p.addEventListener('focus',function(){ actPanel(p); }); p.addEventListener('click',function(){ actPanel(p); }); });
+
+  var capsEl=document.getElementById('caps'), ret=document.getElementById('reticle'), rlab=document.getElementById('rlabel');
+  document.querySelectorAll('.cap').forEach(function(c){ c.addEventListener('mousemove',function(e){ var r=c.getBoundingClientRect(); c.style.setProperty('--cx',(e.clientX-r.left)+'px'); c.style.setProperty('--cy',(e.clientY-r.top)+'px'); }); });
+  if(capsEl && ret && !reduce && !/[?&]edit=1/.test(location.search) && window.matchMedia && matchMedia('(hover:hover) and (pointer:fine)').matches){
+    var mx=0,my=0,rx=0,ry=0,rw=44,rh=44,rtarget=null,rraf=null; capsEl.classList.add('cursor-on');
+    function rloop(){ var tx,ty,tw,th; if(rtarget){ var r=rtarget.getBoundingClientRect(); tx=r.left-8; ty=r.top-8; tw=r.width+16; th=r.height+16; } else { tw=44; th=44; tx=mx-22; ty=my-22; }
+      rx+=(tx-rx)*.22; ry+=(ty-ry)*.22; rw+=(tw-rw)*.22; rh+=(th-rh)*.22; ret.style.transform='translate('+rx.toFixed(1)+'px,'+ry.toFixed(1)+'px)'; ret.style.width=rw.toFixed(1)+'px'; ret.style.height=rh.toFixed(1)+'px'; rraf=requestAnimationFrame(rloop); }
+    capsEl.addEventListener('mouseenter',function(e){ mx=rx=e.clientX; my=ry=e.clientY; ret.classList.add('show'); if(!rraf) rloop(); });
+    capsEl.addEventListener('mouseleave',function(){ ret.classList.remove('show'); cancelAnimationFrame(rraf); rraf=null; rtarget=null; ret.classList.remove('lock'); });
+    capsEl.addEventListener('mousemove',function(e){ mx=e.clientX; my=e.clientY; var c=e.target.closest('.cap'); if(c!==rtarget){ rtarget=c; ret.classList.toggle('lock',!!c); rlab.textContent=c?('LOCKED · '+c.dataset.lock.toUpperCase()):''; } });
+  }
+
+  /* depth effects (mouse and scroll); off for reduced motion and inside the site editor */
+  var fine = window.matchMedia && matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var editing = /[?&]edit=1/.test(location.search);
+  if(!reduce && !editing){
+    if(false){
+      document.querySelectorAll('.card,.media-card,.linkcard,.shot').forEach(function(c){
+        if(c.querySelector('input,select,textarea,[role=tablist],.reveal')) return;
+        c.classList.add('tilt');
+        c.addEventListener('pointermove',function(e){ if(e.pointerType==='touch') return;
+          var b=c.getBoundingClientRect(), x=(e.clientX-b.left)/b.width, y=(e.clientY-b.top)/b.height, m=b.width>700?2:5.5;
+          c.classList.add('live');
+          c.style.setProperty('--ry',((x-.5)*2*m).toFixed(2)+'deg'); c.style.setProperty('--rx',((.5-y)*2*m).toFixed(2)+'deg');
+          c.style.setProperty('--gx',(x*100).toFixed(1)+'%'); c.style.setProperty('--gy',(y*100).toFixed(1)+'%'); });
+        c.addEventListener('pointerleave',function(){ c.classList.remove('live'); c.style.setProperty('--rx','0deg'); c.style.setProperty('--ry','0deg'); });
+      });
+      document.querySelectorAll('.reveal,.hhero .stick').forEach(function(r){
+        var t=r.classList.contains('reveal')?r:r.querySelector('video');
+        r.addEventListener('pointermove',function(e){ if(e.pointerType==='touch') return; var b=r.getBoundingClientRect();
+          t.style.setProperty('--px',((.5-(e.clientX-b.left)/b.width)*5).toFixed(2)); t.style.setProperty('--py',((.5-(e.clientY-b.top)/b.height)*3).toFixed(2)); });
+        r.addEventListener('pointerleave',function(){ t.style.setProperty('--px','0'); t.style.setProperty('--py','0'); });
+      });
+    }
+    var ptick=false;
+    function parallax(){ if(ptick) return; ptick=true; requestAnimationFrame(function(){ ptick=false; var vh=innerHeight;
+      document.querySelectorAll('.page.on .reveal').forEach(function(r){ var b=r.getBoundingClientRect(); if(b.bottom<0||b.top>vh) return;
+        var p=Math.max(-1,Math.min(1,(b.top+b.height/2-vh/2)/vh)); r.style.setProperty('--sy',(p*-2.4).toFixed(2)); }); }); }
+
+    if('IntersectionObserver' in window){
+      var rio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(!e.isIntersecting) return; var el=e.target; rio.unobserve(el);
+        var d=(el.dataset.ri||0)*90; el.style.transitionDelay=d+'ms'; el.classList.add('seen'); setTimeout(function(){ el.style.transitionDelay=''; },d+1000); }); },{threshold:.1});
+      document.querySelectorAll('.page').forEach(function(pg){ pg.querySelectorAll('.card,.media-card,.pt,.linkcard,.step,.shot,.cap,.human,.tile-about,.tile-careers,.formcard').forEach(function(el){
+        if(el.closest('.rise')) return; var sib=el.parentElement?Array.prototype.indexOf.call(el.parentElement.children,el):0;
+        el.dataset.ri=Math.min(sib,5); el.classList.add('rise'); rio.observe(el); }); });
+    }
+  }
+
+  route();
+})();
+</script>
+<script>
+/* Aerodrome site content runtime.
+   Live site: loads content.json (saved by the site editor) and applies text and media changes.
+   Editor (?edit=1 inside /admin/): makes text editable in place and pictures replaceable. */
+(function(){
+  var EDIT = /[?&]edit=1/.test(location.search) && window.parent !== window;
+  var PFX = (location.pathname.match(/\/(v\d+)\//) || [])[1]; PFX = PFX ? PFX + '/' : '';
+  var RAW = 'https://raw.githubusercontent.com/shakedlevy24/aerodrome-site-preview/main/' + PFX;
+  var root = document.documentElement;
+  var INLINE = {B:1, STRONG:1, EM:1, I:1, BR:1, SMALL:1};
+  var SKIP = 'script,style,svg,select,option,textarea,noscript,video,.sr,.swap,.hint,.rl-count,.reticle';
+  var T = {}, M = {}, order = [];
+
+  function norm(s){ return (s || '').replace(/\s+/g, ' ').trim(); }
+  function inlineOk(el){ return INLINE[el.tagName] || (el.tagName === 'SPAN' && ((el.classList.contains('ph') && el.attributes.length === 1) || el.classList.contains('w'))); }
+  function okKids(el){
+    for (var c = el.firstChild; c; c = c.nextSibling){
+      if (c.nodeType === 3 || c.nodeType === 8) continue;
+      if (c.nodeType !== 1 || !inlineOk(c) || !okKids(c)) return false;
+    }
+    return true;
+  }
+  function scopes(){
+    var s = [], h = document.querySelector('.hdr'), m = document.getElementById('mnav'), f = document.querySelector('footer');
+    if (h) s.push(['header', h]); if (m) s.push(['menu', m]);
+    document.querySelectorAll('.page').forEach(function(p){ s.push([p.dataset.page, p]); });
+    if (f) s.push(['footer', f]);
+    return s;
+  }
+
+  /* give every piece of text and every picture a stable key: <scope>:t<n> / <scope>:m<n> */
+  function index(){
+    scopes().forEach(function(sc){
+      var name = sc[0], box = sc[1], leaves = [], seen = [];
+      var w = document.createTreeWalker(box, NodeFilter.SHOW_TEXT, { acceptNode: function(t){
+        if (!t.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        var p = t.parentElement; if (!p || p.closest(SKIP)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT; } });
+      var nodes = []; while (w.nextNode()) nodes.push(w.currentNode);
+      nodes.forEach(function(t){
+        var p = t.parentElement;
+        while (p !== box && inlineOk(p) && p.parentElement && p.parentElement !== box && okKids(p.parentElement)) p = p.parentElement;
+        var leaf;
+        if (p !== box && okKids(p)) leaf = p;
+        else { leaf = document.createElement('span'); t.parentNode.insertBefore(leaf, t); leaf.appendChild(t); }
+        if (seen.indexOf(leaf) < 0){ seen.push(leaf); leaves.push(leaf); }
+      });
+      leaves.forEach(function(el, i){
+        var k = name + ':t' + i; el.setAttribute('data-ek', k);
+        T[k] = { el: el, orig: norm(el.textContent), scope: name }; order.push(k);
+      });
+      box.querySelectorAll('img,video').forEach(function(el, i){
+        var k = name + ':m' + i; el.setAttribute('data-em', k);
+        M[k] = { el: el, orig: el.getAttribute('src') || '', alt: el.tagName === 'IMG' ? (el.getAttribute('alt') || '') : (el.getAttribute('aria-label') || ''), scope: name, kind: el.tagName === 'VIDEO' ? 'video' : 'image' };
+      });
+    });
+  }
+
+  function findT(k, o){
+    var e = T[k]; if (e && e.orig === o.orig) return e;
+    var sc = k.split(':')[0];
+    for (var x in T) if (T[x].scope === sc && T[x].orig === o.orig) return T[x];
+    return null;
+  }
+  function findM(k, o){
+    var e = M[k]; if (e && e.orig === o.orig) return e;
+    var sc = k.split(':')[0];
+    for (var x in M) if (M[x].scope === sc && M[x].orig === o.orig) return M[x];
+    return null;
+  }
+  function resolve(src){ return (EDIT && /^assets\/u\//.test(src)) ? RAW + src : src; }
+  function setText(e, text){ e.el.textContent = text; if (e.el.id === 'words' && window.AE_words) window.AE_words(); mark(e); }
+  function mark(e){ if (EDIT) e.el.classList.toggle('ae-ch', norm(e.el.textContent) !== e.orig); }
+  function setMedia(e, src, alt){
+    var el = e.el;
+    if (src && el.getAttribute('src') !== src){
+      el.src = resolve(src);
+      if (el.tagName === 'VIDEO'){ el.removeAttribute('poster'); el.load(); var p = el.play && el.play(); if (p && p.catch) p.catch(function(){}); }
+    }
+    if (alt != null){ if (el.tagName === 'IMG') el.alt = alt; else el.setAttribute('aria-label', alt); }
+  }
+  function apply(c){
+    c = c || {}; var t = c.text || {}, m = c.media || {};
+    Object.keys(t).forEach(function(k){ var e = findT(k, t[k]); if (e) setText(e, t[k].text); });
+    Object.keys(m).forEach(function(k){ var e = findM(k, m[k]); if (e) setMedia(e, m[k].src, m[k].alt); });
+  }
+  function show(){ root.classList.remove('cl'); }
+
+  index();
+
+  if (!EDIT){
+    if (/^https?:/.test(location.protocol)){
+      fetch('content.json?v=' + Date.now(), { cache: 'no-store' })
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(apply).catch(function(){}).then(show);
+    } else show();
+    return;
+  }
+
+  /* ---------- editor mode ---------- */
+  var cb = {};
+  function enable(){
+    root.classList.add('ae-edit');
+    order.forEach(function(k){
+      var el = T[k].el;
+      try { el.contentEditable = 'plaintext-only'; } catch (_) {}
+      if (el.contentEditable !== 'plaintext-only') el.contentEditable = 'true';
+      el.addEventListener('input', function(){ mark(T[k]); cb.text && cb.text(k, T[k].orig, norm(el.textContent), T[k].scope); });
+    });
+    document.addEventListener('keydown', function(e){
+      var el = e.target.closest && e.target.closest('[data-ek]'); if (!el) return;
+      if (e.key === 'Enter'){ e.preventDefault(); el.blur(); }
+      else if (e.key === ' ' && el.closest('a,button')){ e.preventDefault(); document.execCommand('insertText', false, ' '); }
+    }, true);
+    document.addEventListener('paste', function(e){
+      var el = e.target.closest && e.target.closest('[data-ek]'); if (!el) return;
+      e.preventDefault(); var s = (e.clipboardData || window.clipboardData).getData('text/plain').replace(/\s+/g, ' ');
+      document.execCommand('insertText', false, s);
+    }, true);
+    function mediaAt(e){
+      var hit = e.target.closest && e.target.closest('[data-em]'); if (hit) return hit;
+      if (e.target.closest && e.target.closest('[data-ek],input,label,select,textarea,form,.hdr,.mnav,footer')) return null;
+      var all = document.elementsFromPoint(e.clientX, e.clientY);
+      for (var i = 0; i < all.length; i++) if (all[i].hasAttribute && all[i].hasAttribute('data-em')) return all[i];
+      return null;
+    }
+    document.addEventListener('click', function(e){
+      var m = mediaAt(e);
+      if (m){ e.preventDefault(); e.stopPropagation(); var k = m.getAttribute('data-em'), d = M[k];
+        cb.pick && cb.pick(k, { orig: d.orig, current: m.currentSrc || m.src, alt: d.el.tagName === 'IMG' ? d.el.alt : (d.el.getAttribute('aria-label') || ''), kind: d.kind, scope: d.scope });
+        return; }
+      var a = e.target.closest && e.target.closest('a[href]'); if (a) e.preventDefault();
+    }, true);
+    var hl = null, raf = false;
+    document.addEventListener('mousemove', function(e){
+      if (raf) return; raf = true;
+      requestAnimationFrame(function(){ raf = false; var m = mediaAt(e); var box = m ? (m.closest('.reveal,.frame,.shot,.apex-shot,.panel,.cap,.band,.ill figure') || m) : null;
+        if (box !== hl){ if (hl) hl.classList.remove('ae-mhl'); hl = box; if (hl) hl.classList.add('ae-mhl'); } });
+    });
+    var st = document.createElement('style');
+    st.textContent =
+      '.ae-edit [data-ek]{outline:1px dashed transparent;outline-offset:3px;cursor:text;border-radius:2px}' +
+      '.ae-edit [data-ek]:hover{outline-color:rgba(255,122,26,.6)}' +
+      '.ae-edit [data-ek].ae-ch{outline:1px solid rgba(233,201,143,.85)}' +
+      '.ae-edit [data-ek]:focus{outline:2px solid #FF7A1A;outline-offset:3px}' +
+      '.ae-edit .veil,.ae-edit .hint{display:none!important}' +
+      '.ae-edit .grad,.ae-edit .shade{pointer-events:none}' +
+      '.ae-edit .reveal{cursor:pointer}' +
+      '.ae-edit .ae-mhl{position:relative;box-shadow:inset 0 0 0 3px #FF7A1A}' +
+      '.ae-edit .ae-mhl::after{content:"Click to replace";position:absolute;right:12px;top:12px;z-index:5;background:#FF7A1A;color:#140700;font:600 12px/1 Geist,Arial,sans-serif;padding:8px 10px;border-radius:6px;pointer-events:none}';
+    document.head.appendChild(st);
+  }
+
+  window.AE = {
+    start: function(content, callbacks){ cb = callbacks || {}; apply(content); enable(); show(); },
+    apply: apply,
+    setText: function(k, text){ if (T[k]) setText(T[k], text); },
+    setMedia: function(k, src, alt){ if (M[k]){ var el = M[k].el; if (/^data:|^blob:/.test(src)) { el.src = src; if (el.tagName === 'VIDEO'){ el.removeAttribute('poster'); el.load(); var p = el.play(); if (p && p.catch) p.catch(function(){}); } if (alt != null){ if (el.tagName === 'IMG') el.alt = alt; else el.setAttribute('aria-label', alt); } } else setMedia(M[k], src, alt); } },
+    origText: function(k){ return T[k] ? T[k].orig : null; },
+    origMedia: function(k){ return M[k] ? M[k].orig : null; },
+    pages: function(){ return Array.prototype.map.call(document.querySelectorAll('.page'), function(p){ var h = p.querySelector('h1'); return { id: p.dataset.page, title: p.dataset.title || (p.dataset.page === 'home' ? 'Home' : (h ? norm(h.textContent) : p.dataset.page)) }; }); },
+    go: function(id){ location.hash = id; },
+    current: function(){ var p = document.querySelector('.page.on'); return p ? p.dataset.page : 'home'; }
+  };
+  try { if (window.parent.AE_READY) window.parent.AE_READY(window.AE); } catch (_) {}
+})();
+</script>
+
+
+</body>
+</html>

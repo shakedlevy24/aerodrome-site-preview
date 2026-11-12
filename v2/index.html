@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Aerodrome Website</title>
+<title>Aerodrome Website v2</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2394,7 +2394,7 @@ html{scroll-padding-top:92px}
    Editor (?edit=1 inside /admin/): makes text editable in place and pictures replaceable. */
 (function(){
   var EDIT = /[?&]edit=1/.test(location.search) && window.parent !== window;
-  var PFX = /\/v2\//.test(location.pathname) ? 'v2/' : '';
+  var PFX = (location.pathname.match(/\/(v\d+)\//) || [])[1]; PFX = PFX ? PFX + '/' : '';
   var RAW = 'https://raw.githubusercontent.com/shakedlevy24/aerodrome-site-preview/main/' + PFX;
   var root = document.documentElement;
   var INLINE = {B:1, STRONG:1, EM:1, I:1, BR:1, SMALL:1};

@@ -169,7 +169,7 @@ input:focus{outline:none;border-color:var(--camel)}
 (function(){
   var OWNER = 'shakedlevy24', REPO = 'aerodrome-site-preview', BRANCH = 'main';
   var API = 'https://api.github.com/repos/' + OWNER + '/' + REPO;
-  var PFX = /\/v2\//.test(location.pathname) ? 'v2/' : '';
+  var PFX = (location.pathname.match(/\/(v\d+)\//) || [])[1]; PFX = PFX ? PFX + '/' : '';
   var $ = function(id){ return document.getElementById(id); };
   var tok = null, content = { text: {}, media: {} }, draft = { text: {}, media: {} }, AE = null, pages = [];
 
@@ -397,7 +397,7 @@ input:focus{outline:none;border-color:var(--camel)}
   });
   window.addEventListener('beforeunload', function(e){ if (count()){ e.preventDefault(); e.returnValue = ''; } });
 
-  if (PFX) $('edtag').textContent = 'Editor · version 2';
+  if (PFX) $('edtag').textContent = 'Editor · version ' + PFX.replace(/\D/g, '');
   /* start */
   var saved = load('ae_tok');
   if (saved){ tok = saved; verify().catch(function(err){ store('ae_tok', null); tok = null; showLogin(err.message); }); }

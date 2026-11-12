@@ -1903,7 +1903,7 @@ fieldset{border:0;margin:0;padding:0}
    Editor (?edit=1 inside /admin/): makes text editable in place and pictures replaceable. */
 (function(){
   var EDIT = /[?&]edit=1/.test(location.search) && window.parent !== window;
-  var PFX = /\/v2\//.test(location.pathname) ? 'v2/' : '';
+  var PFX = (location.pathname.match(/\/(v\d+)\//) || [])[1]; PFX = PFX ? PFX + '/' : '';
   var RAW = 'https://raw.githubusercontent.com/shakedlevy24/aerodrome-site-preview/main/' + PFX;
   var root = document.documentElement;
   var INLINE = {B:1, STRONG:1, EM:1, I:1, BR:1, SMALL:1};
