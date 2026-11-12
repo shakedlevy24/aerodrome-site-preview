@@ -444,6 +444,12 @@ html{scroll-padding-top:92px}
 .do .media-card .more{margin-top:auto;padding-top:6px}
 a.media-card:focus-visible{outline-offset:4px}
 .rise{translate:0 24px}
+
+/* v3 hero: formation footage, centred */
+.hhero .frame video{object-position:50% 50%}
+.hhero.one .grad{background:linear-gradient(180deg,rgba(10,11,12,.62) 0%,rgba(10,11,12,.30) 32%,rgba(10,11,12,.38) 62%,rgba(10,11,12,.9) 100%)}
+.panels{height:560px}
+.panel img{filter:grayscale(1) brightness(.6)}
 </style>
 <style>.cl body{visibility:hidden}</style>
 <script>if(/^https?:/.test(location.protocol)){document.documentElement.classList.add("cl");setTimeout(function(){document.documentElement.classList.remove("cl")},1500);}</script>
@@ -504,7 +510,7 @@ a.media-card:focus-visible{outline-offset:4px}
   <section class="hhero one" aria-labelledby="home-title">
     <div class="stick">
       <div class="frame">
-        <video id="home-video" data-auto autoplay muted loop playsinline preload="auto" poster="assets/flight-hero-poster.jpg" src="assets/flight-hero.mp4" aria-label="Phoenix in flight through cloud"></video>
+        <video id="home-video" data-auto autoplay muted loop playsinline preload="auto" poster="assets/formation-hero-poster.jpg" src="assets/formation-hero.mp4" aria-label="Phoenix aircraft flying in formation along a coastline at dusk"></video>
         <div class="grad"></div>
       </div>
       <div class="title">
@@ -540,16 +546,18 @@ a.media-card:focus-visible{outline-offset:4px}
     </div>
   </section>
 
-  <!-- 3 · Why Aerodrome: four points, all visible -->
-  <section class="px sec" aria-labelledby="home-why-title">
-    <div class="head">
-      <h2 id="home-why-title" class="l">Why Aerodrome</h2>
+  <!-- 3 · Why Aerodrome: five panels, details of the real aircraft -->
+  <section class="px sec" id="home-why" aria-labelledby="home-why-title">
+    <div class="head" style="margin-bottom:36px">
+      <div><p class="eyebrow">Why Aerodrome</p><h2 id="home-why-title" class="l" style="margin-top:14px">Five reasons, one system.</h2></div>
+      <p class="muted" style="max-width:36ch;font-size:15px">Hover or tap each panel.</p>
     </div>
-    <div class="grid4" style="gap:40px">
-      <div class="pt"><h3>Engineered by aviation and defence-industry veterans</h3><p>A team that has designed, built and flown unmanned systems.</p></div>
-      <div class="pt"><h3>Long, accessible reach</h3><p>Strategic range and payload at a price that allows scale. A fraction of a cruise missile's cost.</p></div>
-      <div class="pt"><h3>Built for mass production</h3><p>Designed for serial production and resupply in long conflicts.</p></div>
-      <div class="pt"><h3>Tested where it counts</h3><p>Long-endurance flights in the field, not prototypes on paper.</p></div>
+    <div class="panels" id="panels">
+      <button class="panel on" type="button" aria-expanded="true"><img src="assets/why-p1-engine.jpg" alt="" style="object-position:50% 40%"><span class="txt"><span class="h">Engineered by aviation and defence-industry veterans</span><span class="d">A team that has designed, built and flown unmanned systems.</span></span></button>
+      <button class="panel" type="button" aria-expanded="false"><img src="assets/why-p2-nose-sky.jpg" alt="" style="object-position:28% 30%"><span class="txt"><span class="h">Long, accessible reach</span><span class="d">Strategic range and payload at a price that allows scale. A fraction of a cruise missile's cost.</span></span></button>
+      <button class="panel" type="button" aria-expanded="false"><img src="assets/why-p3-wing.jpg" alt="" style="object-position:72% 50%"><span class="txt"><span class="h">Built for mass production</span><span class="d">Designed for serial production and resupply in long conflicts.</span></span></button>
+      <button class="panel" type="button" aria-expanded="false"><img src="assets/why-p4-nose.jpg" alt="" style="object-position:50% 60%"><span class="txt"><span class="h">Up to 50 kg warhead</span><span class="d">A payload built to defeat real targets, not just reach them.</span></span></button>
+      <button class="panel" type="button" aria-expanded="false"><img src="assets/why-p5-stand.jpg" alt="" style="object-position:78% 40%"><span class="txt"><span class="h">Tested where it counts</span><span class="d">Long-endurance flights in the field, not prototypes on paper.</span></span></button>
     </div>
   </section>
 
