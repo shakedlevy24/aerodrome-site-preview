@@ -502,7 +502,7 @@ html{scroll-padding-top:92px}
   </section>
 
   <!-- H3 · Reach line -->
-  <section class="reach" id="reach" aria-labelledby="home-reach-title">
+  <section class="reach" id="reach" data-km="600" aria-labelledby="home-reach-title">
     <div class="stick px">
       <div class="reach-note">
         <div><p class="eyebrow">Reach, measured</p><h2 id="home-reach-title" class="l" style="margin-top:14px;max-width:16ch">How far is far enough?</h2></div>
@@ -511,15 +511,16 @@ html{scroll-padding-top:92px}
       <div class="rl-wrap" id="rlwrap">
         <div class="rl-base" aria-hidden="true"></div>
         <div class="tick" style="left:0" aria-hidden="true"><span class="mono muted">0</span></div>
-        <div class="tick hm" style="left:10%" aria-hidden="true"><span class="mono muted">100</span></div>
-        <div class="tick" style="left:20%" aria-hidden="true"><span class="mono muted">200</span></div>
-        <div class="tick hm" style="left:30%" aria-hidden="true"><span class="mono muted">300</span></div>
-        <div class="tick hm" style="left:40%" aria-hidden="true"><span class="mono muted">400</span></div>
-        <div class="tick" style="left:50%" aria-hidden="true"><span class="mono" style="color:var(--camel)">500 km</span></div>
+        <div class="tick hm" style="left:8.333%" aria-hidden="true"><span class="mono muted">100</span></div>
+        <div class="tick" style="left:16.667%" aria-hidden="true"><span class="mono muted">200</span></div>
+        <div class="tick hm" style="left:25.000%" aria-hidden="true"><span class="mono muted">300</span></div>
+        <div class="tick" style="left:33.333%" aria-hidden="true"><span class="mono muted">400</span></div>
+        <div class="tick hm" style="left:41.667%" aria-hidden="true"><span class="mono muted">500</span></div>
+        <div class="tick" style="left:50%" aria-hidden="true"><span class="mono" style="color:var(--camel)">600 km</span></div>
         <div class="rl-solid" id="rlsolid" aria-hidden="true"></div>
         <div class="rl-dash" id="rldash" style="left:50%" aria-hidden="true"></div>
         <div class="rl-head" id="rlhead" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M14 2.5 26 24.5 14 18.8 2 24.5Z" fill="#E9C98F" transform="rotate(90 14 14)"></path></svg></div>
-        <div class="marker" id="m1" style="left:50%"><div class="pin"></div><div style="padding-left:14px"><p class="mono" style="color:var(--camel)">Phoenix TAP-X</p><h3>Up to 500 km, jet-powered</h3></div></div>
+        <div class="marker" id="m1" style="left:50%"><div class="pin"></div><div style="padding-left:14px"><p class="mono" style="color:var(--camel)">Phoenix TAP-X</p><h3>Up to 600 km, jet-powered</h3></div></div>
         <div class="marker" id="m2" style="left:auto;right:0;text-align:right"><div style="padding-right:4px"><p class="mono" style="color:var(--camel)">Phoenix LT</p><h3>Strategic range. The full figure is shared in a briefing.</h3></div></div>
       </div>
       <p class="muted" style="max-width:62ch">Strategic range without a fighter jet or a pilot at risk, at a price that lets a nation field it in numbers.</p>
@@ -2328,7 +2329,7 @@ html{scroll-padding-top:92px}
     if(current!=='home') return;
     if(words){ ws=[].slice.call(words.querySelectorAll('.w')); var wr=words.getBoundingClientRect(), wp=reduce?1:c01((vh*.85-wr.top)/(wr.height+vh*.35)), n=Math.round(wp*ws.length); ws.forEach(function(w,i){ w.classList.toggle('on',i<n); }); }
     if(reach){ var rr=reach.getBoundingClientRect(), rp=reduce?1:c01(-rr.top/Math.max(1,reach.offsetHeight-vh)), a=c01(rp/.55), b=c01((rp-.6)/.35);
-      rlsolid.style.width=(a*50)+'%'; rldash.style.width=(b*50)+'%'; rlhead.style.left=(a<1?a*50:50+b*50)+'%'; km.textContent=Math.round(a*500);
+      rlsolid.style.width=(a*50)+'%'; rldash.style.width=(b*50)+'%'; rlhead.style.left=(a<1?a*50:50+b*50)+'%'; km.textContent=Math.round(a*(+reach.dataset.km||500));
       m1.classList.toggle('on',a>=1); m2.classList.toggle('on',b>.85); }
   }); }
   addEventListener('scroll',brand,{passive:true}); addEventListener('resize',brand);
