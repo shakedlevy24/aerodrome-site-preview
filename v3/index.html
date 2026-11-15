@@ -477,6 +477,14 @@ a.media-card:focus-visible{outline-offset:4px}
 .sample{margin:0;position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/10;background:#1a1b1e}
 .sample img{display:block;width:100%;height:100%;object-fit:cover}
 .sample figcaption{position:absolute;left:10px;bottom:10px;background:rgba(10,11,12,.8);font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:4px}
+
+/* statement back in; brighter hero footage */
+.stmt{padding-top:130px;padding-bottom:40px}
+.tiles .tile-about,.tiles .tile-careers{min-height:380px}
+.tiles .tile-about::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,11,12,0) 30%,rgba(10,11,12,.82) 100%);pointer-events:none}
+.hhero.one .grad{background:radial-gradient(ellipse 62% 46% at 50% 52%,rgba(10,11,12,.34),rgba(10,11,12,0) 72%),linear-gradient(180deg,rgba(10,11,12,.30) 0%,rgba(10,11,12,0) 20%,rgba(10,11,12,0) 78%,rgba(10,11,12,.55) 100%)}
+.hhero.one .title h1,.hhero.one .hlead{text-shadow:0 2px 30px rgba(10,11,12,.7),0 1px 4px rgba(10,11,12,.65)}
+.hhero.one h1>span+span{color:rgba(242,242,239,.9)}
 </style>
 <style>.cl body{visibility:hidden}</style>
 <script>if(/^https?:/.test(location.protocol)){document.documentElement.classList.add("cl");setTimeout(function(){document.documentElement.classList.remove("cl")},1500);}</script>
@@ -548,11 +556,17 @@ a.media-card:focus-visible{outline-offset:4px}
     </div>
   </section>
 
+  <!-- 1b · Brand promise, lit word by word on scroll -->
+  <section class="px stmt" aria-label="Brand promise">
+    <p class="eyebrow" style="margin-bottom:28px">Long-range capability. Within reach.</p>
+    <p id="words" class="words" data-cam="Built for mass production.">Strategic range and payload at a price that allows scale. Built for mass production. Tested where it counts.</p>
+  </section>
+
   <!-- 2 · Reach line -->
   <section class="reach short" id="reach" data-km="600" aria-labelledby="home-reach-title">
     <div class="stick px">
       <div class="reach-note">
-        <div><p class="eyebrow">Long-range capability. Within reach.</p><h2 id="home-reach-title" class="l" style="margin-top:14px;max-width:16ch">How far is far enough?</h2></div>
+        <div><p class="eyebrow">Reach, measured</p><h2 id="home-reach-title" class="l" style="margin-top:14px;max-width:16ch">How far is far enough?</h2></div>
         <div class="rl-count" aria-hidden="true"><span id="km">0</span><small>km</small></div>
       </div>
       <div class="rl-wrap" id="rlwrap">
@@ -589,6 +603,20 @@ a.media-card:focus-visible{outline-offset:4px}
     </div>
   </section>
 
+  <!-- 3b · Core capabilities -->
+  <section class="px" style="padding-bottom:130px" aria-labelledby="home-cap-title">
+    <div class="head">
+      <div><p class="eyebrow">Core capabilities</p><h2 id="home-cap-title" class="l" style="margin-top:14px">Engineered for<br>mission assurance.</h2></div>
+      <p class="muted" style="max-width:40ch;font-size:17px">Three design principles built into every Phoenix system, so the mission holds when conditions turn against it.</p>
+    </div>
+    <div class="grid3" style="gap:40px">
+      <div class="pt"><p class="mono" style="color:var(--camel)">Resilient navigation</p><h3 style="margin-top:12px">Built for contested airspace</h3><p>Resilient navigation that keeps the mission on course when GPS is jammed or degraded.</p></div>
+      <div class="pt"><p class="mono" style="color:var(--camel)">Redundant systems</p><h3 style="margin-top:12px">Fully redundant design</h3><p>Redundancy across power, navigation and critical systems for reliable mission completion.</p></div>
+      <div class="pt"><p class="mono" style="color:var(--camel)">Open mission computer</p><h3 style="margin-top:12px">Open Mission Architecture</h3><p>A built-in, open mission computer lets your teams create mission-specific applications in-house.</p></div>
+    </div>
+    <div class="human" style="margin-top:56px"><p class="mono">Responsible use</p><p class="big">A human authorises every engagement.</p></div>
+  </section>
+
   <!-- 4 · What we do: two products, two solutions -->
   <section class="px" style="padding-bottom:130px" aria-labelledby="home-do-title">
     <div class="head">
@@ -613,6 +641,17 @@ a.media-card:focus-visible{outline-offset:4px}
         <div class="body"><p class="mono" style="color:var(--camel)">Aerial data</p><h3>Aerial Services</h3><p class="muted">Aerial photography, mapping and modelling, plus flight and integration services.</p><span class="more">Explore <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></span></div>
       </a>
     </div>
+  </section>
+
+  <!-- 4b · About and careers -->
+  <section class="px tiles" style="padding-bottom:130px;display:flex;flex-wrap:wrap;gap:14px" aria-label="About and careers">
+    <a href="#about" class="reveal tile-about" style="--r:320px">
+      <img src="assets/lt-top.jpg" alt="Phoenix LT seen from above" style="object-position:50% 50%"><div class="veil"></div>
+      <div class="in-tile"><p class="eyebrow">About us</p><h2>Engineered by aviation and defence-industry veterans.</h2><span class="tile-go">Meet the team <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></span></div>
+    </a>
+    <a href="#careers" class="tile-careers">
+      <p class="k">Careers</p><h2>Build what flies.</h2><p class="d">Engineers, integrators and technicians who want to see their work in the air within months.</p><span class="tile-go">Open positions <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></span>
+    </a>
   </section>
 
   <!-- 5 · Contact -->
