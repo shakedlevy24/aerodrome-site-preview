@@ -500,6 +500,14 @@ a.media-card:focus-visible{outline-offset:4px}
 /* contact strip: the button sits directly under the text, not across the page */
 .cta{flex-direction:column;align-items:flex-start !important;justify-content:flex-start;gap:32px}
 .cta>div{flex:0 1 auto !important}
+
+/* shorter home page: tighter section spacing and a shorter scroll for the reach line */
+.page[data-page="home"] .sec{padding-top:84px;padding-bottom:84px}
+.page[data-page="home"] .stmt{padding-top:84px;padding-bottom:24px}
+.page[data-page="home"] .reach.short{height:140vh}
+.page[data-page="home"] .panels{height:480px}
+.page[data-page="home"] .human{margin-top:40px !important}
+@media(max-width:860px){.page[data-page="home"] .panels{height:auto}.linkcard{flex-wrap:wrap}}
 </style>
 <style>.cl body{visibility:hidden}</style>
 <script>if(/^https?:/.test(location.protocol)){document.documentElement.classList.add("cl");setTimeout(function(){document.documentElement.classList.remove("cl")},1500);}</script>
@@ -618,7 +626,7 @@ a.media-card:focus-visible{outline-offset:4px}
   </section>
 
   <!-- 3b · Core capabilities -->
-  <section class="px" style="padding-bottom:130px" aria-labelledby="home-cap-title">
+  <section class="px" style="padding-bottom:84px" aria-labelledby="home-cap-title">
     <div class="head">
       <div><p class="eyebrow">Core capabilities</p><h2 id="home-cap-title" class="l" style="margin-top:14px">Engineered for<br>mission assurance.</h2></div>
       <p class="muted" style="max-width:40ch;font-size:17px">Three design principles built into every Phoenix system, so the mission holds when conditions turn against it.</p>
@@ -632,7 +640,7 @@ a.media-card:focus-visible{outline-offset:4px}
   </section>
 
   <!-- 4 · What we do: two products, two solutions -->
-  <section class="px" style="padding-bottom:130px" aria-labelledby="home-do-title">
+  <section class="px" style="padding-bottom:84px" aria-labelledby="home-do-title">
     <div class="head">
       <h2 id="home-do-title" class="l">What we do</h2>
       <p class="muted" style="max-width:40ch;font-size:17px">One Phoenix family in two ranges, the ground platform that runs the fleet, and aerial data services.</p>
@@ -657,16 +665,16 @@ a.media-card:focus-visible{outline-offset:4px}
     </div>
   </section>
 
-  <!-- 4b · About -->
-  <section class="px tiles" style="padding-bottom:130px;display:flex;flex-wrap:wrap;gap:14px" aria-label="About us">
-    <a href="#about" class="reveal tile-about" style="--r:320px">
-      <img src="assets/lt-top.jpg" alt="Phoenix LT seen from above" style="object-position:50% 50%"><div class="veil"></div>
-      <div class="in-tile"><p class="eyebrow">About us</p><h2>Engineered by aviation and defence-industry veterans.</h2><span class="tile-go">Meet the team <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></span></div>
+  <!-- 4b · About: one text row, no picture -->
+  <section class="px" style="padding-bottom:84px" aria-label="About us">
+    <a class="linkcard" href="#about">
+      <span style="min-width:0"><small>About us</small><b style="font-size:clamp(20px,2.2vw,28px)">Engineered by aviation and defence-industry veterans.</b></span>
+      <span class="more" style="flex:none">Meet the team <svg class="go" width="20" height="20" viewBox="0 0 16 16" aria-hidden="true" style="flex:none;color:var(--camel)"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></span>
     </a>
   </section>
 
   <!-- 5 · Contact -->
-  <section class="px" style="padding-bottom:130px" aria-labelledby="home-cta-title">
+  <section class="px" style="padding-bottom:84px" aria-labelledby="home-cta-title">
     <div class="cta" style="align-items:center">
       <div style="flex:1 1 480px">
         <h2 id="home-cta-title" class="ct-h" style="margin-top:0">Let's extend your reach.</h2>
