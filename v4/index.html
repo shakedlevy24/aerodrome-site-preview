@@ -496,6 +496,10 @@ a.media-card:focus-visible{outline-offset:4px}
 /* product hero with video: no pointer reveal, lighter shade so the footage reads */
 .phero.vid{cursor:auto}
 .phero.vid .shade{background:linear-gradient(180deg,rgba(10,11,12,.5),rgba(10,11,12,0) 22%,rgba(10,11,12,0) 48%,rgba(10,11,12,.88))}
+
+/* contact strip: the button sits directly under the text, not across the page */
+.cta{flex-direction:column;align-items:flex-start !important;justify-content:flex-start;gap:32px}
+.cta>div{flex:0 1 auto !important}
 </style>
 <style>.cl body{visibility:hidden}</style>
 <script>if(/^https?:/.test(location.protocol)){document.documentElement.classList.add("cl");setTimeout(function(){document.documentElement.classList.remove("cl")},1500);}</script>
