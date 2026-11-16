@@ -492,6 +492,10 @@ a.media-card:focus-visible{outline-offset:4px}
 .panel::after{background:linear-gradient(180deg,rgba(10,11,12,0) 50%,rgba(10,11,12,.78) 100%)}
 .panel .h,.panel .d{text-shadow:0 1px 14px rgba(10,11,12,.7)}
 .panel .d{color:rgba(242,242,239,.92)}
+
+/* product hero with video: no pointer reveal, lighter shade so the footage reads */
+.phero.vid{cursor:auto}
+.phero.vid .shade{background:linear-gradient(180deg,rgba(10,11,12,.5),rgba(10,11,12,0) 22%,rgba(10,11,12,0) 48%,rgba(10,11,12,.88))}
 </style>
 <style>.cl body{visibility:hidden}</style>
 <script>if(/^https?:/.test(location.protocol)){document.documentElement.classList.add("cl");setTimeout(function(){document.documentElement.classList.remove("cl")},1500);}</script>
@@ -774,9 +778,8 @@ a.media-card:focus-visible{outline-offset:4px}
 
 <div class="page" data-page="phoenix-lt" data-title="Phoenix LT">
   <!-- P1 · Product hero: real hardware in the dark, one CTA -->
-  <section class="reveal phero" style="--r:440px" aria-labelledby="plt-title">
-    <img src="assets/lt-front.jpg" alt="Phoenix LT seen from the front, studio photo on a black background" style="object-position:50% 45%">
-    <div class="veil"></div>
+  <section class="reveal phero vid" aria-labelledby="plt-title">
+    <video data-auto autoplay muted loop playsinline preload="metadata" poster="assets/phoenix-lt-launch-poster.jpg" src="assets/phoenix-lt-launch.mp4" aria-label="Phoenix LT launching from its stand at night"></video>
     <div class="shade"></div>
     
     <div class="bottom px">
