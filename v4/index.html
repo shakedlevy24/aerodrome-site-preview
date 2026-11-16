@@ -515,6 +515,13 @@ a.media-card:focus-visible{outline-offset:4px}
 .hhero.one .hlead{text-align:left;margin:0}
 .hhero.one .grad{background:linear-gradient(180deg,rgba(10,11,12,.30) 0%,rgba(10,11,12,0) 18%,rgba(10,11,12,0) 48%,rgba(10,11,12,.62) 100%)}
 @media(max-width:700px){.hhero.one .frame video{object-position:68% 50%}.hhero.one .title{padding:0 20px 40px}}
+
+/* APEX LT: one row per workspace, screenshot beside its text */
+.apex-rows{display:flex;flex-direction:column;gap:72px}
+.apex-row{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:48px;align-items:center}
+.apex-row.flip .shot{order:2}
+.apex-row.flip{grid-template-columns:minmax(0,1fr) minmax(0,1.75fr)}
+@media(max-width:900px){.apex-rows{gap:56px}.apex-row,.apex-row.flip{grid-template-columns:1fr;gap:22px}.apex-row.flip .shot{order:0}}
 </style>
 <style>.cl body{visibility:hidden}</style>
 <script>if(/^https?:/.test(location.protocol)){document.documentElement.classList.add("cl");setTimeout(function(){document.documentElement.classList.remove("cl")},1500);}</script>
@@ -935,25 +942,31 @@ a.media-card:focus-visible{outline-offset:4px}
     </div>
   </section>
 
-  <!-- X2 · The product, shown clearly -->
-  <section class="px" aria-label="APEX LT fleet overview screen">
-    <figure style="margin:0">
-      <div class="shot apex-hero-shot"><img src="assets/apex-fleet.jpg" alt="APEX LT fleet overview: a map with aircraft positions, beside fleet status and event panels" width="2000" height="1119"></div>
-      <figcaption class="note" style="margin-top:12px">Fleet overview, shown in training mode with synthetic telemetry.</figcaption>
-    </figure>
-  </section>
-
-  <!-- X3 · Three work environments -->
-  <section class="px sec" aria-labelledby="apex-cap-title">
+  <!-- X2 · The four workspaces, each shown with its screen -->
+  <section class="px sec" style="padding-top:24px" aria-labelledby="apex-cap-title">
     <div class="head">
-      <h2 id="apex-cap-title" class="l" style="max-width:16ch">One platform. Three work environments.</h2>
+      <h2 id="apex-cap-title" class="l" style="max-width:16ch">One platform. Four workspaces.</h2>
       <p class="muted" style="max-width:40ch;font-size:17px">Operators, planners and technicians each get a workspace designed for their role.</p>
     </div>
-    <div class="grid3" style="gap:40px">
-      <div class="pt"><p class="eyebrow" style="color:var(--camel)">Operators</p><h3 style="margin-top:12px">Fleet management and control</h3><ul class="bullets" style="margin-top:16px"><li>Multi-aircraft fleet overview in a single interface</li><li>Map-based aircraft visualisation</li><li>Centralised status and event visibility</li></ul></div>
-      <div class="pt"><p class="eyebrow" style="color:var(--camel)">Planners</p><h3 style="margin-top:12px">Mission planning</h3><ul class="bullets" style="margin-top:16px"><li>Structured mission-planning workspace</li><li>Route and waypoint visualisation</li><li>Plan review and validation workflow</li></ul></div>
-      <div class="pt"><p class="eyebrow" style="color:var(--camel)">Technicians</p><h3 style="margin-top:12px">Technician diagnostics</h3><ul class="bullets" style="margin-top:16px"><li>Structured diagnostic workflows and test sequences</li><li>System-health overview and test-result records</li><li>Technician notes and maintenance history</li></ul></div>
+    <div class="apex-rows">
+      <div class="apex-row">
+        <div class="shot"><img src="assets/apex-fleet-overview.jpg" alt="APEX LT fleet overview screen: aircraft list, a map with aircraft positions, and details of the selected aircraft" width="1600" height="900" loading="lazy"></div>
+        <div class="pt"><p class="eyebrow" style="color:var(--camel)">Operators</p><h3 style="margin-top:12px">Fleet overview</h3><ul class="bullets" style="margin-top:16px"><li>Multi-aircraft fleet overview in a single interface</li><li>Map-based aircraft visualisation</li><li>Centralised status and readiness for every aircraft</li></ul></div>
+      </div>
+      <div class="apex-row flip">
+        <div class="shot"><img src="assets/apex-mission-planning.jpg" alt="APEX LT mission planning screen: workflow steps, a route with waypoints on a map, and a waypoint table" width="1600" height="900" loading="lazy"></div>
+        <div class="pt"><p class="eyebrow" style="color:var(--camel)">Planners</p><h3 style="margin-top:12px">Mission planning</h3><ul class="bullets" style="margin-top:16px"><li>Structured mission-planning workflow, step by step</li><li>Route and waypoint visualisation on the map</li><li>Plan review and validation before upload</li></ul></div>
+      </div>
+      <div class="apex-row">
+        <div class="shot"><img src="assets/apex-individual-uav.jpg" alt="APEX LT individual UAV screen: one aircraft with its route, system readiness steps, flight control and payload camera view" width="1600" height="900" loading="lazy"></div>
+        <div class="pt"><p class="eyebrow" style="color:var(--camel)">Operators</p><h3 style="margin-top:12px">Individual UAV</h3><ul class="bullets" style="margin-top:16px"><li>One aircraft in focus: route, state and flight control</li><li>System readiness shown step by step</li><li>Payload camera view beside the map</li></ul></div>
+      </div>
+      <div class="apex-row flip">
+        <div class="shot"><img src="assets/apex-diagnostics.jpg" alt="APEX LT technician diagnostics screen: test sequence, aircraft parts diagram, current test and run history" width="1600" height="900" loading="lazy"></div>
+        <div class="pt"><p class="eyebrow" style="color:var(--camel)">Technicians</p><h3 style="margin-top:12px">Technician diagnostics</h3><ul class="bullets" style="margin-top:16px"><li>Structured diagnostic workflows and test sequences</li><li>Part-by-part system-health overview</li><li>Test-result records and run history</li></ul></div>
+      </div>
     </div>
+    <p class="note" style="margin-top:28px">Screens shown with simulated data.</p>
   </section>
 
   <!-- X4 · Why APEX LT -->
