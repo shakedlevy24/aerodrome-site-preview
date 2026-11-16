@@ -508,6 +508,13 @@ a.media-card:focus-visible{outline-offset:4px}
 .page[data-page="home"] .panels{height:480px}
 .page[data-page="home"] .human{margin-top:40px !important}
 @media(max-width:860px){.page[data-page="home"] .panels{height:auto}.linkcard{flex-wrap:wrap}}
+
+/* hero text sits bottom-left so the aircraft in the footage stays in clear sky */
+.hhero.one .stick{align-items:flex-start;justify-content:flex-end}
+.hhero.one .title{text-align:left;align-items:flex-start;gap:20px;padding:0 40px 64px;max-width:1060px}
+.hhero.one .hlead{text-align:left;margin:0}
+.hhero.one .grad{background:linear-gradient(180deg,rgba(10,11,12,.30) 0%,rgba(10,11,12,0) 18%,rgba(10,11,12,0) 48%,rgba(10,11,12,.62) 100%)}
+@media(max-width:700px){.hhero.one .frame video{object-position:68% 50%}.hhero.one .title{padding:0 20px 40px}}
 </style>
 <style>.cl body{visibility:hidden}</style>
 <script>if(/^https?:/.test(location.protocol)){document.documentElement.classList.add("cl");setTimeout(function(){document.documentElement.classList.remove("cl")},1500);}</script>
