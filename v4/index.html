@@ -522,6 +522,12 @@ a.media-card:focus-visible{outline-offset:4px}
 .apex-row.flip .shot{order:2}
 .apex-row.flip{grid-template-columns:minmax(0,1fr) minmax(0,1.75fr)}
 @media(max-width:900px){.apex-rows{gap:56px}.apex-row,.apex-row.flip{grid-template-columns:1fr;gap:22px}.apex-row.flip .shot{order:0}}
+
+/* legal pages: lists read as plain text lists */
+.legaltext .bullets{margin:12px 0 0;padding-left:20px;list-style:disc}
+.legaltext .bullets li{padding:4px 0;border:0;color:var(--muted)}
+.legaltext .bullets li:first-child{border:0}
+.legaltext b{color:var(--ink);font-weight:500}
 </style>
 <style>.cl body{visibility:hidden}</style>
 <script>if(/^https?:/.test(location.protocol)){document.documentElement.classList.add("cl");setTimeout(function(){document.documentElement.classList.remove("cl")},1500);}</script>
@@ -1639,7 +1645,9 @@ a.media-card:focus-visible{outline-offset:4px}
   <section class="px thero" aria-labelledby="privacy-title">
     <p class="eyebrow in">Legal</p>
     <h1 id="privacy-title" class="xl in" style="margin-top:20px;max-width:12ch;animation-delay:.1s">Privacy Policy</h1>
-    <p class="mono muted in" style="margin-top:28px;animation-delay:.25s">Last updated: <span class="ph">[date]</span></p>
+    <p class="mono muted in" style="margin-top:28px;animation-delay:.25s">Last updated: 16 November 2026</p>
+    <p class="lead muted in" style="margin-top:22px;max-width:72ch;animation-delay:.3s">This policy explains what personal data we collect through this website, why we collect it, who receives it, and the rights you have.</p>
+    <p class="note" style="margin-top:18px;max-width:72ch">Draft prepared without legal counsel. To be reviewed by a lawyer before the site goes live.</p>
   </section>
 
   <div class="px" style="padding-top:46px;padding-bottom:120px">
@@ -1647,44 +1655,82 @@ a.media-card:focus-visible{outline-offset:4px}
       <nav aria-labelledby="privacy-toc-title" style="flex:1 1 260px;max-width:360px">
         <p id="privacy-toc-title" class="eyebrow" style="margin-bottom:14px">Contents</p>
         <ol style="margin:0;padding:0;list-style:none;border-top:1px solid var(--line)">
+          <li><a class="listrow" href="#privacy-who"><span>Who we are</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
           <li><a class="listrow" href="#privacy-data"><span>Data we collect</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
-          <li><a class="listrow" href="#privacy-cookies"><span>Cookies</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
-          <li><a class="listrow" href="#privacy-purpose"><span>Purpose of processing</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
-          <li><a class="listrow" href="#privacy-retention"><span>Retention</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#privacy-purpose"><span>Why we use it</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#privacy-sharing"><span>Who receives it</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#privacy-cookies"><span>Cookies and similar technologies</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#privacy-retention"><span>How long we keep it</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#privacy-security"><span>How we protect it</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
           <li><a class="listrow" href="#privacy-rights"><span>Your rights</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#privacy-children"><span>Children</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#privacy-links"><span>Links to other sites</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#privacy-changes"><span>Changes to this policy</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
           <li><a class="listrow" href="#privacy-contact"><span>Contact</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
         </ol>
       </nav>
       <div class="legaltext" style="flex:3 1 480px">
-        <section id="privacy-data" aria-labelledby="privacy-data-title">
-          <h2 id="privacy-data-title" style="margin-top:0">Data we collect</h2>
-          <p>The personal data collected through the forms on this site.</p>
-          <p><span class="ph">[Text from counsel]</span></p>
+        <section id="privacy-who" aria-labelledby="privacy-who-title">
+          <h2 id="privacy-who-title" style="margin-top:0">Who we are</h2>
+          <p>This website is operated by <span class="ph">[registered company name and company number]</span> ("Aerodrome", "we", "us"). Aerodrome is the controller of the personal data collected through this website.</p>
+          <p>Address: Hapsagot St 4, Petah Tikva, Israel. Privacy contact: <span class="ph">[privacy contact email]</span>.</p>
         </section>
-        <section id="privacy-cookies" aria-labelledby="privacy-cookies-title">
-          <h2 id="privacy-cookies-title">Cookies</h2>
-          <p>The cookies and similar technologies this site uses.</p>
-          <p><span class="ph">[Text from counsel]</span></p>
+        <section id="privacy-data" aria-labelledby="privacy-data-title">
+          <h2 id="privacy-data-title">Data we collect</h2>
+          <p>We collect only the data you choose to give us and a small amount of technical data needed to run the site.</p>
+          <ul class="bullets" style="margin-top:12px"><li><b>Contact form:</b> first and last name, work email, company, job title, country, the type of enquiry you select, and the content of your message.</li><li><b>Job applications:</b> the details you send us when you apply for a role, such as your CV, contact details and work history.</li><li><b>Investor enquiries:</b> your name, contact details and the content of your enquiry.</li><li><b>Technical data:</b> IP address, browser and device type, pages viewed and the date and time of the visit, recorded in server logs.</li></ul>
+          <p>You are not legally required to give us any personal data. Providing it is your choice and depends on your consent. If you do not provide the details marked as required in a form, we will not be able to answer that enquiry.</p>
+          <p>Please do not send us personal data about other people unless they know about it and agree.</p>
         </section>
         <section id="privacy-purpose" aria-labelledby="privacy-purpose-title">
-          <h2 id="privacy-purpose-title">Purpose of processing</h2>
-          <p>Why the data is collected and how it is used.</p>
-          <p><span class="ph">[Text from counsel]</span></p>
+          <h2 id="privacy-purpose-title">Why we use it</h2>
+          <p>We use personal data only for these purposes:</p>
+          <ul class="bullets" style="margin-top:12px"><li>to answer your enquiry and stay in contact with you about it;</li><li>to assess whether and how we can work with you or your organisation, including the checks that export-control and sanctions laws require of us;</li><li>to consider job applications;</li><li>to answer investor enquiries;</li><li>to keep the website secure and working, and to understand in aggregate how it is used;</li><li>to meet our legal obligations and to protect our legal rights.</li></ul>
+          <p>We do not sell personal data. We do not use it for automated decisions about you, and we do not send marketing emails unless you have asked for them.</p>
+        </section>
+        <section id="privacy-sharing" aria-labelledby="privacy-sharing-title">
+          <h2 id="privacy-sharing-title">Who receives it</h2>
+          <p>Inside Aerodrome, your data is seen only by the people who need it to handle your enquiry. Outside Aerodrome, we share it only with:</p>
+          <ul class="bullets" style="margin-top:12px"><li>service providers that host this website and its forms, deliver our email and store our records, under contracts that require them to protect the data and use it only for us;</li><li>professional advisers such as lawyers and auditors, where needed;</li><li>government authorities, regulators or courts, where the law requires it, including export-control authorities;</li><li>a buyer or successor, if all or part of our business is sold or reorganised.</li></ul>
+          <p>Some of these recipients may be located outside Israel, including in countries whose data-protection laws differ from Israeli law. Where that is the case we take the steps the law requires to keep the data protected.</p>
+        </section>
+        <section id="privacy-cookies" aria-labelledby="privacy-cookies-title">
+          <h2 id="privacy-cookies-title">Cookies and similar technologies</h2>
+          <p>This website does not use advertising cookies and does not track you across other websites.</p>
+          <p>The site may store a small amount of information in your browser that is strictly necessary for it to work. Its fonts are delivered by Google Fonts, which means your browser sends your IP address to Google when it loads them.</p>
+          <p>If we add analytics to measure visits, we will use it only to produce aggregate statistics, we will update this section to name the tool, and where the law requires your consent we will ask for it first.</p>
         </section>
         <section id="privacy-retention" aria-labelledby="privacy-retention-title">
-          <h2 id="privacy-retention-title">Retention</h2>
-          <p>How long the data is kept.</p>
-          <p><span class="ph">[Text from counsel]</span></p>
+          <h2 id="privacy-retention-title">How long we keep it</h2>
+          <p>We keep personal data only for as long as we need it for the purposes above.</p>
+          <ul class="bullets" style="margin-top:12px"><li>Enquiries: for as long as we are in contact, and up to <span class="ph">[24 months]</span> after the last contact.</li><li>Job applications: up to <span class="ph">[12 months]</span> after the hiring process ends, unless you agree to a longer period.</li><li>Server logs: up to <span class="ph">[12 months]</span>.</li></ul>
+          <p>We may keep data longer where the law requires it or where we need it to establish or defend legal claims. After that we delete it or make it anonymous.</p>
+        </section>
+        <section id="privacy-security" aria-labelledby="privacy-security-title">
+          <h2 id="privacy-security-title">How we protect it</h2>
+          <p>We use technical and organisational measures appropriate to the sensitivity of the data, including access controls and encryption in transit. No website or transmission over the internet is completely secure, and we cannot guarantee absolute security.</p>
         </section>
         <section id="privacy-rights" aria-labelledby="privacy-rights-title">
           <h2 id="privacy-rights-title">Your rights</h2>
-          <p>The rights you have over your personal data and how to use them.</p>
-          <p><span class="ph">[Text from counsel]</span></p>
+          <p>Under the Israeli Protection of Privacy Law, 5741-1981, you have the right to review the personal data we hold about you and to ask us to correct or delete data that is inaccurate, incomplete, unclear or out of date.</p>
+          <p>If you are in the European Economic Area or the United Kingdom, you may also have the right to ask for erasure, to restrict or object to processing, to receive your data in a portable format, to withdraw consent at any time, and to complain to your local data-protection authority. Where those laws apply, we rely on your consent, on steps taken at your request before a contract, on our legal obligations, and on our legitimate interest in running and securing our business.</p>
+          <p>To use any of these rights, write to <span class="ph">[privacy contact email]</span>. We may ask you to confirm your identity. We will answer within the time the law sets.</p>
+        </section>
+        <section id="privacy-children" aria-labelledby="privacy-children-title">
+          <h2 id="privacy-children-title">Children</h2>
+          <p>This website is intended for professional audiences. It is not directed at anyone under 18, and we do not knowingly collect their data.</p>
+        </section>
+        <section id="privacy-links" aria-labelledby="privacy-links-title">
+          <h2 id="privacy-links-title">Links to other sites</h2>
+          <p>This website may link to websites we do not operate, such as LinkedIn or the stock-exchange disclosure site. Their privacy practices are their own, and this policy does not cover them.</p>
+        </section>
+        <section id="privacy-changes" aria-labelledby="privacy-changes-title">
+          <h2 id="privacy-changes-title">Changes to this policy</h2>
+          <p>We may update this policy. The date at the top shows when it was last changed. Material changes will be posted on this page.</p>
         </section>
         <section id="privacy-contact" aria-labelledby="privacy-contact-title">
           <h2 id="privacy-contact-title">Contact</h2>
-          <p>Who to contact with questions about privacy.</p>
-          <p><span class="ph">[Text from counsel]</span></p>
+          <p>Questions about this policy or about your personal data: <span class="ph">[privacy contact email]</span>, or by post to <span class="ph">[registered company name and company number]</span>, Hapsagot St 4, Petah Tikva, Israel.</p>
         </section>
       </div>
     </div>
@@ -1696,7 +1742,9 @@ a.media-card:focus-visible{outline-offset:4px}
   <section class="px thero" aria-labelledby="terms-title">
     <p class="eyebrow in">Legal</p>
     <h1 id="terms-title" class="xl in" style="margin-top:20px;max-width:12ch;animation-delay:.1s">Terms of Use</h1>
-    <p class="mono muted in" style="margin-top:28px;animation-delay:.25s">Last updated: <span class="ph">[date]</span></p>
+    <p class="mono muted in" style="margin-top:28px;animation-delay:.25s">Last updated: 16 November 2026</p>
+    <p class="lead muted in" style="margin-top:22px;max-width:72ch;animation-delay:.3s">These terms apply to your use of this website. By using the website you accept them. If you do not accept them, please do not use the website.</p>
+    <p class="note" style="margin-top:18px;max-width:72ch">Draft prepared without legal counsel. To be reviewed by a lawyer before the site goes live.</p>
   </section>
 
   <div class="px" style="padding-top:46px;padding-bottom:120px">
@@ -1704,32 +1752,76 @@ a.media-card:focus-visible{outline-offset:4px}
       <nav aria-labelledby="terms-toc-title" style="flex:1 1 260px;max-width:360px">
         <p id="terms-toc-title" class="eyebrow" style="margin-bottom:14px">Contents</p>
         <ol style="margin:0;padding:0;list-style:none;border-top:1px solid var(--line)">
-          <li><a class="listrow" href="#terms-use"><span>Use of this site</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#terms-about"><span>About this website</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#terms-info"><span>Information on this website</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#terms-use"><span>Acceptable use</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
           <li><a class="listrow" href="#terms-ip"><span>Intellectual property</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
-          <li><a class="listrow" href="#terms-liability"><span>Liability</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
-          <li><a class="listrow" href="#terms-law"><span>Governing law</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#terms-submit"><span>What you send us</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#terms-links"><span>Links to other websites</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#terms-warranty"><span>No warranty</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#terms-liability"><span>Limitation of liability</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#terms-investors"><span>Investor information</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#terms-law"><span>Governing law and jurisdiction</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#terms-changes"><span>Changes</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
+          <li><a class="listrow" href="#terms-contact"><span>Contact</span><svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></a></li>
         </ol>
       </nav>
       <div class="legaltext" style="flex:3 1 480px">
+        <section id="terms-about" aria-labelledby="terms-about-title">
+          <h2 id="terms-about-title" style="margin-top:0">About this website</h2>
+          <p>This website is operated by <span class="ph">[registered company name and company number]</span> ("Aerodrome", "we", "us"), Hapsagot St 4, Petah Tikva, Israel.</p>
+          <p>The website gives general information about Aerodrome, its products and its services, and ways to contact us.</p>
+        </section>
+        <section id="terms-info" aria-labelledby="terms-info-title">
+          <h2 id="terms-info-title">Information on this website</h2>
+          <p>The content of this website is for general information only. It is not an offer, a commitment, a specification or a warranty, and it is not a substitute for a written agreement with Aerodrome.</p>
+          <p>Product descriptions, performance figures, images, videos and software screens are indicative. They may show configurations, options or simulated data, and they may change without notice. Actual performance depends on configuration, payload, mission profile and conditions.</p>
+          <p>The supply of our products, services and technical information is subject to export-control laws and to the licences and approvals of the competent authorities. Nothing on this website means that a product is available for sale in any particular country or to any particular customer.</p>
+          <p>Further notices are set out on the <a href="#disclaimers" style="text-decoration:underline">Disclaimers</a> page, which forms part of these terms.</p>
+        </section>
         <section id="terms-use" aria-labelledby="terms-use-title">
-          <h2 id="terms-use-title" style="margin-top:0">Use of this site</h2>
-          <p>The conditions for using this site.</p>
-          <p><span class="ph">[Text from counsel]</span></p>
+          <h2 id="terms-use-title">Acceptable use</h2>
+          <p>You may view this website and print or download pages for your own information. You may not:</p>
+          <ul class="bullets" style="margin-top:12px"><li>copy, republish, sell or commercially exploit the content without our written permission;</li><li>use automated tools to scrape or harvest the website, except for public search engines and similar indexing services that respect our robots.txt file;</li><li>interfere with the website, attempt to gain unauthorised access to it, or introduce malicious code;</li><li>use the website for any unlawful purpose or in a way that misrepresents who you are.</li></ul>
         </section>
         <section id="terms-ip" aria-labelledby="terms-ip-title">
           <h2 id="terms-ip-title">Intellectual property</h2>
-          <p>Ownership of the content, names and marks on this site.</p>
-          <p><span class="ph">[Text from counsel]</span></p>
+          <p>This website and its content, including text, images, videos, software screens, designs and logos, belong to Aerodrome or its licensors and are protected by copyright, trademark and other laws. Aerodrome, Phoenix and APEX and their logos are marks of Aerodrome. Other names and marks belong to their owners.</p>
+          <p>Nothing on this website gives you a licence or right to use any of this content or these marks, other than to view the website as these terms allow.</p>
+        </section>
+        <section id="terms-submit" aria-labelledby="terms-submit-title">
+          <h2 id="terms-submit-title">What you send us</h2>
+          <p>When you contact us through the website, you are responsible for the accuracy and lawfulness of what you send. Sending an enquiry does not oblige us to reply or to enter into any relationship.</p>
+          <p>Unless we have agreed otherwise in writing, we will not treat ideas or suggestions you send us as confidential, and we may use them without obligation to you. Personal data is handled under our <a href="#privacy" style="text-decoration:underline">Privacy Policy</a>.</p>
+        </section>
+        <section id="terms-links" aria-labelledby="terms-links-title">
+          <h2 id="terms-links-title">Links to other websites</h2>
+          <p>Links to websites we do not operate are provided for convenience. We do not control or endorse them and are not responsible for their content or practices.</p>
+        </section>
+        <section id="terms-warranty" aria-labelledby="terms-warranty-title">
+          <h2 id="terms-warranty-title">No warranty</h2>
+          <p>This website is provided "as is" and "as available". To the fullest extent the law allows, we give no warranty, express or implied, about the website or its content, including about accuracy, completeness, availability, or freedom from errors or viruses.</p>
         </section>
         <section id="terms-liability" aria-labelledby="terms-liability-title">
-          <h2 id="terms-liability-title">Liability</h2>
-          <p>The limits of our liability for the use of this site.</p>
-          <p><span class="ph">[Text from counsel]</span></p>
+          <h2 id="terms-liability-title">Limitation of liability</h2>
+          <p>To the fullest extent the law allows, Aerodrome, its affiliates, directors, employees and agents are not liable for any loss or damage arising from the use of, or the inability to use, this website or its content, or from reliance on it. This includes indirect or consequential loss, loss of profit, and loss of data.</p>
+          <p>Nothing in these terms limits liability that cannot be limited by law.</p>
+        </section>
+        <section id="terms-investors" aria-labelledby="terms-investors-title">
+          <h2 id="terms-investors-title">Investor information</h2>
+          <p>Investor information on this website is provided for convenience only. The company's official reports are those filed through the disclosure systems of the Israel Securities Authority and the Tel Aviv Stock Exchange. If there is any difference between this website and those reports, the reports prevail.</p>
         </section>
         <section id="terms-law" aria-labelledby="terms-law-title">
-          <h2 id="terms-law-title">Governing law</h2>
-          <p>The law and jurisdiction that apply to these terms.</p>
-          <p><span class="ph">[Text from counsel]</span></p>
+          <h2 id="terms-law-title">Governing law and jurisdiction</h2>
+          <p>These terms and any matter relating to this website are governed by the laws of the State of Israel, without regard to its conflict-of-law rules. The competent courts in the Tel Aviv-Jaffa district have exclusive jurisdiction.</p>
+        </section>
+        <section id="terms-changes" aria-labelledby="terms-changes-title">
+          <h2 id="terms-changes-title">Changes</h2>
+          <p>We may change the website or these terms at any time. Changes apply from the date they are posted. The date at the top shows when the terms were last updated.</p>
+        </section>
+        <section id="terms-contact" aria-labelledby="terms-contact-title">
+          <h2 id="terms-contact-title">Contact</h2>
+          <p>Questions about these terms: use the <a href="#contact" style="text-decoration:underline">Contact</a> page or write to <span class="ph">[registered company name and company number]</span>, Hapsagot St 4, Petah Tikva, Israel.</p>
         </section>
       </div>
     </div>
@@ -1741,7 +1833,9 @@ a.media-card:focus-visible{outline-offset:4px}
   <section class="px thero" aria-labelledby="disclaimers-title">
     <p class="eyebrow in">Legal</p>
     <h1 id="disclaimers-title" class="xl in" style="margin-top:20px;max-width:12ch;animation-delay:.1s">Disclaimers</h1>
-    <p class="mono muted in" style="margin-top:28px;animation-delay:.25s">Last updated: <span class="ph">[date]</span></p>
+    <p class="mono muted in" style="margin-top:28px;animation-delay:.25s">Last updated: 16 November 2026</p>
+    <p class="lead muted in" style="margin-top:22px;max-width:72ch;animation-delay:.3s">These notices apply to all content on this website and form part of the Terms of Use.</p>
+    <p class="note" style="margin-top:18px;max-width:72ch">Draft prepared without legal counsel. To be reviewed by a lawyer before the site goes live.</p>
   </section>
 
   <div class="px" style="padding-top:46px;padding-bottom:120px">
@@ -1759,30 +1853,32 @@ a.media-card:focus-visible{outline-offset:4px}
       <div class="legaltext" style="flex:3 1 480px">
         <section id="disclaimers-forward" aria-labelledby="disclaimers-forward-title">
           <h2 id="disclaimers-forward-title" style="margin-top:0">Forward-looking statements</h2>
-          <p>Statements on this site about future plans and expectations.</p>
-          <p><span class="ph">[Text from counsel]</span></p>
+          <p>This website may include forward-looking information, as defined in the Israeli Securities Law, 5728-1968. This includes forecasts, estimates, targets, plans and other statements about future events or matters, such as product development, production capacity, markets, orders and results.</p>
+          <p>Such information is based on Aerodrome's assessments and on information available when it was published. It is uncertain, it depends on factors outside our control, and it may not materialise, or may materialise in a materially different way. These factors include, among others, development and testing outcomes, regulatory and export approvals, customer decisions and budgets, supply-chain conditions, competition, and geopolitical and economic conditions.</p>
+          <p>Aerodrome does not undertake to update forward-looking information on this website, except as the law requires. Nothing on this website replaces the company's official reports.</p>
         </section>
         <section id="disclaimers-specs" aria-labelledby="disclaimers-specs-title">
           <h2 id="disclaimers-specs-title">Specifications subject to change</h2>
-          <p>Product descriptions and capabilities may change without notice.</p>
-          <p><span class="ph">[Text from counsel]</span></p>
+          <p>Product descriptions, performance figures, capabilities and features on this website are indicative and are given for general information. They may refer to different configurations or optional items, and to capabilities that are under development.</p>
+          <p>Actual performance depends on configuration, payload, mission profile, operating conditions and other factors. Specifications may change without notice. Binding specifications are only those set out in a written agreement with Aerodrome.</p>
         </section>
         <section id="disclaimers-export" aria-labelledby="disclaimers-export-title">
           <h2 id="disclaimers-export-title">Export licensing</h2>
-          <p>Supply of our systems is subject to export licensing.</p>
-          <p><span class="ph">[Text from counsel]</span></p>
+          <p>Aerodrome's products, services, technical data and know-how are subject to export-control laws, including the Israeli Defense Export Control Law, 5767-2007, and may also be subject to the laws of other countries.</p>
+          <p>Marketing, sale, supply and transfer require the licences and approvals of the competent authorities, and may be restricted or prohibited for certain countries, customers or end uses. Nothing on this website is an offer to sell or supply to any country or customer, or a statement that a licence will be granted.</p>
+          <p>This website contains general, non-controlled information only.</p>
         </section>
         <section id="disclaimers-maps" aria-labelledby="disclaimers-maps-title">
           <h2 id="disclaimers-maps-title">Maps, screens and imagery</h2>
           <p>Any map or satellite imagery shown on this website is for illustrative purposes only. It is intended solely to demonstrate system functionality and user interface concepts and is not used for operational, navigational, mission-planning or decision-making purposes. It does not represent the operational mapping data used by the system.</p>
           <p>Software screens on this website are shown with simulated data. Locations, routes, aircraft positions and values in them are examples and do not describe any real operation, customer or deployment.</p>
           <p>Map imagery in screenshots is the intellectual property of Esri and its licensors and is shown with their attribution.</p>
-          <p><span class="ph">[Counsel to review this wording]</span></p>
+          <p>Photographs, videos and illustrations of products may show prototypes, test articles or representative configurations, and some images are illustrations.</p>
         </section>
         <section id="disclaimers-securities" aria-labelledby="disclaimers-securities-title">
           <h2 id="disclaimers-securities-title">No offer of securities</h2>
-          <p>Nothing on this site is an offer to buy or sell securities.</p>
-          <p><span class="ph">[Text from counsel]</span></p>
+          <p>Nothing on this website is an offer or invitation to buy or sell securities of Aerodrome, or investment advice, or a recommendation. Investment decisions should be based only on the company's official reports and on independent professional advice.</p>
+          <p>Share-price and market information, if shown, is provided by third parties, may be delayed, and is not guaranteed to be accurate.</p>
         </section>
       </div>
     </div>
