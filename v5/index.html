@@ -540,6 +540,19 @@ a.media-card:focus-visible{outline-offset:4px}
 .job-desc{margin-top:10px;color:var(--muted);max-width:70ch}
 .vision-pic{flex:1 1 420px;aspect-ratio:4/3;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--panel)}
 .vision-pic img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* review fixes (Sage, 17 Nov): narrower orange bar, capability image as tall as its list, word box text, team cards */
+.human{width:fit-content;max-width:100%}
+.caprow .capimg{min-height:420px}
+.caprow .caplist{align-content:center}
+@media(max-width:900px){.caprow .capimg{aspect-ratio:4/3;min-height:0;max-width:none}}
+.wbox>span[data-w]::before{content:attr(data-w)}
+.people{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px 40px}
+@media(max-width:900px){.people{grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 24px}}
+@media(max-width:560px){.people{grid-template-columns:1fr}}
+.person-pic{aspect-ratio:4/5;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--panel);margin-bottom:20px}
+.person-pic img{width:100%;height:100%;object-fit:cover;display:block}
+.person h3{font-family:var(--display);font-weight:600;font-size:22px;line-height:1.2}
 </style>
 <style>.cl body{visibility:hidden}</style>
 <script>if(/^https?:/.test(location.protocol)){document.documentElement.classList.add("cl");setTimeout(function(){document.documentElement.classList.remove("cl")},1500);}</script>
@@ -603,29 +616,27 @@ a.media-card:focus-visible{outline-offset:4px}
       <div class="title">
         <p class="herotag">Long-range precision strike systems</p>
         <h1 id="home-title" class="xl"><span>Reach Further.</span> <span>Defend Stronger.</span></h1>
-        <p class="hlead"><b>The reach of a missile. Within every nation's reach.</b> Precision strike systems with strategic range and payload, at a price that allows scale.</p>
+        <p class="hlead">Empowering nations with advanced long-range strike capabilities, combining operational performance, cost efficiency and sovereign production.</p>
       </div>
     </div>
   </section>
 
   <!-- 1b · Brand promise, lit word by word on scroll -->
   <section class="px stmt" aria-label="Brand promise">
-    <p class="eyebrow" style="margin-bottom:28px">Long-range capability. Within reach.</p>
-    <p id="words" class="words" data-cam="Built for mass production.">Strategic range and payload at a price that allows scale. Built for mass production. Tested where it counts.</p>
+    <p class="eyebrow" style="margin-bottom:28px">Our advantage</p>
+    <p id="words" class="words" data-cam="Built for mass production.">Strategic range and payload, at a price that allows scale. Built for mass production. Tested where it counts.</p>
   </section>
 
-  <!-- 3 · Why Aerodrome: five panels, details of the real aircraft -->
+  <!-- 3 · Why Aerodrome: four panels, details of the real aircraft -->
   <section class="px sec" id="home-why" aria-labelledby="home-why-title">
     <div class="head" style="margin-bottom:36px">
-      <div><p class="eyebrow">Why Aerodrome</p><h2 id="home-why-title" class="l" style="margin-top:14px">Five reasons, one system.</h2></div>
-      <p class="muted" style="max-width:36ch;font-size:15px">Hover or tap each panel.</p>
+      <div><p class="eyebrow">Why Aerodrome</p><h2 id="home-why-title" class="l" style="margin-top:14px">Four reasons, one system.</h2></div>
     </div>
     <div class="panels" id="panels">
-      <button class="panel on" type="button" aria-expanded="true"><img src="assets/why-p1-engine.jpg" alt="" style="object-position:50% 40%"><span class="txt"><span class="h">Engineered by aviation and defence-industry veterans</span><span class="d">A team that has designed, built and flown unmanned systems.</span></span></button>
-      <button class="panel" type="button" aria-expanded="false"><img src="assets/why-p2-nose-sky.jpg" alt="" style="object-position:28% 30%"><span class="txt"><span class="h">Long, accessible reach</span><span class="d">Strategic range and payload at a price that allows scale. A fraction of a cruise missile's cost.</span></span></button>
-      <button class="panel" type="button" aria-expanded="false"><img src="assets/why-p3-wing.jpg" alt="" style="object-position:72% 50%"><span class="txt"><span class="h">Built for mass production</span><span class="d">Designed for serial production and resupply in long conflicts.</span></span></button>
-      <button class="panel" type="button" aria-expanded="false"><img src="assets/why-p4-nose.jpg" alt="" style="object-position:50% 60%"><span class="txt"><span class="h">Up to 50 kg warhead</span><span class="d">A payload built to defeat real targets, not just reach them.</span></span></button>
-      <button class="panel" type="button" aria-expanded="false"><img src="assets/why-p5-stand.jpg" alt="" style="object-position:78% 40%"><span class="txt"><span class="h">Tested where it counts</span><span class="d">Long-endurance flights in the field, not prototypes on paper.</span></span></button>
+      <button class="panel on" type="button" aria-expanded="true"><img src="assets/why-p2-nose-sky.jpg" alt="" style="object-position:28% 30%"><span class="txt"><span class="h">Affordable in numbers</span><span class="d">A fraction of a cruise missile's cost.</span></span></button>
+      <button class="panel" type="button" aria-expanded="false"><img src="assets/why-p3-wing.jpg" alt="" style="object-position:72% 50%"><span class="txt"><span class="h">Built for mass production</span><span class="d">Designed for serial production, so supply keeps pace with demand.</span></span></button>
+      <button class="panel" type="button" aria-expanded="false"><img src="assets/why-p4-nose.jpg" alt="" style="object-position:50% 60%"><span class="txt"><span class="h">Up to 50 kg warhead</span><span class="d">A warhead sized for strategic targets.</span></span></button>
+      <button class="panel" type="button" aria-expanded="false"><img src="assets/why-p5-stand.jpg" alt="" style="object-position:78% 40%"><span class="txt"><span class="h">Tested where it counts</span><span class="d">Flown in long-endurance field trials.</span></span></button>
     </div>
   </section>
 
@@ -652,7 +663,7 @@ a.media-card:focus-visible{outline-offset:4px}
       <p class="eyebrow in" style="margin-top:24px;animation-delay:.05s">Phoenix LT</p>
       <h1 id="plt-title" class="xl in" style="margin-top:18px;max-width:11ch;animation-delay:.1s">Deep Strike. At Scale.</h1>
       <div class="row in" style="margin-top:32px;align-items:flex-end;justify-content:space-between;gap:24px 48px;animation-delay:.25s">
-        <p class="lead" style="flex:1 1 420px">Long-range precision strike, designed for autonomy and simple operation.</p>
+        <p class="lead" style="flex:1 1 420px">Long-range precision strike, designed for autonomous flight and easy field operation.</p>
         <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="phoenix-lt-hero">Contact Us</a>
       </div>
     </div>
@@ -660,7 +671,7 @@ a.media-card:focus-visible{outline-offset:4px}
 
   <!-- P2 · Key facts -->
   <section class="px" style="padding-top:72px" aria-label="Key facts">
-    <div class="facts"><div class="fact"><p class="mono" style="color:var(--camel)">Range</p><p class="v">Strategic range</p></div><div class="fact"><p class="mono" style="color:var(--camel)">Payload</p><p class="v">Up to 50 kg warhead</p></div><div class="fact"><p class="mono" style="color:var(--camel)">Launch</p><p class="v">Rocket booster, no runway</p></div></div>
+    <div class="facts"><div class="fact"><p class="mono" style="color:var(--camel)">Payload</p><p class="v">Up to 50 kg warhead</p></div><div class="fact"><p class="mono" style="color:var(--camel)">Launch</p><p class="v">Rocket booster, no runway</p></div></div>
   </section>
 
   <!-- P3 · Capabilities -->
@@ -668,14 +679,11 @@ a.media-card:focus-visible{outline-offset:4px}
     <div class="head">
       <h2 id="plt-cap-title" class="l" style="max-width:15ch">Every part built for the mission</h2>
     </div>
-    <div class="row" style="align-items:flex-start;gap:48px 72px">
-      <div class="reveal" style="flex:1 1 360px;max-width:520px;aspect-ratio:4/5;border-radius:12px;--r:260px"><img src="assets/launcher.jpg" alt="Phoenix LT on its launch stand at night" loading="lazy" style="object-position:42% 40%"><div class="veil"></div></div>
-      <div class="grid2" style="flex:1.4 1 480px;gap:36px 40px">
-        <div class="pt"><h3>Resilient navigation</h3><p>Image-based navigation that holds course when GPS is jammed.</p></div>
-        <div class="pt"><h3>GPS navigation</h3><p>Satellite navigation along the full route.</p></div>
-        <div class="pt"><h3>Anti-jam GPS</h3><p>A protected GPS receiver that keeps working under jamming.</p></div>
-        <div class="pt"><h3>Inertial navigation and homing</h3><p>Inertial navigation and homing for precise terminal guidance.</p></div>
-        <div class="pt"><h3>In-house avionics and engine</h3><p>Autopilot, mission computer and precision navigation developed by Aerodrome, powered by our own 550 engine.</p></div>
+    <div class="row caprow" style="align-items:stretch;gap:48px 72px">
+      <div class="reveal capimg" style="flex:1 1 360px;max-width:520px;border-radius:12px;--r:260px"><img src="assets/launcher.jpg" alt="Phoenix LT on its launch stand at night" loading="lazy" style="object-position:42% 40%"><div class="veil"></div></div>
+      <div class="grid2 caplist" style="flex:1.4 1 480px;gap:36px 40px">
+        <div class="pt"><h3>Resilient navigation</h3><p>Image-based, anti-jam GPS and inertial navigation keep the mission on course when GPS is jammed.</p></div>
+        <div class="pt"><h3>In-house avionics</h3><p>Autopilot, mission computer and precision navigation developed by Aerodrome.</p></div>
         <div class="pt"><h3>Redundant by design</h3><p>Redundant servo-driven control surfaces and a power system with dedicated flight, ignition and starter batteries.</p></div>
         <div class="pt"><h3>Open Mission Architecture</h3><p>Build and run your own mission applications in-house.</p></div>
       </div>
@@ -686,7 +694,7 @@ a.media-card:focus-visible{outline-offset:4px}
   <!-- P4 · Delivery -->
   <section class="px" style="padding-bottom:130px" aria-labelledby="plt-del-title">
     <div class="head">
-      <h2 id="plt-del-title" class="l" style="max-width:16ch">Built <span class="sr">with</span><span class="wbox" aria-hidden="true"><span>with</span><span>for</span></span> you, for the long term</h2>
+      <h2 id="plt-del-title" class="l" style="max-width:16ch" aria-label="Built with you, for the long term">Built <span class="wbox" aria-hidden="true"><span>with</span><span data-w="for"></span></span> you, for the long term</h2>
     </div>
     <div class="grid3" style="gap:40px">
       <div class="pt"><h3>Supply from our line</h3><p>Phoenix LT systems delivered from our production line, with integration and field delivery.</p></div>
@@ -735,11 +743,11 @@ a.media-card:focus-visible{outline-offset:4px}
       </div>
       <div class="apex-row flip">
         <div class="shot"><img src="assets/apex-mission-planning.jpg" alt="APEX LT mission planning screen: workflow steps, a route with waypoints on a map, and a waypoint table" width="1600" height="900" loading="lazy"></div>
-        <div class="pt"><p class="eyebrow" style="color:var(--camel)">Planners</p><h3 style="margin-top:12px">Mission planning</h3><ul class="bullets" style="margin-top:16px"><li>Structured mission-planning workflow, step by step</li><li>Route and waypoint visualisation on the map</li><li>Plan review and validation before upload</li></ul></div>
+        <div class="pt"><p class="eyebrow" style="color:var(--camel)">Planners</p><h3 style="margin-top:12px">Mission planning</h3><ul class="bullets" style="margin-top:16px"><li>Structured mission-planning workflow, step by step</li><li>Route and waypoint visualisation on the map</li><li>Plan review and validation workflow</li></ul></div>
       </div>
       <div class="apex-row">
-        <div class="shot"><img src="assets/apex-individual-uav.jpg" alt="APEX LT individual UAV screen: one aircraft with its route, system readiness steps, flight control and payload camera view" width="1600" height="900" loading="lazy"></div>
-        <div class="pt"><p class="eyebrow" style="color:var(--camel)">Operators</p><h3 style="margin-top:12px">Individual UAV</h3><ul class="bullets" style="margin-top:16px"><li>One aircraft in focus: route, state and flight control</li><li>System readiness shown step by step</li><li>Payload camera view beside the map</li></ul></div>
+        <div class="shot"><img src="assets/apex-individual-uav.jpg" alt="APEX LT individual UAV screen: one aircraft with its route and system readiness steps" width="1600" height="900" loading="lazy"></div>
+        <div class="pt"><p class="eyebrow" style="color:var(--camel)">Operators</p><h3 style="margin-top:12px">Individual UAV</h3><ul class="bullets" style="margin-top:16px"><li>One aircraft in focus: route, state and system readiness</li><li>System readiness shown step by step</li></ul></div>
       </div>
       <div class="apex-row flip">
         <div class="shot"><img src="assets/apex-diagnostics.jpg" alt="APEX LT technician diagnostics screen: test sequence, aircraft parts diagram, current test and run history" width="1600" height="900" loading="lazy"></div>
@@ -775,8 +783,8 @@ a.media-card:focus-visible{outline-offset:4px}
   <!-- A1 · Hero: text-led (no approved project imagery yet) -->
   <section class="thero px" aria-labelledby="aer-title">
     <p class="crumb in">Solutions / Aerial Services</p>
-    <p class="eyebrow in" style="margin-top:28px;animation-delay:.05s"><span class="ph">[Name TBD]</span> Aerial Services</p>
-    <h1 id="aer-title" class="xl in" style="margin-top:20px;max-width:14ch;animation-delay:.1s"><span class="ph" style="font-size:.3em;line-height:1.4;letter-spacing:0">[Headline placeholder: aerial data for large projects]</span></h1>
+    <p class="eyebrow in" style="margin-top:28px;animation-delay:.05s">Aerial Services</p>
+    <h1 id="aer-title" class="xl in" style="margin-top:20px;max-width:14ch;animation-delay:.1s">Aerial data for large projects</h1>
     <div class="row in" style="margin-top:36px;align-items:flex-end;justify-content:space-between;gap:24px 48px;animation-delay:.25s">
       <p class="lead" style="flex:1 1 420px">End-to-end aerial photography, mapping and data processing, from flight planning to final deliverables.</p>
       <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="aerial-services-hero">Contact Us</a>
@@ -803,7 +811,7 @@ a.media-card:focus-visible{outline-offset:4px}
   <!-- A3 · Sectors -->
   <section class="px" style="padding-bottom:110px" aria-labelledby="aer-sec-title">
     <div class="head">
-      <h2 id="aer-sec-title" class="l"><span class="ph" style="font-size:.42em;line-height:1.4;letter-spacing:0">[Headline placeholder: who we work with]</span></h2>
+      <h2 id="aer-sec-title" class="l">Who we work with</h2>
     </div>
     <ul class="grid4">
       <li class="pt"><h3>Infrastructure</h3></li>
@@ -834,7 +842,7 @@ a.media-card:focus-visible{outline-offset:4px}
   <!-- A5 · Process -->
   <section class="px" style="padding-bottom:110px" aria-labelledby="aer-proc-title">
     <div class="head">
-      <h2 id="aer-proc-title" class="l"><span class="ph" style="font-size:.42em;line-height:1.4;letter-spacing:0">[Headline placeholder: from flight plan to final output]</span></h2>
+      <h2 id="aer-proc-title" class="l">From flight plan to final output</h2>
     </div>
     <ol class="grid4 steps" style="margin:0;padding:0;list-style:none">
       <li class="step"><h3>Plan the mission</h3></li>
@@ -859,7 +867,7 @@ a.media-card:focus-visible{outline-offset:4px}
   <section class="px" style="padding-bottom:120px" aria-labelledby="aer-cta-title">
     <div class="cta">
       <div style="flex:1 1 420px">
-        <h2 id="aer-cta-title" class="l"><span class="ph" style="font-size:.42em;line-height:1.4;letter-spacing:0">[CTA headline placeholder]</span></h2>
+        <h2 id="aer-cta-title" class="l">Plan your next project with us</h2>
         <p class="lead muted" style="margin-top:22px">We'll answer you shortly.</p>
       </div>
       <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="aerial-services-cta">Contact Us</a>
@@ -871,16 +879,16 @@ a.media-card:focus-visible{outline-offset:4px}
   <!-- B1 · Vision -->
   <section class="px thero" aria-labelledby="about-title">
     <p class="eyebrow in">Our vision</p>
-    <h1 id="about-title" class="l in" style="margin-top:20px;max-width:20ch;animation-delay:.1s">To make effective long-range deterrence accessible to the nations that need it</h1>
+    <h1 id="about-title" class="l in" style="margin-top:20px;max-width:20ch;animation-delay:.1s">To make effective <span style="white-space:nowrap">long-range</span> deterrence accessible to the nations that need it</h1>
   </section>
 
   <!-- B2 · Story -->
   <section class="px" style="padding-top:46px;padding-bottom:110px" aria-labelledby="about-story-title">
     <div class="row" style="align-items:center;gap:40px 80px">
       <div style="flex:1 1 440px">
-        <h2 id="about-story-title" class="m" style="max-width:18ch">The reach of a missile. Within every nation's reach.</h2>
+        <h2 id="about-story-title" class="m" style="max-width:18ch">Missile-class reach, built to be fielded in numbers.</h2>
         <p class="lead" style="margin-top:28px">Long-range strike has always belonged to the few who could afford cruise missiles. Aerodrome was built to change that: precision strike systems with strategic range and payload, at a price that allows scale.</p>
-        <p class="lead muted" style="margin-top:18px">Built for mass production and tested in long-endurance field flights, our systems are supplied from our production line or produced and sustained in the customer's own country.</p>
+        <p class="lead muted" style="margin-top:18px">Our systems are supplied from our production line, or produced and sustained in the customer's own country.</p>
       </div>
       <div class="reveal" style="flex:1 1 440px;aspect-ratio:4/3;border-radius:12px;--r:300px"><img src="assets/launcher.jpg" alt="Phoenix LT on its rocket-booster launch rail at night" style="object-position:40% 35%"><div class="veil"></div></div>
     </div>
@@ -892,11 +900,11 @@ a.media-card:focus-visible{outline-offset:4px}
     <div class="grid3">
       <div class="pt">
         <h3>Strategic reach that matters</h3>
-        <p>Strategic range with a warhead built for real targets.</p>
+        <p>Strategic range with a meaningful warhead.</p>
       </div>
       <div class="pt">
         <h3>Affordable at scale</h3>
-        <p>Long-range effect at a fraction of a cruise missile's cost, built for mass production.</p>
+        <p>Long-range effect at a fraction of a cruise missile's cost, designed for serial production.</p>
       </div>
       <div class="pt">
         <h3>Built with you, for the long term</h3>
@@ -918,15 +926,51 @@ a.media-card:focus-visible{outline-offset:4px}
 </div>
 
 <div class="page" data-page="management" data-title="Management">
-  <!-- M1 · Vision and one picture -->
-  <section class="px thero" style="padding-bottom:110px" aria-labelledby="management-title">
-    <div class="row" style="align-items:center;gap:40px 80px">
-      <div style="flex:1 1 480px">
-        <p class="eyebrow in">Management</p>
-        <h1 id="management-title" class="l in" style="margin-top:20px;animation-delay:.1s">Our vision</h1>
-        <p class="lead in" style="margin-top:28px;animation-delay:.25s"><span class="ph">[Vision text to be added]</span></p>
-      </div>
-      <div class="vision-pic in" style="animation-delay:.2s"><img src="assets/management-picture.jpg" alt="Picture to be added"></div>
+  <!-- M1 · The team: intro, then one card per person -->
+  <section class="px thero" aria-labelledby="management-title">
+    <p class="eyebrow in">Management</p>
+    <h1 id="management-title" class="xl in" style="margin-top:20px;max-width:14ch;animation-delay:.1s">The team behind Phoenix</h1>
+    <p class="lead muted in" style="margin-top:28px;max-width:70ch;animation-delay:.25s"><span class="ph">[Intro: one or two sentences about the team]</span></p>
+  </section>
+
+  <section class="px" style="padding-top:56px;padding-bottom:110px" aria-label="Team members">
+    <div class="people">
+      <article class="person">
+        <div class="person-pic"><img src="assets/management-picture.jpg" alt="Photo to be added"></div>
+        <h3><span class="ph">[Name]</span></h3>
+        <p class="mono" style="color:var(--camel);margin-top:8px"><span class="ph">[Role]</span></p>
+        <p class="muted" style="margin-top:12px"><span class="ph">[Two lines of background]</span></p>
+      </article>
+      <article class="person">
+        <div class="person-pic"><img src="assets/management-picture.jpg" alt="Photo to be added"></div>
+        <h3><span class="ph">[Name]</span></h3>
+        <p class="mono" style="color:var(--camel);margin-top:8px"><span class="ph">[Role]</span></p>
+        <p class="muted" style="margin-top:12px"><span class="ph">[Two lines of background]</span></p>
+      </article>
+      <article class="person">
+        <div class="person-pic"><img src="assets/management-picture.jpg" alt="Photo to be added"></div>
+        <h3><span class="ph">[Name]</span></h3>
+        <p class="mono" style="color:var(--camel);margin-top:8px"><span class="ph">[Role]</span></p>
+        <p class="muted" style="margin-top:12px"><span class="ph">[Two lines of background]</span></p>
+      </article>
+      <article class="person">
+        <div class="person-pic"><img src="assets/management-picture.jpg" alt="Photo to be added"></div>
+        <h3><span class="ph">[Name]</span></h3>
+        <p class="mono" style="color:var(--camel);margin-top:8px"><span class="ph">[Role]</span></p>
+        <p class="muted" style="margin-top:12px"><span class="ph">[Two lines of background]</span></p>
+      </article>
+      <article class="person">
+        <div class="person-pic"><img src="assets/management-picture.jpg" alt="Photo to be added"></div>
+        <h3><span class="ph">[Name]</span></h3>
+        <p class="mono" style="color:var(--camel);margin-top:8px"><span class="ph">[Role]</span></p>
+        <p class="muted" style="margin-top:12px"><span class="ph">[Two lines of background]</span></p>
+      </article>
+      <article class="person">
+        <div class="person-pic"><img src="assets/management-picture.jpg" alt="Photo to be added"></div>
+        <h3><span class="ph">[Name]</span></h3>
+        <p class="mono" style="color:var(--camel);margin-top:8px"><span class="ph">[Role]</span></p>
+        <p class="muted" style="margin-top:12px"><span class="ph">[Two lines of background]</span></p>
+      </article>
     </div>
   </section>
 
@@ -934,7 +978,7 @@ a.media-card:focus-visible{outline-offset:4px}
   <section class="px" style="padding-bottom:120px" aria-labelledby="management-cta-title">
     <div class="cta">
       <div style="flex:1 1 420px">
-        <h2 id="management-cta-title" class="l" style="max-width:14ch">Long-range capability. Within reach.</h2>
+        <h2 id="management-cta-title" class="l" style="max-width:14ch">Let's extend your reach</h2>
         <p class="lead muted" style="margin-top:22px">Tell us what you need and the right person on our team will answer you shortly.</p>
       </div>
       <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="management-cta">Contact Us</a>
@@ -965,17 +1009,15 @@ a.media-card:focus-visible{outline-offset:4px}
       <h3 class="s">No open positions at the moment.</h3>
       <p class="muted" style="margin-top:10px">New roles are posted here when they open.</p>
     </div>
-    <p class="lead muted" style="margin-top:32px;max-width:none">You are welcome to send your CV to <a href="mailto:careers@aerodrome-sys.com" style="text-decoration:underline">careers@aerodrome-sys.com</a>.</p>
   </section>
 
-  <!-- CTA -->
+  <!-- Closing: recruiting, not sales -->
   <section class="px" style="padding-bottom:120px" aria-labelledby="careers-cta-title">
     <div class="cta">
       <div style="flex:1 1 420px">
-        <h2 id="careers-cta-title" class="l" style="max-width:14ch">Long-range capability. Within reach.</h2>
-        <p class="lead muted" style="margin-top:22px">Tell us what you need and the right person on our team will answer you shortly.</p>
+        <h2 id="careers-cta-title" class="l" style="max-width:14ch">Want to build with us?</h2>
+        <p class="lead muted" style="margin-top:22px">Send your CV to <a href="mailto:careers@aerodrome-sys.com" style="text-decoration:underline">careers@aerodrome-sys.com</a>.</p>
       </div>
-      <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="careers-cta">Contact Us</a>
     </div>
   </section>
 </div>
@@ -1232,7 +1274,7 @@ a.media-card:focus-visible{outline-offset:4px}
       <div class="card">
         <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12.5 10 17l9-10"></path></svg></span>
         <h3>Compliance level</h3>
-        <p>This site meets Standard IS 5568 at level AA, based on WCAG 2.x AA. Last reviewed: <span class="ph">[date]</span>.</p>
+        <p>We aim to meet Standard IS 5568 at level AA, based on WCAG 2.x AA. Last reviewed: <span class="ph">[date]</span>.</p>
       </div>
       <div class="card">
         <span class="icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.2"></circle><path d="M5.5 20c.8-3.6 3.4-5.6 6.5-5.6s5.7 2 6.5 5.6"></path></svg></span>
@@ -1304,7 +1346,7 @@ a.media-card:focus-visible{outline-offset:4px}
         <section id="privacy-data" aria-labelledby="privacy-data-title">
           <h2 id="privacy-data-title">Data we collect</h2>
           <p>We collect only the data you choose to give us and a small amount of technical data needed to run the site.</p>
-          <ul class="bullets" style="margin-top:12px"><li><b>Contact form:</b> first and last name, work email, company, job title, country, the type of enquiry you select, and the content of your message.</li><li><b>Job applications:</b> the details you send us when you apply for a role, such as your CV, contact details and work history.</li><li><b>Technical data:</b> IP address, browser and device type, pages viewed and the date and time of the visit, recorded in server logs.</li></ul>
+          <ul class="bullets" style="margin-top:12px"><li><b>Contact form:</b> first and last name, work email, company, country, the type of enquiry you select, and the content of your message.</li><li><b>Job applications:</b> the details you send us when you apply for a role, such as your CV, contact details and work history.</li><li><b>Technical data:</b> IP address, browser and device type, pages viewed and the date and time of the visit, recorded in server logs.</li></ul>
           <p>You are not legally required to give us any personal data. Providing it is your choice and depends on your consent. If you do not provide the details marked as required in a form, we will not be able to answer that enquiry.</p>
           <p>Please do not send us personal data about other people unless they know about it and agree.</p>
         </section>
@@ -1826,11 +1868,33 @@ a.media-card:focus-visible{outline-offset:4px}
     }
     if (alt != null){ if (el.tagName === 'IMG') el.alt = alt; else el.setAttribute('aria-label', alt); }
   }
+  /* pages switched off in the editor: their links disappear, and a visitor who opens one is sent to the home page */
+  var hiddenPages = [];
+  function hrefOf(id){ return '#' + id; }
+  function curPage(){ var p = document.querySelector('.page.on'); return p ? p.dataset.page : 'home'; }
+  function leave(){ location.hash = 'home'; }
+  function setHidden(list){
+    hiddenPages = (list || []).filter(function(id){ return id !== 'home'; });
+    document.querySelectorAll('a[data-hid]').forEach(function(a){ var box = a.parentNode.tagName === 'LI' ? a.parentNode : a; box.hidden = false; a.removeAttribute('data-hid'); });
+    hiddenPages.forEach(function(id){
+      var h = hrefOf(id);
+      document.querySelectorAll('a[href]').forEach(function(a){
+        var href = a.getAttribute('href');
+        if (h.charAt(0) === '#' ? href !== h : href.split('#')[0].split('?')[0] !== h) return;
+        a.setAttribute('data-hid', '1');
+        (a.parentNode.tagName === 'LI' ? a.parentNode : a).hidden = true;
+      });
+    });
+    if (!EDIT && hiddenPages.indexOf(curPage()) >= 0) leave();
+  }
+  addEventListener('hashchange', function(){ if (!EDIT && hiddenPages.indexOf(curPage()) >= 0) leave(); });
+
   function apply(c){
     c = c || {}; var t = c.text || {}, m = c.media || {};
     Object.keys(t).forEach(function(k){ var e = findT(k, t[k]); if (e) setText(e, t[k].text); });
     Object.keys(m).forEach(function(k){ var e = findM(k, m[k]); if (e) setMedia(e, m[k].src, m[k].alt); });
     if (window.AE_jobs) window.AE_jobs(c.jobs || []);
+    setHidden(c.hidden || []);
   }
   function show(){ root.classList.remove('cl'); }
 
@@ -1903,6 +1967,7 @@ a.media-card:focus-visible{outline-offset:4px}
     start: function(content, callbacks){ cb = callbacks || {}; apply(content); enable(); show(); },
     apply: apply,
     setJobs: function(list){ if (window.AE_jobs) window.AE_jobs(list || []); },
+    setHidden: function(list){ setHidden(list || []); },
     setText: function(k, text){ if (T[k]) setText(T[k], text); },
     setMedia: function(k, src, alt){ if (M[k]){ var el = M[k].el; if (/^data:|^blob:/.test(src)) { el.src = src; if (el.tagName === 'VIDEO'){ el.removeAttribute('poster'); el.load(); var p = el.play(); if (p && p.catch) p.catch(function(){}); } if (alt != null){ if (el.tagName === 'IMG') el.alt = alt; else el.setAttribute('aria-label', alt); } } else setMedia(M[k], src, alt); } },
     origText: function(k){ return T[k] ? T[k].orig : null; },

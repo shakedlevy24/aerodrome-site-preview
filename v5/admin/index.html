@@ -128,6 +128,7 @@ input:focus{outline:none;border-color:var(--camel)}
     <span class="grow"></span>
     <span class="status" id="status" role="status"></span>
     <button class="btn" type="button" id="jobsBtn">Open positions</button>
+    <button class="btn" type="button" id="pagesBtn">Show / hide pages</button>
     <button class="btn" type="button" id="changesBtn">Changes <span class="count" id="count">0</span></button>
     <button class="btn btn-solid" type="button" id="publish" disabled>Publish</button>
     <a class="btn" href="../" target="_blank" rel="noopener">Live site ↗</a>
@@ -167,6 +168,20 @@ input:focus{outline:none;border-color:var(--camel)}
 </div>
 
 <!-- open positions dialog -->
+<!-- page visibility dialog -->
+<div class="scrim" id="pagesScrim" hidden>
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="pagesTitle" style="max-width:520px;width:100%">
+    <h2 id="pagesTitle">Show or hide pages</h2>
+    <p class="sub">A hidden page disappears from the menu and the footer, and visitors who open its address are sent to the home page. You can still open and edit it here.</p>
+    <div id="pagesRows"></div>
+    <div class="acts">
+      <span class="grow"></span>
+      <button class="btn" type="button" id="pagesCancel">Cancel</button>
+      <button class="btn btn-solid" type="button" id="pagesDone">Use these settings</button>
+    </div>
+  </div>
+</div>
+
 <div class="scrim" id="jobsScrim" hidden>
   <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="jobsTitle" style="max-width:720px;width:100%;max-height:86vh;overflow:auto">
     <h2 id="jobsTitle">Open positions</h2>
@@ -187,7 +202,7 @@ input:focus{outline:none;border-color:var(--camel)}
   var API = 'https://api.github.com/repos/' + OWNER + '/' + REPO;
   var PFX = (location.pathname.match(/\/(v\d+)\//) || [])[1]; PFX = PFX ? PFX + '/' : '';
   var $ = function(id){ return document.getElementById(id); };
-  var tok = null, content = { text: {}, media: {} }, draft = { text: {}, media: {}, jobs: null }, AE = null, pages = [];
+  var tok = null, content = { text: {}, media: {} }, draft = { text: {}, media: {}, jobs: null, hidden: null }, AE = null, pages = [];
 
   function store(k, v){ try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (_) {} }
   function load(k){ try { return localStorage.getItem(k); } catch (_) { return null; } }
@@ -233,7 +248,7 @@ input:focus{outline:none;border-color:var(--camel)}
   }
   $('signout').addEventListener('click', function(){
     if (count() && !confirm('You have unpublished changes. Sign out and lose them?')) return;
-    store('ae_tok', null); tok = null; draft = { text: {}, media: {}, jobs: null }; $('tok').value = ''; $('frame').src = 'about:blank'; showLogin();
+    store('ae_tok', null); tok = null; draft = { text: {}, media: {}, jobs: null, hidden: null }; $('tok').value = ''; $('frame').src = 'about:blank'; showLogin();
   });
 
   /* ---------- editor ---------- */
@@ -252,8 +267,10 @@ input:focus{outline:none;border-color:var(--camel)}
     Object.keys(draft.text).forEach(function(k){ AE.setText(k, draft.text[k].text); });
     Object.keys(draft.media).forEach(function(k){ var d = draft.media[k]; AE.setMedia(k, d.restore ? d.orig : (d.dataUrl || d.src), d.alt); });
     if (draft.jobs && AE.setJobs) AE.setJobs(draft.jobs);
+    if (AE.setHidden) AE.setHidden(hiddenNow());
     pages = AE.pages();
-    $('page').innerHTML = pages.map(function(p){ return '<option value="' + esc(p.id) + '">' + esc(p.title) + '</option>'; }).join('');
+    var hid = hiddenNow();
+    $('page').innerHTML = pages.map(function(p){ return '<option value="' + esc(p.id) + '">' + esc(p.title) + (hid.indexOf(p.id) >= 0 ? ' (hidden)' : '') + '</option>'; }).join('');
     $('page').value = AE.current();
     var w = $('frame').contentWindow;
     w.addEventListener('hashchange', function(){ $('page').value = AE.current(); history.replaceState(null, '', '#' + AE.current()); });
@@ -272,7 +289,8 @@ input:focus{outline:none;border-color:var(--camel)}
     else draft.text[k] = { orig: orig, text: text, scope: scope };
     refresh();
   }
-  function count(){ return Object.keys(draft.text).length + Object.keys(draft.media).length + (draft.jobs ? 1 : 0); }
+  function count(){ return Object.keys(draft.text).length + Object.keys(draft.media).length + (draft.jobs ? 1 : 0) + (draft.hidden ? 1 : 0); }
+  function hiddenNow(){ return (draft.hidden || content.hidden || []).slice(); }
   function setStatus(msg, cls){ var s = $('status'); s.textContent = msg; s.className = 'status' + (cls ? ' ' + cls : ''); }
   function refresh(){
     var n = count(); $('count').textContent = n; $('publish').disabled = !n;
@@ -286,9 +304,11 @@ input:focus{outline:none;border-color:var(--camel)}
   function renderList(){
     var keys = Object.keys(draft.text).map(function(k){ return ['t', k]; }).concat(Object.keys(draft.media).map(function(k){ return ['m', k]; }));
     if (draft.jobs) keys.push(['j', 'jobs']);
+    if (draft.hidden) keys.push(['h', 'hidden']);
     if (!keys.length){ $('list').innerHTML = '<p class="empty">No unpublished changes. Click text or pictures on the page to edit them.</p>'; return; }
     $('list').innerHTML = keys.map(function(x){
       var k = x[1], scope = k.split(':')[0];
+      if (x[0] === 'h') return '<div class="item"><div class="row"><div class="where">Pages shown on the site</div><button class="btn btn-sm" data-undo="h" data-k="hidden">Undo</button></div><div class="new">' + (draft.hidden.length ? 'Hidden: ' + draft.hidden.map(function(id){ return esc(pageTitle(id)); }).join(', ') : 'All pages shown') + '</div></div>';
       if (x[0] === 'j') return '<div class="item"><div class="row"><div class="where">Careers · open positions</div><button class="btn btn-sm" data-undo="j" data-k="jobs">Undo</button></div><div class="new">' + (draft.jobs.length ? draft.jobs.map(function(j){ return esc(j.title); }).join('<br>') : 'No open positions') + '</div></div>';
       if (x[0] === 't'){ var d = draft.text[k];
         return '<div class="item"><div class="row"><div class="where">' + esc(pageName(scope)) + ' · text</div><button class="btn btn-sm" data-undo="t" data-k="' + esc(k) + '">Undo</button></div>' +
@@ -301,13 +321,14 @@ input:focus{outline:none;border-color:var(--camel)}
   }
   $('list').addEventListener('click', function(e){ var b = e.target.closest('[data-undo]'); if (b) undo(b.dataset.undo, b.dataset.k); });
   function undo(type, k){
+    if (type === 'h'){ draft.hidden = null; if (AE.setHidden) AE.setHidden(content.hidden || []); markPages(); refresh(); return; }
     if (type === 'j'){ draft.jobs = null; if (AE.setJobs) AE.setJobs(content.jobs || []); refresh(); return; }
     if (type === 't'){ var d = draft.text[k]; delete draft.text[k]; AE.setText(k, publishedText(k, d.orig)); }
     else { var m = draft.media[k]; delete draft.media[k]; var p = content.media[k]; AE.setMedia(k, p && p.orig === m.orig ? p.src : m.orig, p && p.orig === m.orig ? p.alt : m.origAlt); }
     refresh();
   }
   $('undoAll').addEventListener('click', function(){ if (!count() || !confirm('Undo all unpublished changes?')) return;
-    Object.keys(draft.text).forEach(function(k){ undo('t', k); }); Object.keys(draft.media).forEach(function(k){ undo('m', k); }); if (draft.jobs) undo('j', 'jobs'); });
+    Object.keys(draft.text).forEach(function(k){ undo('t', k); }); Object.keys(draft.media).forEach(function(k){ undo('m', k); }); if (draft.jobs) undo('j', 'jobs'); if (draft.hidden) undo('h', 'hidden'); });
 
   /* ---------- replace picture / video ---------- */
   var cur = null, pending = null;
@@ -378,6 +399,28 @@ input:focus{outline:none;border-color:var(--camel)}
     AE.setMedia(k, cur.orig, cur.origAlt); closeDlg(); refresh();
   });
 
+  /* ---------- show or hide pages ---------- */
+  var OPTIONAL = ['management', 'careers', 'aerial-services', 'faq'];   // pages that may be switched off
+  function pageTitle(id){ for (var i = 0; i < pages.length; i++) if (pages[i].id === id) return pages[i].title; return id; }
+  function markPages(){ var hid = hiddenNow(), cur = $('page').value;
+    $('page').innerHTML = pages.map(function(p){ return '<option value="' + esc(p.id) + '">' + esc(p.title) + (hid.indexOf(p.id) >= 0 ? ' (hidden)' : '') + '</option>'; }).join(''); $('page').value = cur; }
+  $('pagesBtn').addEventListener('click', function(){
+    var hid = hiddenNow();
+    $('pagesRows').innerHTML = OPTIONAL.filter(function(id){ return pages.some(function(p){ return p.id === id; }); }).map(function(id){
+      return '<label style="display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid rgba(255,255,255,.12);cursor:pointer"><input type="checkbox" data-pg="' + esc(id) + '"' + (hid.indexOf(id) >= 0 ? '' : ' checked') + ' style="width:18px;height:18px;flex:none"><span>Show <b>' + esc(pageTitle(id)) + '</b></span></label>';
+    }).join('');
+    $('pagesScrim').hidden = false;
+  });
+  $('pagesCancel').addEventListener('click', function(){ $('pagesScrim').hidden = true; });
+  $('pagesDone').addEventListener('click', function(){
+    var keep = (content.hidden || []).filter(function(id){ return OPTIONAL.indexOf(id) < 0; }), list = keep.slice();
+    document.querySelectorAll('#pagesRows input[data-pg]').forEach(function(c){ if (!c.checked) list.push(c.dataset.pg); });
+    list.sort(); var was = (content.hidden || []).slice().sort();
+    draft.hidden = JSON.stringify(list) === JSON.stringify(was) ? null : list;
+    if (AE && AE.setHidden) AE.setHidden(list);
+    markPages(); $('pagesScrim').hidden = true; refresh();
+  });
+
   /* ---------- open positions (Careers page) ---------- */
   var jobsEdit = [];
   function jobsNow(){ return JSON.parse(JSON.stringify(draft.jobs || content.jobs || [])); }
@@ -430,13 +473,14 @@ input:focus{outline:none;border-color:var(--camel)}
           if (src === d.orig && d.alt === d.origAlt) delete next.media[k];
           else next.media[k] = { orig: d.orig, src: src, alt: d.alt, origAlt: d.origAlt }; });
         if (draft.jobs) next.jobs = draft.jobs;
+        if (draft.hidden) next.hidden = draft.hidden;
         var body = { message: 'Site editor: ' + n + (n === 1 ? ' change' : ' changes'), content: b64(JSON.stringify(next, null, 1) + '\n'), branch: BRANCH };
         if (r.sha) body.sha = r.sha;
         return gh('/contents/' + PFX + 'content.json', { method: 'PUT', body: JSON.stringify(body) }).then(function(){ content = next; });
       }).catch(function(e){ if ((e.status === 409 || e.status === 422) && attempt < 2) return save(attempt + 1); throw e; });
     }
     chain.then(function(){ setStatus('Saving…'); return save(0); }).then(function(){
-      draft = { text: {}, media: {}, jobs: null }; refresh();
+      draft = { text: {}, media: {}, jobs: null, hidden: null }; refresh();
       setStatus('Published. The live site updates in about a minute.', 'ok');
     }).catch(function(e){
       btn.disabled = false;

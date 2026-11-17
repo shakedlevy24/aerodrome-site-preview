@@ -78,11 +78,33 @@
     }
     if (alt != null){ if (el.tagName === 'IMG') el.alt = alt; else el.setAttribute('aria-label', alt); }
   }
+  /* pages switched off in the editor: their links disappear, and a visitor who opens one is sent to the home page */
+  var hiddenPages = [];
+  function hrefOf(id){ for (var i = 0; i < PAGES.length; i++) if (PAGES[i].id === id) return (ROOT + PAGES[i].path) || './'; return '#none'; }
+  function curPage(){ var p = document.querySelector('.page'); return p ? p.dataset.page : 'home'; }
+  function leave(){ var m = document.createElement('meta'); m.name = 'robots'; m.content = 'noindex'; document.head.appendChild(m); location.replace(new URL(ROOT || './', document.baseURI).href); }
+  function setHidden(list){
+    hiddenPages = (list || []).filter(function(id){ return id !== 'home'; });
+    document.querySelectorAll('a[data-hid]').forEach(function(a){ var box = a.parentNode.tagName === 'LI' ? a.parentNode : a; box.hidden = false; a.removeAttribute('data-hid'); });
+    hiddenPages.forEach(function(id){
+      var h = hrefOf(id);
+      document.querySelectorAll('a[href]').forEach(function(a){
+        var href = a.getAttribute('href');
+        if (h.charAt(0) === '#' ? href !== h : href.split('#')[0].split('?')[0] !== h) return;
+        a.setAttribute('data-hid', '1');
+        (a.parentNode.tagName === 'LI' ? a.parentNode : a).hidden = true;
+      });
+    });
+    if (!EDIT && hiddenPages.indexOf(curPage()) >= 0) leave();
+  }
+  addEventListener('hashchange', function(){ if (!EDIT && hiddenPages.indexOf(curPage()) >= 0) leave(); });
+
   function apply(c){
     c = c || {}; var t = c.text || {}, m = c.media || {};
     Object.keys(t).forEach(function(k){ var e = findT(k, t[k]); if (e) setText(e, t[k].text); });
     Object.keys(m).forEach(function(k){ var e = findM(k, m[k]); if (e) setMedia(e, m[k].src, m[k].alt); });
     if (window.AE_jobs) window.AE_jobs(c.jobs || []);
+    setHidden(c.hidden || []);
   }
   function show(){ root.classList.remove('cl'); }
 
@@ -155,6 +177,7 @@
     start: function(content, callbacks){ cb = callbacks || {}; apply(content); enable(); show(); },
     apply: apply,
     setJobs: function(list){ if (window.AE_jobs) window.AE_jobs(list || []); },
+    setHidden: function(list){ setHidden(list || []); },
     setText: function(k, text){ if (T[k]) setText(T[k], text); },
     setMedia: function(k, src, alt){ if (M[k]){ var el = M[k].el; if (/^data:|^blob:/.test(src)) { el.src = src; if (el.tagName === 'VIDEO'){ el.removeAttribute('poster'); el.load(); var p = el.play(); if (p && p.catch) p.catch(function(){}); } if (alt != null){ if (el.tagName === 'IMG') el.alt = alt; else el.setAttribute('aria-label', alt); } } else setMedia(M[k], src, alt); } },
     origText: function(k){ return T[k] ? T[k].orig : null; },
