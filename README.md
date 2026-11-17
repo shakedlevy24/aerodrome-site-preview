@@ -12,6 +12,7 @@ Temporary preview of the new Aerodrome Group website, for internal feedback.
 - Version 4 editor: https://shakedlevy24.github.io/aerodrome-site-preview/v4/admin/
 - Version 5 (Phoenix LT only, reduced site; the working version): https://shakedlevy24.github.io/aerodrome-site-preview/v5/
 - Version 5 editor (includes the Careers open positions list): https://shakedlevy24.github.io/aerodrome-site-preview/v5/admin/
+- Final build preview (the production site with one address per page; the editor and contact form only work on the real host): https://shakedlevy24.github.io/aerodrome-site-preview/final/
 
 ## Editing
 Open the editor, sign in with a GitHub access key, click text to change it, click a picture or the video to replace it, then press Publish.
