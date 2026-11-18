@@ -115,14 +115,35 @@
     var status=document.createElement('p'); status.className='note'; status.setAttribute('role','status'); status.style.marginTop='16px'; target.insertAdjacentElement('afterend',status);
   });
 
+  /* form errors appear only after the visitor has used a field; aria-invalid and the error text follow the same moment */
+  var liveBox=null, liveTimer=0, liveSaid=[];
+  function fTarget(el){ return el.type==='radio' ? (el.closest('fieldset')||el) : el; }
+  function fUserInvalid(el){ try{ return el.matches(':user-invalid'); }catch(e){ return el.dataset.touched==='1' && !el.validity.valid; } }
+  function fSync(el, bad, announce){
+    var t=fTarget(el), id=t.getAttribute('data-error'), msg=id?document.getElementById(id):null;
+    t.setAttribute('aria-invalid', bad?'true':'false');
+    if(msg){ var ids=(t.getAttribute('aria-describedby')||'').split(/\s+/).filter(function(x){ return x && x!==id; }); if(bad) ids.push(id);
+      if(ids.length) t.setAttribute('aria-describedby', ids.join(' ')); else t.removeAttribute('aria-describedby'); }
+    var k=liveSaid.indexOf(t);
+    if(!bad){ if(k>=0) liveSaid.splice(k,1); return; }
+    if(announce && msg && k<0){ liveSaid.push(t);
+      if(!liveBox){ liveBox=document.createElement('div'); liveBox.setAttribute('aria-live','polite'); liveBox.className='sr-only'; document.body.appendChild(liveBox); }
+      clearTimeout(liveTimer); liveBox.textContent=''; liveTimer=setTimeout(function(){ liveBox.textContent=msg.textContent; },500); }
+  }
+  document.querySelectorAll('form[data-form]').forEach(function(f){
+    function on(e, announce){ var el=e.target; if(!el.matches || !el.matches('input,select,textarea') || !el.required) return; if(e.type!=='input') el.dataset.touched='1'; fSync(el, fUserInvalid(el), announce); }
+    f.addEventListener('focusout', function(e){ on(e,true); });
+    f.addEventListener('change', function(e){ on(e,true); });
+    f.addEventListener('input', function(e){ on(e,false); });
+  });
+
   /* forms: [data-form] validates [required], shows [data-ok] on success */
   document.querySelectorAll('form[data-form]').forEach(function(f){
     var started=false;
     f.addEventListener('input',function(){ if(!started){ started=true; track('form_start',{form:f.dataset.form}); } });
     f.addEventListener('submit',function(e){ e.preventDefault();
       var bad=null; f.querySelectorAll('[required]').forEach(function(el){
-        var ok = el.type==='checkbox' ? el.checked : el.type==='radio' ? !!f.querySelector('input[name="'+el.name+'"]:checked') : (el.value.trim()!=='' && (el.type!=='email' || /.+@.+\..+/.test(el.value)));
-        el.setAttribute('aria-invalid', ok?'false':'true'); if(!ok && !bad) bad=el; });
+        var ok = el.validity ? el.validity.valid : true; el.dataset.touched='1'; fSync(el, !ok, false); if(!ok && !bad) bad=el; });
       var err=f.querySelector('[data-err]');
       if(bad){ if(err) err.hidden=false; bad.focus(); return; }
       if(err) err.hidden=true;
