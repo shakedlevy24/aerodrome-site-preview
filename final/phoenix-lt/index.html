@@ -74,7 +74,8 @@
 <div class="page on" data-page="phoenix-lt" data-title="Phoenix LT">
   <!-- P1 · Product hero: real hardware in the dark, one CTA -->
   <section class="reveal phero vid" aria-labelledby="plt-title">
-    <video data-auto muted loop playsinline preload="metadata" poster="../assets/phoenix-lt-launch-poster.jpg" src="../assets/phoenix-lt-launch.mp4" aria-label="Phoenix LT launching from its stand at night" width="1600" height="900"></video>
+    <button class="vpause" type="button" data-video-btn="plt-video" aria-pressed="false" aria-label="Pause background video"><svg class="i-pause" viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.5" height="12" rx="1"/><rect x="8.5" y="1" width="3.5" height="12" rx="1"/></svg><svg class="i-play" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.2v11.6a.6.6 0 0 0 .9.5l9.2-5.8a.6.6 0 0 0 0-1L3.9.7a.6.6 0 0 0-.9.5z"/></svg></button>
+    <video id="plt-video" data-auto muted loop playsinline preload="metadata" poster="../assets/phoenix-lt-launch-poster.jpg" src="../assets/phoenix-lt-launch.mp4" aria-label="Phoenix LT launching from its stand at night" width="1600" height="900"></video>
     <div class="shade"></div>
     
     <div class="bottom px">

@@ -527,7 +527,8 @@ a.media-card:focus-visible{outline-offset:4px}
 
 /* v5: "with" / "for" word box that keeps alternating */
 .wbox{display:inline-grid;vertical-align:baseline;border:2px solid var(--camel);border-radius:.16em;padding:.02em .2em .06em;margin:0 .06em;overflow:hidden;line-height:1.05;text-align:center}
-.wbox>span{grid-area:1/1;animation:wboxA 5s var(--ease) infinite}
+.wbox>span{grid-area:1/1;animation:wboxA 5s var(--ease) 1 both;animation-play-state:paused}
+.wbox.go>span{animation-play-state:running}
 .wbox>span+span{color:var(--camel);animation-name:wboxB}
 @keyframes wboxA{0%,42%{opacity:1;transform:none}50%,92%{opacity:0;transform:translateY(-.5em)}100%{opacity:1;transform:none}}
 @keyframes wboxB{0%,42%{opacity:0;transform:translateY(.5em)}50%,92%{opacity:1;transform:none}100%{opacity:0;transform:translateY(.5em)}}
@@ -587,6 +588,15 @@ a.media-card:focus-visible{outline-offset:4px}
  .phero.vid .shade{background:linear-gradient(180deg,rgba(10,11,12,.55),rgba(10,11,12,0) 18%,rgba(10,11,12,.35) 38%,rgba(10,11,12,.86) 56%,rgba(10,11,12,.95) 100%)}
  .panel::after{background:linear-gradient(90deg,rgba(10,11,12,.9) 0%,rgba(10,11,12,.68) 60%,rgba(10,11,12,.3) 100%)}
 }
+
+/* accessibility: pause control for background videos (WCAG 2.2.2) */
+.vpause{position:absolute;right:max(20px,4vw);top:calc(var(--hdr,72px) + 18px);z-index:5;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(10,11,12,.55);border:1px solid rgba(242,242,239,.35);color:var(--ink);cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:background .2s,border-color .2s}
+.vpause:hover{background:rgba(10,11,12,.8);border-color:rgba(242,242,239,.7)}
+.vpause:focus-visible{outline:2px solid var(--camel);outline-offset:3px}
+.vpause svg{width:14px;height:14px;fill:currentColor}
+.vpause .i-play{display:none}
+.vpause[aria-pressed="true"] .i-play{display:block}
+.vpause[aria-pressed="true"] .i-pause{display:none}
 
 /* ---- Modern Web Guidance ---- */
 /* cross-document-transitions: soft cross-fade between pages, only when motion is welcome */

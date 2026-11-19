@@ -54,9 +54,15 @@
 
   /* videos: pause buttons and play tracking */
   document.querySelectorAll('[data-video-btn]').forEach(function(b){
-    var v=document.getElementById(b.dataset.videoBtn);
-    b.addEventListener('click',function(){ if(v.paused){ delete v.dataset.userPaused; var p=v.play(); if(p&&p.catch)p.catch(function(){}); b.textContent='Pause video'; b.setAttribute('aria-pressed','false'); } else { v.dataset.userPaused='1'; v.pause(); b.textContent='Play video'; b.setAttribute('aria-pressed','true'); } });
-    if(reduce){ v.dataset.userPaused='1'; b.textContent='Play video'; b.setAttribute('aria-pressed','true'); }
+    var v=document.getElementById(b.dataset.videoBtn); if(!v) return;
+    function show(paused){ b.setAttribute('aria-pressed', paused?'true':'false'); b.setAttribute('aria-label', paused?'Play background video':'Pause background video'); }
+    b.addEventListener('click',function(){ if(v.paused){ delete v.dataset.userPaused; var p=v.play(); if(p&&p.catch)p.catch(function(){}); show(false); } else { v.dataset.userPaused='1'; v.pause(); show(true); } });
+    if(reduce){ v.dataset.userPaused='1'; show(true); } else show(false);
+  });
+  /* with/for swap: runs once (5 s) when it comes into view */
+  document.querySelectorAll('.wbox').forEach(function(w){
+    if(!('IntersectionObserver' in window)){ w.classList.add('go'); return; }
+    var o=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ w.classList.add('go'); o.disconnect(); } }); },{threshold:.6}); o.observe(w);
   });
   document.querySelectorAll('video').forEach(function(v){ v.addEventListener('play',function(){ if(!v.dataset.tracked){ v.dataset.tracked='1'; track('video_play',{video:v.id||''}); } }); });
 

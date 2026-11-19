@@ -531,7 +531,8 @@ a.media-card:focus-visible{outline-offset:4px}
 
 /* v5: "with" / "for" word box that keeps alternating */
 .wbox{display:inline-grid;vertical-align:baseline;border:2px solid var(--camel);border-radius:.16em;padding:.02em .2em .06em;margin:0 .06em;overflow:hidden;line-height:1.05;text-align:center}
-.wbox>span{grid-area:1/1;animation:wboxA 5s var(--ease) infinite}
+.wbox>span{grid-area:1/1;animation:wboxA 5s var(--ease) 1 both;animation-play-state:paused}
+.wbox.go>span{animation-play-state:running}
 .wbox>span+span{color:var(--camel);animation-name:wboxB}
 @keyframes wboxA{0%,42%{opacity:1;transform:none}50%,92%{opacity:0;transform:translateY(-.5em)}100%{opacity:1;transform:none}}
 @keyframes wboxB{0%,42%{opacity:0;transform:translateY(.5em)}50%,92%{opacity:1;transform:none}100%{opacity:0;transform:translateY(.5em)}}
@@ -591,6 +592,15 @@ a.media-card:focus-visible{outline-offset:4px}
  .phero.vid .shade{background:linear-gradient(180deg,rgba(10,11,12,.55),rgba(10,11,12,0) 18%,rgba(10,11,12,.35) 38%,rgba(10,11,12,.86) 56%,rgba(10,11,12,.95) 100%)}
  .panel::after{background:linear-gradient(90deg,rgba(10,11,12,.9) 0%,rgba(10,11,12,.68) 60%,rgba(10,11,12,.3) 100%)}
 }
+
+/* accessibility: pause control for background videos (WCAG 2.2.2) */
+.vpause{position:absolute;right:max(20px,4vw);top:calc(var(--hdr,72px) + 18px);z-index:5;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(10,11,12,.55);border:1px solid rgba(242,242,239,.35);color:var(--ink);cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:background .2s,border-color .2s}
+.vpause:hover{background:rgba(10,11,12,.8);border-color:rgba(242,242,239,.7)}
+.vpause:focus-visible{outline:2px solid var(--camel);outline-offset:3px}
+.vpause svg{width:14px;height:14px;fill:currentColor}
+.vpause .i-play{display:none}
+.vpause[aria-pressed="true"] .i-play{display:block}
+.vpause[aria-pressed="true"] .i-pause{display:none}
 </style>
 <style>.cl body{visibility:hidden}</style>
 <script>if(/^https?:/.test(location.protocol)){document.documentElement.classList.add("cl");setTimeout(function(){document.documentElement.classList.remove("cl")},1500);}</script>
@@ -646,6 +656,7 @@ a.media-card:focus-visible{outline-offset:4px}
 <div class="page" data-page="home" data-title="">
   <!-- 1 · Hero: one screen, real flight footage -->
   <section class="hhero one" aria-labelledby="home-title">
+    <button class="vpause" type="button" data-video-btn="home-video" aria-pressed="false" aria-label="Pause background video"><svg class="i-pause" viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.5" height="12" rx="1"/><rect x="8.5" y="1" width="3.5" height="12" rx="1"/></svg><svg class="i-play" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.2v11.6a.6.6 0 0 0 .9.5l9.2-5.8a.6.6 0 0 0 0-1L3.9.7a.6.6 0 0 0-.9.5z"/></svg></button>
     <div class="stick">
       <div class="frame">
         <video id="home-video" data-auto muted loop playsinline preload="auto" poster="assets/formation-hero-poster.jpg" src="assets/formation-hero.mp4" aria-label="A Phoenix aircraft flying high against a blue sky with clouds"></video>
@@ -728,7 +739,8 @@ a.media-card:focus-visible{outline-offset:4px}
 <div class="page" data-page="phoenix-lt" data-title="Phoenix LT">
   <!-- P1 · Product hero: real hardware in the dark, one CTA -->
   <section class="reveal phero vid" aria-labelledby="plt-title">
-    <video data-auto muted loop playsinline preload="metadata" poster="assets/phoenix-lt-launch-poster.jpg" src="assets/phoenix-lt-launch.mp4" aria-label="Phoenix LT launching from its stand at night"></video>
+    <button class="vpause" type="button" data-video-btn="plt-video" aria-pressed="false" aria-label="Pause background video"><svg class="i-pause" viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.5" height="12" rx="1"/><rect x="8.5" y="1" width="3.5" height="12" rx="1"/></svg><svg class="i-play" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.2v11.6a.6.6 0 0 0 .9.5l9.2-5.8a.6.6 0 0 0 0-1L3.9.7a.6.6 0 0 0-.9.5z"/></svg></button>
+    <video id="plt-video" data-auto muted loop playsinline preload="metadata" poster="assets/phoenix-lt-launch-poster.jpg" src="assets/phoenix-lt-launch.mp4" aria-label="Phoenix LT launching from its stand at night"></video>
     <div class="shade"></div>
     
     <div class="bottom px">
@@ -1369,7 +1381,7 @@ a.media-card:focus-visible{outline-offset:4px}
         <li>Semantic structure: one H1 per page, headings H1–H6 in order, ARIA landmarks and labels</li>
         <li>Contrast ratios that meet AA; resizable text with no loss of content</li>
         <li>Alt text for every meaningful image and diagram</li>
-        <li>Our videos have no sound. Each has a text description, and videos stay still when your device is set to reduce motion</li>
+        <li>Our videos have no sound and each has a text description. A pause button sits in the corner of every video, and videos stay still when your device is set to reduce motion</li>
       </ul>
     </div>
   </section>
@@ -1694,9 +1706,15 @@ a.media-card:focus-visible{outline-offset:4px}
 
   /* videos: pause buttons and play tracking */
   document.querySelectorAll('[data-video-btn]').forEach(function(b){
-    var v=document.getElementById(b.dataset.videoBtn);
-    b.addEventListener('click',function(){ if(v.paused){ delete v.dataset.userPaused; var p=v.play(); if(p&&p.catch)p.catch(function(){}); b.textContent='Pause video'; b.setAttribute('aria-pressed','false'); } else { v.dataset.userPaused='1'; v.pause(); b.textContent='Play video'; b.setAttribute('aria-pressed','true'); } });
-    if(reduce){ v.dataset.userPaused='1'; b.textContent='Play video'; b.setAttribute('aria-pressed','true'); }
+    var v=document.getElementById(b.dataset.videoBtn); if(!v) return;
+    function show(paused){ b.setAttribute('aria-pressed', paused?'true':'false'); b.setAttribute('aria-label', paused?'Play background video':'Pause background video'); }
+    b.addEventListener('click',function(){ if(v.paused){ delete v.dataset.userPaused; var p=v.play(); if(p&&p.catch)p.catch(function(){}); show(false); } else { v.dataset.userPaused='1'; v.pause(); show(true); } });
+    if(reduce){ v.dataset.userPaused='1'; show(true); } else show(false);
+  });
+  /* with/for swap: runs once (5 s) when it comes into view */
+  document.querySelectorAll('.wbox').forEach(function(w){
+    if(!('IntersectionObserver' in window)){ w.classList.add('go'); return; }
+    var o=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ w.classList.add('go'); o.disconnect(); } }); },{threshold:.6}); o.observe(w);
   });
   document.querySelectorAll('video').forEach(function(v){ v.addEventListener('play',function(){ if(!v.dataset.tracked){ v.dataset.tracked='1'; track('video_play',{video:v.id||''}); } }); });
 
