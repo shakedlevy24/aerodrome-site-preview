@@ -550,6 +550,17 @@ a.media-card:focus-visible{outline-offset:4px}
 .person-pic img{width:100%;height:100%;object-fit:cover;display:block}
 .person h3{font-family:var(--display);font-size-adjust:0.498;font-weight:600;font-size:1.375rem;line-height:1.2}
 
+/* Aerial Services · who we work with */
+.sectors{list-style:none;margin:0;padding:0;display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr))}
+.sector{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px 24px 26px;transition:border-color .25s,transform .25s}
+.sector::after{content:"";position:absolute;left:24px;right:24px;top:0;height:2px;background:var(--camel);transform:scaleX(.18);transform-origin:left;transition:transform .35s}
+.sector:hover{border-color:rgba(242,140,40,.45);transform:translateY(-3px)}
+.sector:hover::after{transform:scaleX(1)}
+.sector .sic{width:60px;height:60px;padding:9px;border-radius:12px;background:rgba(242,140,40,.1);fill:none;stroke:var(--camel);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
+.sector h3{margin-top:22px;font-family:var(--display);font-size-adjust:0.498;font-weight:600;font-size:1.375rem;letter-spacing:-.01em}
+.sector p{margin-top:8px;color:var(--muted);font-size:0.9375rem;line-height:1.5}
+@media (prefers-reduced-motion:reduce){.sector,.sector::after{transition:none}.sector:hover{transform:none}}
+
 /* ---- Modern Web Guidance ---- */
 /* cross-document-transitions: soft cross-fade between pages, only when motion is welcome */
 @media (prefers-reduced-motion:no-preference){@view-transition{navigation:auto}}
