@@ -561,6 +561,19 @@ a.media-card:focus-visible{outline-offset:4px}
 .sector p{margin-top:8px;color:var(--muted);font-size:0.9375rem;line-height:1.5}
 @media (prefers-reduced-motion:reduce){.sector,.sector::after{transition:none}.sector:hover{transform:none}}
 
+/* Aerial Services · film, deliverables */
+.aer-film{padding-bottom:0}
+.aer-media{border-radius:16px;overflow:hidden;border:1px solid var(--line);aspect-ratio:2/1;background:#1a1b1e}
+.aer-media video{display:block;width:100%;height:100%;object-fit:cover}
+@media (max-width:640px){.aer-media{aspect-ratio:4/3}}
+.deliv{list-style:none;margin:0;padding:0;display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.dcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px 26px;display:flex;flex-direction:column}
+.dcard .sic{width:60px;height:60px;padding:9px;border-radius:12px;background:rgba(242,140,40,.1);fill:none;stroke:var(--camel);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
+.dcard h3{margin-top:22px;font-family:var(--display);font-size-adjust:0.498;font-weight:600;font-size:1.5rem;letter-spacing:-.01em}
+.dcard>p{margin-top:8px;color:var(--muted);font-size:0.9375rem;line-height:1.5}
+.dcard .uses{list-style:none;margin:auto 0 0;padding:22px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.dcard .uses li{font-family:var(--mono);font-weight:600;font-size:0.6875rem;letter-spacing:.06em;text-transform:uppercase;color:var(--camel);border:1px solid rgba(242,140,40,.4);border-radius:999px;padding:6px 11px}
+
 /* ---- Modern Web Guidance ---- */
 /* cross-document-transitions: soft cross-fade between pages, only when motion is welcome */
 @media (prefers-reduced-motion:no-preference){@view-transition{navigation:auto}}

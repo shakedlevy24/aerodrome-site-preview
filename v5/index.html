@@ -564,6 +564,19 @@ a.media-card:focus-visible{outline-offset:4px}
 .sector h3{margin-top:22px;font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:-.01em}
 .sector p{margin-top:8px;color:var(--muted);font-size:15px;line-height:1.5}
 @media (prefers-reduced-motion:reduce){.sector,.sector::after{transition:none}.sector:hover{transform:none}}
+
+/* Aerial Services · film, deliverables */
+.aer-film{padding-bottom:0}
+.aer-media{border-radius:16px;overflow:hidden;border:1px solid var(--line);aspect-ratio:2/1;background:#1a1b1e}
+.aer-media video{display:block;width:100%;height:100%;object-fit:cover}
+@media (max-width:640px){.aer-media{aspect-ratio:4/3}}
+.deliv{list-style:none;margin:0;padding:0;display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.dcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px 26px;display:flex;flex-direction:column}
+.dcard .sic{width:60px;height:60px;padding:9px;border-radius:12px;background:rgba(242,140,40,.1);fill:none;stroke:var(--camel);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
+.dcard h3{margin-top:22px;font-family:var(--display);font-weight:600;font-size:24px;letter-spacing:-.01em}
+.dcard>p{margin-top:8px;color:var(--muted);font-size:15px;line-height:1.5}
+.dcard .uses{list-style:none;margin:auto 0 0;padding:22px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.dcard .uses li{font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--camel);border:1px solid rgba(242,140,40,.4);border-radius:999px;padding:6px 11px}
 </style>
 <style>.cl body{visibility:hidden}</style>
 <script>if(/^https?:/.test(location.protocol)){document.documentElement.classList.add("cl");setTimeout(function(){document.documentElement.classList.remove("cl")},1500);}</script>
@@ -680,7 +693,7 @@ a.media-card:focus-visible{outline-offset:4px}
         <div class="body"><p class="mono" style="color:var(--camel)">Ground platform</p><h3>APEX LT</h3><p class="muted">One platform. Complete fleet visibility.</p><span class="more">Explore <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></span></div>
       </a>
       <a class="media-card" href="#aerial-services">
-        <div class="reveal" style="aspect-ratio:4/3;--r:220px"><img src="assets/ill-3d.jpg" alt="Illustration of a 3D terrain model"><div class="veil"></div></div>
+        <div class="reveal" style="aspect-ratio:4/3;--r:220px"><img src="assets/aerial-3d-model.jpg" alt="3D model of a built-up area produced from drone imagery"><div class="veil"></div></div>
         <div class="body"><p class="mono" style="color:var(--camel)">Aerial data</p><h3>Aerial Services</h3><p class="muted">Aerial photography, mapping and modelling, plus flight and integration services.</p><span class="more">Explore <svg class="go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg></span></div>
       </a>
     </div>
@@ -831,10 +844,13 @@ a.media-card:focus-visible{outline-offset:4px}
     <p class="crumb in">Solutions / Aerial Services</p>
     <p class="eyebrow in" style="margin-top:28px;animation-delay:.05s">Aerial Services</p>
     <h1 id="aer-title" class="xl in" style="margin-top:20px;max-width:14ch;animation-delay:.1s">Aerial data for large projects</h1>
-    <div class="row in" style="margin-top:36px;align-items:flex-end;justify-content:space-between;gap:24px 48px;animation-delay:.25s">
-      <p class="lead" style="flex:1 1 420px">Drone-based aerial photography, mapping and modelling for infrastructure, engineering, construction and real estate projects. One team, from flight plan to final deliverable.</p>
-      <a class="btn btn-solid" href="#contact" data-track="cta_contact_click" data-section="aerial-services-hero">Contact Us</a>
-    </div>
+    <p class="lead in" style="margin-top:28px;max-width:46ch;animation-delay:.25s">Drone-based aerial photography, mapping and modelling for infrastructure, engineering, construction and real estate projects. One team, from flight plan to final deliverable.</p>
+    <a class="btn btn-solid in" style="margin-top:32px;animation-delay:.3s" href="#contact" data-track="cta_contact_click" data-section="aerial-services-hero">Contact Us</a>
+  </section>
+
+  <!-- A1b · 3D model flyover -->
+  <section class="px aer-film" aria-label="3D model flyover">
+    <div class="aer-media"><video data-auto autoplay muted loop playsinline preload="metadata" poster="assets/aerial-3d-poster.jpg" src="assets/aerial-3d.mp4" aria-label="Flyover of a 3D model of a built-up area, produced from drone imagery"></video></div>
   </section>
 
   <!-- A2 · Two service lines -->
@@ -874,17 +890,11 @@ a.media-card:focus-visible{outline-offset:4px}
     <div class="head">
       <h2 id="aer-del-title" class="m">Deliverables</h2>
     </div>
-    <div class="tbl" role="region" aria-labelledby="aer-del-title" tabindex="0">
-      <table>
-        <caption class="sr">Deliverables and what they are used for</caption>
-        <thead><tr><th scope="col">Deliverable</th><th scope="col">Used for</th></tr></thead>
-        <tbody>
-          <tr><td>Orthophoto maps</td><td class="muted">Planning, surveying, engineering documentation</td></tr>
-          <tr><td>3D models</td><td class="muted">Planning, quality control, progress tracking</td></tr>
-          <tr><td>Terrain models</td><td class="muted">Surveying, volume calculations, planning</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <ul class="deliv">
+      <li class="dcard"><svg class="sic" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M6 12l12-5 12 5 12-5v29l-12 5-12-5-12 5z"/><path d="M18 7v29M30 12v29"/><path d="M10 22l5 3 6-4 6 5 6-3 6 2" stroke-dasharray="2 3"/></svg><h3>Orthophoto maps</h3><p>A true-to-scale aerial map of the whole site, stitched from hundreds of images.</p><p class="sr">Used for:</p><ul class="uses"><li>Planning</li><li>Surveying</li><li>Engineering documentation</li></ul></li>
+      <li class="dcard"><svg class="sic" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 5l17 9v20l-17 9-17-9V14z"/><path d="M7 14l17 9 17-9M24 23v20"/></svg><h3>3D models</h3><p>Detailed, measurable 3D models of buildings, sites and routes.</p><p class="sr">Used for:</p><ul class="uses"><li>Planning</li><li>Quality control</li><li>Progress tracking</li></ul></li>
+      <li class="dcard"><svg class="sic" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M4 38l10-14 7 8 9-16 14 22z"/><path d="M4 42h40"/><path d="M14 24l3 4M30 16l3 5" /></svg><h3>Terrain models</h3><p>Accurate ground surfaces for measurement and earthworks.</p><p class="sr">Used for:</p><ul class="uses"><li>Surveying</li><li>Volume calculations</li><li>Planning</li></ul></li>
+    </ul>
   </section>
 
   <!-- A5 · Process -->
@@ -900,15 +910,13 @@ a.media-card:focus-visible{outline-offset:4px}
     </ol>
   </section>
 
-  <!-- A6 · Sample outputs (placeholders until approved project examples exist) -->
+  <!-- A6 · Sample outputs -->
   <section class="px" style="padding-bottom:110px" aria-labelledby="aer-samp-title">
     <h2 id="aer-samp-title" class="eyebrow" style="margin-bottom:24px">Sample outputs</h2>
-    <div class="grid3">
-      <figure class="sample"><img src="assets/ill-ortho.jpg" alt="Illustration of an orthophoto map with survey flight lines" loading="lazy"><figcaption>Orthophoto map</figcaption></figure>
-      <figure class="sample"><img src="assets/ill-3d.jpg" alt="Illustration of a 3D terrain model" loading="lazy"><figcaption>3D model</figcaption></figure>
-      <figure class="sample"><img src="assets/ill-terrain.jpg" alt="Illustration of a terrain contour model" loading="lazy"><figcaption>Terrain model</figcaption></figure>
+    <div class="grid2" style="gap:16px">
+      <figure class="sample"><img src="assets/aerial-3d-model.jpg" alt="3D model of a built-up area produced from drone imagery" loading="lazy"><figcaption>3D model</figcaption></figure>
+      <figure class="sample"><img src="assets/aerial-3d-model-close.jpg" alt="Second view of the same 3D model, showing buildings and streets" loading="lazy"><figcaption>3D model · second view</figcaption></figure>
     </div>
-    <p class="note" style="margin-top:14px">Illustrations. Real project outputs to come.</p>
   </section>
 
   <!-- A7 · CTA -->
