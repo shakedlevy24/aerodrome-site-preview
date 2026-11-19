@@ -296,7 +296,7 @@ html{scroll-padding-top:92px}
 
 /* scroll-lit statement */
 .words{max-width:20ch;font-family:var(--display);font-size-adjust:0.498;font-weight:600;font-size:clamp(2.1rem,5vw,5rem);line-height:1.06;letter-spacing:-.04em}
-.words .w{color:rgba(242,242,239,.16);transition:color .5s}
+.words .w{color:rgba(242,242,239,.5);transition:color .5s}
 .words .w.on{color:var(--ink)}
 .words .w.cam.on{color:var(--camel)}
 
@@ -573,6 +573,20 @@ a.media-card:focus-visible{outline-offset:4px}
 .dcard>p{margin-top:8px;color:var(--muted);font-size:0.9375rem;line-height:1.5}
 .dcard .uses{list-style:none;margin:auto 0 0;padding:22px 0 0;display:flex;flex-wrap:wrap;gap:8px}
 .dcard .uses li{font-family:var(--mono);font-weight:600;font-size:0.6875rem;letter-spacing:.06em;text-transform:uppercase;color:var(--camel);border:1px solid rgba(242,140,40,.4);border-radius:999px;padding:6px 11px}
+
+/* accessibility: 24px minimum targets (WCAG 2.5.8) */
+.logo{min-height:28px}
+.nav>a{display:inline-flex;align-items:center;min-height:28px}
+.ftr a{display:inline-flex;align-items:center;min-height:24px}
+
+/* accessibility: text over video and pictures keeps 4.5:1 (WCAG 1.4.3) */
+.hhero.one .grad{background:linear-gradient(180deg,rgba(10,11,12,.30) 0%,rgba(10,11,12,0) 18%,rgba(10,11,12,0) 40%,rgba(10,11,12,.74) 100%),linear-gradient(90deg,rgba(10,11,12,.5) 0%,rgba(10,11,12,.2) 45%,rgba(10,11,12,0) 70%)}
+.phero.vid .shade{background:linear-gradient(180deg,rgba(10,11,12,.55),rgba(10,11,12,0) 22%,rgba(10,11,12,0) 40%,rgba(10,11,12,.94)),linear-gradient(90deg,rgba(10,11,12,.84) 0%,rgba(10,11,12,.5) 34%,rgba(10,11,12,0) 60%)}
+@media (max-width:760px){
+ .hhero.one .grad{background:linear-gradient(180deg,rgba(10,11,12,.30) 0%,rgba(10,11,12,0) 16%,rgba(10,11,12,.15) 42%,rgba(10,11,12,.82) 78%,rgba(10,11,12,.9) 100%)}
+ .phero.vid .shade{background:linear-gradient(180deg,rgba(10,11,12,.55),rgba(10,11,12,0) 18%,rgba(10,11,12,.35) 38%,rgba(10,11,12,.86) 56%,rgba(10,11,12,.95) 100%)}
+ .panel::after{background:linear-gradient(90deg,rgba(10,11,12,.9) 0%,rgba(10,11,12,.68) 60%,rgba(10,11,12,.3) 100%)}
+}
 
 /* ---- Modern Web Guidance ---- */
 /* cross-document-transitions: soft cross-fade between pages, only when motion is welcome */
