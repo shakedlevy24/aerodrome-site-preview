@@ -1,9 +1,10 @@
 # Aerodrome
 
-> Aerodrome (Aerodrome Group) develops and produces long-range precision strike systems. Its product, Phoenix LT, is an unmanned one-way attack aircraft with strategic range, in the category also described as loitering munitions, one-way attack drones or kamikaze drones. Aerodrome also offers the APEX LT ground platform for fleet and mission management, and aerial data services. Tagline: Long-range capability. Within reach.
+> Aerodrome (Aerodrome Group) is a defence company and military drone manufacturer that develops and produces long-range precision strike systems. Its product, Phoenix LT, is an unmanned one-way attack aircraft with strategic range, in the category also described as loitering munitions, one-way attack drones or kamikaze drones. Aerodrome also offers the APEX LT ground platform for fleet and mission management, and aerial data services. Tagline: Long-range capability. Within reach.
 
 Key facts:
-- Phoenix LT: strategic range, warhead of up to 50 kg, rocket-booster launch with no runway, image-based navigation that holds course when GPS is jammed, anti-jam GPS, inertial navigation, redundant systems, open mission architecture.
+- Phoenix LT: strategic range with hours of endurance; modular belly payload bay for a warhead of up to 50 kg; end-to-end autonomous mission planning, navigation and flight; image-based navigation, anti-jam dual GNSS with RTK and inertial navigation that hold course when GPS is jammed; in-house avionics; open mission architecture.
+- Operation: rocket-booster launch from a compact stand with no runway; ready in the field in up to 30 minutes with a compact ground segment; redundant control surfaces, power and data links, with independent flight termination.
 - Positioning: strategic range and payload at a fraction of a cruise missile's cost; designed for serial production; a human authorises every engagement.
 - Delivery: supply from Aerodrome's production line, local production with the customer's industry, and training, spares and upgrades for 10+ years.
 - Supply is subject to export licensing. Full specifications are shared under NDA.
@@ -16,7 +17,6 @@ Key facts:
 ## Company
 - [Home](https://aerodrome-group.com/): overview of Aerodrome and why customers choose it.
 - [About Us](https://aerodrome-group.com/about/): mission, vision and how Aerodrome works with customers.
-- [Management](https://aerodrome-group.com/management/): the team behind Phoenix.
 - [Careers](https://aerodrome-group.com/careers/): open positions.
 - [Questions and answers](https://aerodrome-group.com/faq/): short answers about Aerodrome and Phoenix LT.
 - [Contact Us](https://aerodrome-group.com/contact/): enquiry form and contact email.
