@@ -106,17 +106,33 @@
     <div class="head"><div>
       <p class="eyebrow">Specifications</p>
       <h2 id="ptx-spec-title" class="l" style="max-width:14ch;margin-top:16px">Same airframe, jet power</h2>
-    </div><p class="muted" style="max-width:40ch">Phoenix TAP-X takes the Phoenix airframe and replaces the propeller engine with a jet module. Move the slider to see the change.</p></div>
+    </div><p class="muted" style="max-width:40ch">Phoenix TAP-X takes the Phoenix airframe and replaces the propeller engine with a jet module. Turn it, switch sections on and off, or take it apart.</p></div>
     <div class="spec-grid">
-      <div data-scrub>
-        <div class="s3d-stage"><video muted playsinline preload="auto" poster="../assets/spec-tapx-3d-poster.jpg" src="../assets/spec-tapx-3d.mp4" aria-label="3D view: the propeller engine is removed from the Phoenix airframe and the jet module is fitted" width="1280" height="720"></video></div>
-        <div class="s3d-bar">
-          <label class="s3d-range"><span>Propeller</span><input type="range" min="0" max="100" value="100" aria-label="Engine change, from propeller to jet"><span>Jet</span></label>
+      <div data-s3d="../assets/model/phoenix-lt" data-engine="jet" data-label="3D model of the Phoenix TAP-X airframe with its jet engine. Use the buttons below to show or hide sections.">
+        <div class="s3d-stage"><img class="s3d-poster" src="../assets/spec-tapx-3d-poster.jpg" alt="Phoenix TAP-X airframe, 3D view" width="1280" height="720" loading="lazy" decoding="async"><p class="s3d-hint">Drag to rotate</p><div class="s3d-ctl"><label class="s3d-range"><span>Take apart</span><input type="range" min="0" max="100" value="0" data-apart></label><button type="button" class="chip" data-xray aria-pressed="true">See-through</button><button type="button" class="chip plain" data-home>Reset</button></div><span class="s3d-mark" data-mark="camera" aria-hidden="true" hidden>1</span><span class="s3d-mark" data-mark="gnss" aria-hidden="true" hidden>2</span><span class="s3d-mark" data-mark="antennas" aria-hidden="true" hidden>3</span><span class="s3d-mark" data-mark="tank" aria-hidden="true" hidden>4</span><span class="s3d-mark" data-mark="engine" aria-hidden="true" hidden>5</span><span class="s3d-mark" data-mark="warhead" aria-hidden="true" hidden>6</span></div>
+        <div class="s3d-bar" role="group" aria-label="Sections shown in the 3D model">
+          <p class="lbl">Airframe sections</p>
+          <button type="button" class="chip" data-part="fuselage" aria-pressed="true">Fuselage</button>
+          <button type="button" class="chip" data-part="nose" aria-pressed="true">Nose cone</button>
+          <button type="button" class="chip" data-part="wings" aria-pressed="true">Wings</button>
+          <button type="button" class="chip" data-part="winglets" aria-pressed="true">Winglets</button>
+          <button type="button" class="chip" data-part="hatches" aria-pressed="true">Access hatches</button>
+          <button type="button" class="chip" data-part="structure" aria-pressed="true">Internal structure</button>
+          <button type="button" class="chip" data-part="payload" aria-pressed="true">Payload bay</button>
+          <button type="button" class="chip" data-part="avionics" aria-pressed="true">Avionics</button>
+          <p class="lbl">Components</p>
+          <button type="button" class="chip" data-part="camera" aria-pressed="true">Camera</button>
+          <button type="button" class="chip" data-part="gnss" aria-pressed="true">GNSS antennas</button>
+          <button type="button" class="chip" data-part="antennas" aria-pressed="true">Communication antennas</button>
+          <button type="button" class="chip" data-part="warhead" aria-pressed="true">Warhead</button>
+          <button type="button" class="chip" data-part="tank" aria-pressed="true">Fuel tank</button>
+          <button type="button" class="chip" data-part="engine" aria-pressed="true">Jet engine</button>
         </div>
+        <ol class="s3d-legend" aria-label="Components"><li><span class="n" aria-hidden="true">1</span><b>Camera</b><span class="d">Nose-mounted thermal camera with real-time video over the data link.</span></li><li><span class="n" aria-hidden="true">2</span><b>GNSS antennas</b><span class="d">Two multi-constellation receivers (GPS, Galileo, GLONASS, BeiDou) with RTK.</span></li><li><span class="n" aria-hidden="true">3</span><b>Communication antennas</b><span class="d">Dual-redundant, encrypted links for command, telemetry and video.</span></li><li><span class="n" aria-hidden="true">4</span><b>Fuel tank</b><span class="d">Integral composite tank with baffles that keep the fuel steady in manoeuvres.</span></li><li><span class="n" aria-hidden="true">5</span><b>Jet engine</b><span class="d">Jet engine module fitted in place of the propeller engine, on the same airframe.</span></li><li><span class="n" aria-hidden="true">6</span><b>Warhead</b><span class="d">Up to 50 kg, carried in the modular payload bay.</span></li></ol>
       </div>
       <div class="spec-list"><h3>Performance</h3><dl><div class="srow"><dt>Range</dt><dd>Up to 600 km</dd></div><div class="srow"><dt>Warhead</dt><dd>Up to 50 kg</dd></div><div class="srow"><dt>Cruise speed</dt><dd>370 km/h (200 kt)</dd></div></dl><h3>Airframe</h3><dl><div class="srow"><dt>Length</dt><dd class="tbc">To confirm</dd></div><div class="srow"><dt>Wingspan</dt><dd class="tbc">To confirm</dd></div><div class="srow"><dt>Propulsion</dt><dd>Jet engine</dd></div></dl><h3>Operation</h3><dl><div class="srow"><dt>Launch</dt><dd>Rocket booster, no runway</dd></div><div class="srow"><dt>Navigation</dt><dd>Image-based, anti-jam GNSS, inertial</dd></div><div class="srow"><dt>Engagement</dt><dd>Human-authorised</dd></div></dl></div>
     </div>
-    <p class="spec-note">Figures depend on configuration and mission profile.</p>
+    <p class="spec-note">Figures depend on configuration and mission profile. The 3D model is a simplified illustration; engine, camera and antennas are shown schematically.</p>
   </section>
 
   <section class="px" style="padding-bottom:130px" aria-labelledby="ptx-del-title">

@@ -7,14 +7,14 @@ const LOOK = {
   wings: { color: 0xc3c8cd, skin: true },     winglets: { color: 0xd6dade, skin: true },
   hatches: { color: 0xaeb4ba, skin: true },   structure: { color: 0x5d6770 },
   payload: { color: 0xf28c28 },               avionics: { color: 0xff9a4d },
-  tank: { color: 0x7d8a96 }
+  tank: { color: 0x3f86c9 }
 };
 /* direction each section moves when the model is taken apart (model axes: x aft, y left, z up) */
 const APART = {
   fuselage: [0, 0, .42], nose: [-.5, 0, 0], 'wings:l': [0, .4, 0], 'wings:r': [0, -.4, 0],
   'winglets:l': [.1, .65, 0], 'winglets:r': [.1, -.65, 0], hatches: [0, 0, .75],
   structure: [0, 0, 0], payload: [0, 0, -.42], avionics: [.2, 0, -.42], tank: [0, 0, -.2],
-  engine: [.55, 0, 0], camera: [-.75, 0, 0], gnss: [0, 0, .95], antennas: [0, 0, .95]
+  warhead: [-.15, 0, -.7], engine: [.55, 0, 0], camera: [-.75, 0, 0], gnss: [0, 0, .95], antennas: [0, 0, .95]
 };
 
 export async function mount(box){
@@ -74,21 +74,39 @@ export async function mount(box){
   function add(node, geo, x, y, z, mat){ const m = new THREE.Mesh(geo, mat || node.userData.mat); m.position.set(X(x), y, z); node.add(m); return m; }
   const red = new THREE.MeshStandardMaterial({ color: 0xb8322a, roughness: .5, metalness: .3 });
   const dark = new THREE.MeshStandardMaterial({ color: 0x15181b, roughness: .35, metalness: .5 });
-  /* engine: crankcase, four opposed cylinders, hub and two-blade pusher propeller */
-  const eng = part('engine', 0x4a5057);
-  add(eng, new THREE.BoxGeometry(.2, .15, .15), 3.25, 0, 0);
-  [3.2, 3.3].forEach(x => [-1, 1].forEach(sd => {
-    add(eng, new THREE.CylinderGeometry(.045, .045, .11, 20), x, sd * .13, 0, red);
-    add(eng, new THREE.CylinderGeometry(.052, .052, .02, 20), x, sd * .195, 0);
-  }));
-  const hub = add(eng, new THREE.CylinderGeometry(.035, .035, .1, 20), 3.4, 0, 0); hub.rotation.z = Math.PI / 2;
+  /* engine: piston engine with pusher propeller, or the jet module (data-engine="jet") */
+  const jet = box.dataset.engine === 'jet';
+  const eng = part('engine', jet ? 0x9aa1a8 : 0x4a5057);
   const prop = new THREE.Group(); prop.position.set(X(3.45), 0, 0); eng.add(prop);
-  const blade = new THREE.Mesh(new THREE.BoxGeometry(.014, .76, .07), dark); blade.rotation.y = .25; prop.add(blade);
-  const cone = new THREE.Mesh(new THREE.ConeGeometry(.04, .09, 20), eng.userData.mat); cone.rotation.z = -Math.PI / 2; cone.position.x = .05; prop.add(cone);
+  if (jet){
+    const copper = new THREE.MeshStandardMaterial({ color: 0x9a5a34, roughness: .4, metalness: .7 });
+    const hot = new THREE.MeshStandardMaterial({ color: 0x1a1210, roughness: .6, metalness: .3, side: THREE.BackSide });
+    [-1, 1].forEach(sd => {
+      add(eng, new THREE.CylinderGeometry(.075, .085, .5, 28), 3.2, sd * .09, -.02).rotation.z = Math.PI / 2;
+      add(eng, new THREE.CylinderGeometry(.075, .058, .12, 28, 1, true), 3.51, sd * .09, -.02, copper).rotation.z = Math.PI / 2;
+      add(eng, new THREE.CylinderGeometry(.072, .055, .118, 28, 1, true), 3.51, sd * .09, -.02, hot).rotation.z = Math.PI / 2;
+      add(eng, new THREE.TorusGeometry(.08, .012, 10, 28), 2.95, sd * .09, -.02).rotation.y = Math.PI / 2;
+    });
+    add(eng, new THREE.BoxGeometry(.42, .2, .1), 3.2, 0, -.02);
+  } else {
+    add(eng, new THREE.BoxGeometry(.2, .15, .15), 3.25, 0, 0);
+    [3.2, 3.3].forEach(x => [-1, 1].forEach(sd => {
+      add(eng, new THREE.CylinderGeometry(.045, .045, .11, 20), x, sd * .13, 0, red);
+      add(eng, new THREE.CylinderGeometry(.052, .052, .02, 20), x, sd * .195, 0);
+    }));
+    add(eng, new THREE.CylinderGeometry(.035, .035, .1, 20), 3.4, 0, 0).rotation.z = Math.PI / 2;
+    const blade = new THREE.Mesh(new THREE.BoxGeometry(.014, .76, .07), dark); blade.rotation.y = .25; prop.add(blade);
+    const cone = new THREE.Mesh(new THREE.ConeGeometry(.04, .09, 20), eng.userData.mat); cone.rotation.z = -Math.PI / 2; cone.position.x = .05; prop.add(cone);
+  }
   /* camera in the nose */
   const camn = part('camera', 0x15181b, { roughness: .2, metalness: .6 });
   const ring = add(camn, new THREE.CylinderGeometry(.05, .05, .03, 24), .012, 0, -.03, new THREE.MeshStandardMaterial({ color: 0xf28c28, roughness: .5 })); ring.rotation.z = Math.PI / 2;
   const lens = add(camn, new THREE.SphereGeometry(.038, 24, 16), -.002, 0, -.03);
+  /* warhead in the payload bay */
+  const wh = part('warhead', 0x6b7178, { roughness: .4, metalness: .6 });
+  add(wh, new THREE.CylinderGeometry(.115, .115, .42, 32), .98, 0, -.03).rotation.z = Math.PI / 2;
+  add(wh, new THREE.SphereGeometry(.115, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2), .77, 0, -.03).rotation.z = Math.PI / 2;
+  add(wh, new THREE.CylinderGeometry(.118, .118, .05, 32), .9, 0, -.03, new THREE.MeshStandardMaterial({ color: 0xf28c28, roughness: .5 })).rotation.z = Math.PI / 2;
   /* two GNSS antennas on the back */
   const gn = part('gnss', 0xf28c28);
   [1.55, 2.25].forEach(x => { add(gn, new THREE.CylinderGeometry(.045, .05, .022, 24), x, 0, .188).rotation.x = Math.PI / 2; });
@@ -100,7 +118,7 @@ export async function mount(box){
 
   /* numbered markers that follow the parts */
   const marks = [];
-  const anchors = { camera: [-.02, 0, -.03], gnss: [1.55, 0, .2], antennas: [1.95, 0, .3], tank: [1.95, 0, -.05], engine: [3.28, 0, .12] };
+  const anchors = { camera: [-.02, 0, -.03], gnss: [1.55, 0, .2], antennas: [1.95, 0, .3], tank: [1.95, 0, -.05], warhead: [.95, 0, .1], engine: [3.28, 0, .12] };
   box.querySelectorAll('[data-mark]').forEach(el => {
     const kind = el.dataset.mark, node = groups[kind], a = anchors[kind]; if (!node || !a) return;
     const o = new THREE.Object3D(); o.position.set(X(a[0]), a[1], a[2]); node.add(o);
@@ -130,7 +148,7 @@ export async function mount(box){
     renderer.setSize(w, h, false); cam.aspect = w / h;
     cam.fov = w / h < 1.25 ? 40 : 28; cam.updateProjectionMatrix();
   }
-  function frame(){ raf = 0; ctl.update(); if (!reduce && eng.visible) prop.rotation.x += .12; renderer.render(scene, cam); placeMarks(); if (visible) raf = requestAnimationFrame(frame); }
+  function frame(){ raf = 0; ctl.update(); if (!reduce && !jet && eng.visible) prop.rotation.x += .12; renderer.render(scene, cam); placeMarks(); if (visible) raf = requestAnimationFrame(frame); }
   function wake(){ if (!raf && visible) raf = requestAnimationFrame(frame); }
   new ResizeObserver(() => { fit(); wake(); }).observe(stage);
   new IntersectionObserver(es => { visible = es[0].isIntersecting; wake(); }).observe(stage);
