@@ -247,3 +247,25 @@
 
   route();
 })();
+
+/* specifications: 3D viewer loads when it comes near the screen; scrub clips follow their slider */
+(function(){
+  var boxes=document.querySelectorAll('[data-s3d]');
+  if(boxes.length && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(!e.isIntersecting) return; io.unobserve(e.target);
+      import('./spec3d.js').then(function(m){ return m.mount(e.target); }).catch(function(){ e.target.classList.add('s3d-off'); }); }); },{rootMargin:'400px'});
+    boxes.forEach(function(b){ io.observe(b); });
+  }
+  document.querySelectorAll('[data-scrub]').forEach(function(box){
+    var v=box.querySelector('video'), r=box.querySelector('input[type=range]'); if(!v||!r) return;
+    var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, played=false, anim=0;
+    function seek(){ if(v.duration) v.currentTime=Math.min(v.duration-.05, r.value/100*v.duration); }
+    r.addEventListener('input',function(){ cancelAnimationFrame(anim); played=true; box.classList.add('s3d-used'); seek(); });
+    v.addEventListener('loadedmetadata',seek);
+    if('IntersectionObserver' in window && !reduce){
+      var io2=new IntersectionObserver(function(es){ if(!es[0].isIntersecting||played) return; played=true; io2.disconnect();
+        var t0=0; (function step(t){ if(!t0) t0=t; var k=Math.min(1,(t-t0)/4200); r.value=Math.round(k*100); seek(); if(k<1) anim=requestAnimationFrame(step); })(performance.now()); },{threshold:.6});
+      io2.observe(box);
+    }
+  });
+})();

@@ -1,6 +1,6 @@
 # Aerodrome
 
-> Aerodrome (Aerodrome Group) is a defence company and military drone manufacturer that develops and produces long-range precision strike systems. Its product, Phoenix LT, is an unmanned one-way attack aircraft with strategic range, in the category also described as loitering munitions, one-way attack drones or kamikaze drones. Aerodrome also offers the APEX LT ground platform for fleet and mission management, and aerial data services. Tagline: Long-range capability. Within reach.
+> Aerodrome (Aerodrome Group) is a defence company and military drone manufacturer that develops and produces long-range precision strike systems. Its products, Phoenix LT (range up to 2,000 km, warhead up to 50 kg) and the jet-powered Phoenix TAP-X (range up to 600 km), are unmanned one-way attack aircraft in the category also described as loitering munitions, one-way attack drones or kamikaze drones. Aerodrome also offers the APEX LT ground platform for fleet and mission management. Tagline: Long-range capability. Within reach.
 
 Key facts:
 - Phoenix LT: strategic range with hours of endurance; modular belly payload bay for a warhead of up to 50 kg; end-to-end autonomous mission planning, navigation and flight; image-based navigation, anti-jam dual GNSS with RTK and inertial navigation that hold course when GPS is jammed; in-house avionics; open mission architecture.
@@ -11,8 +11,8 @@ Key facts:
 
 ## Products and solutions
 - [Phoenix LT](https://aerodrome-group.com/phoenix-lt/): long-range precision strike system; capabilities, key facts and delivery models.
+- [Phoenix TAP-X](https://aerodrome-group.com/phoenix-tap-x/): jet-powered precision strike system; capabilities, specifications and delivery models.
 - [APEX LT](https://aerodrome-group.com/apex-lt/): ground platform for Phoenix fleets: fleet overview, mission planning, individual UAV view, technician diagnostics.
-- [Aerial Services](https://aerodrome-group.com/aerial-services/): aerial photography, mapping and 3D modelling, flight and integration services.
 
 ## Company
 - [Home](https://aerodrome-group.com/): overview of Aerodrome and why customers choose it.
