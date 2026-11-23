@@ -39,6 +39,7 @@ export async function mount(box){
   const pm = new THREE.PMREMGenerator(renderer); scene.environment = pm.fromScene(new RoomEnvironment(), .04).texture;
   scene.add(new THREE.HemisphereLight(0xffffff, 0x20262e, .35));
   const key = new THREE.DirectionalLight(0xffffff, 1.5); key.position.set(-3, 5, 4); scene.add(key);
+  const fill = new THREE.DirectionalLight(0xdfe8ff, .55); fill.position.set(3, 2.5, -4); scene.add(fill);
   const rim = new THREE.DirectionalLight(0xffb070, .5); rim.position.set(4, 1.5, -5); scene.add(rim);
 
   const cam = new THREE.PerspectiveCamera(28, 1, .05, 60);
@@ -104,46 +105,70 @@ export async function mount(box){
     });
     add(eng, bx(.42, .2, .1), shell, 3.2, 0, -.02);
   } else {
+    /* built after the real engine: scaled about the rear bulkhead */
+    const E = new THREE.Group(), K = 1.14; E.scale.setScalar(K); E.position.set(X(3.1) * (1 - K), 0, .005 * (1 - K)); eng.add(E); E.add(prop);
     /* mounts and mount plate on the rear bulkhead */
-    [-1, 1].forEach(a => [-1, 1].forEach(b => add(eng, cyl(.024, .024, .07), rubber, 3.075, a * .075, b * .06 + .01, ...AX)));
-    add(eng, bx(.012, .21, .18), alu, 3.115, 0, .01);
-    /* crankcase */
-    add(eng, bx(.23, .1, .12), alu, 3.25, 0, .005);
-    add(eng, cyl(.05, .05, .23, 28), alu, 3.25, 0, .005, ...AX);
-    /* four opposed cylinders: finned barrels, black finned heads, plugs, exhaust stubs */
-    const fin = bx(.094, .0032, .104), hfin = bx(.098, .0045, .108);
+    [-1, 1].forEach(a => [-1, 1].forEach(b => add(E, cyl(.024, .024, .06), rubber, 3.07, a * .075, b * .06 + .01, ...AX)));
+    add(E, bx(.012, .2, .17), alu, 3.108, 0, .01);
+    [-1, 1].forEach(a => add(E, bx(.05, .012, .03), alu, 3.135, a * .075, .01));
+    /* crankcase with front and rear covers */
+    add(E, bx(.23, .1, .12), alu, 3.25, 0, .005);
+    add(E, cyl(.052, .052, .235, 32), alu, 3.25, 0, .005, ...AX);
+    add(E, cyl(.062, .062, .012, 32), steel, 3.368, 0, .005, ...AX);
+    /* four opposed cylinders: base, finned barrel, black finned head with strap, plug and lead, exhaust stub */
+    const fin = bx(.094, .0028, .104), hfin = bx(.098, .004, .108);
     [3.195, 3.305].forEach(x => [-1, 1].forEach(sd => {
-      add(eng, cyl(.037, .037, .1, 24), alu, x, sd * .1, .005);
-      for (let i = 0; i < 9; i++) add(eng, fin, alu, x, sd * (.06 + i * .0105), .005);
-      add(eng, bx(.086, .034, .096), finHead, x, sd * .172, .005);
-      for (let i = 0; i < 5; i++) add(eng, hfin, finHead, x, sd * (.157 + i * .0085), .005);
-      add(eng, cyl(.007, .007, .035, 12), steel, x, sd * .205, .012);
-      add(eng, cyl(.017, .017, .12, 20), steel, x, sd * .135, -.105, ...AZ);
+      add(E, bx(.08, .012, .09), alu, x, sd * .054, .005);
+      add(E, cyl(.037, .037, .1, 24), alu, x, sd * .1, .005);
+      for (let i = 0; i < 11; i++) add(E, fin, alu, x, sd * (.062 + i * .0088), .005);
+      add(E, bx(.086, .036, .096), finHead, x, sd * .173, .005);
+      for (let i = 0; i < 5; i++) add(E, hfin, finHead, x, sd * (.157 + i * .0085), .005);
+      add(E, bx(.1, .003, .012), steel, x, sd * .194, -.02);
+      add(E, cyl(.0075, .0075, .03, 12), steel, x, sd * .205, .012);
+      add(E, cyl(.011, .011, .012, 6), steel, x, sd * .193, .012);
+      const lead = new THREE.CatmullRomCurve3([[x, sd * .22, .012], [x + .012, sd * .235, -.03], [x + .02, sd * .2, -.075], [3.25, sd * .12, -.085]].map(q => new THREE.Vector3(X(q[0]), q[1], q[2])));
+      E.add(new THREE.Mesh(new THREE.TubeGeometry(lead, 20, .0035, 8), steel));
+      add(E, cyl(.017, .017, .13, 20), steel, x, sd * .135, -.11, ...AZ);
+      add(E, cyl(.021, .021, .012, 20), steel, x, sd * .135, -.052, ...AZ);
     }));
-    /* carburettors with air filters, ignition boxes, fuel line */
+    /* carburettors with tall air filters, throttle linkage, ignition boxes, fuel lines */
     [3.195, 3.305].forEach(x => {
-      add(eng, bx(.05, .055, .06), alu, x, 0, .1);
-      add(eng, cyl(.02, .02, .03, 16), alu, x, 0, .14, ...AZ);
-      add(eng, cyl(.035, .035, .052, 28), rubber, x, 0, .18, ...AZ);
-      add(eng, cyl(.037, .034, .012, 28), black, x, 0, .211, ...AZ);
-      add(eng, bx(.07, .03, .035), black, x, .05, .085);
+      add(E, bx(.052, .058, .06), alu, x, 0, .1);
+      add(E, cyl(.021, .021, .03, 16), alu, x, 0, .142, ...AZ);
+      add(E, cyl(.027, .027, .01, 20), steel, x, 0, .158, ...AZ);
+      add(E, cyl(.036, .036, .06, 32), rubber, x, 0, .192, ...AZ);
+      add(E, cyl(.038, .035, .012, 32), black, x, 0, .227, ...AZ);
+      add(E, bx(.075, .03, .036), black, x, .052, .086);
+      add(E, bx(.008, .004, .03), steel, x + .02, -.034, .125);
     });
-    const line = new THREE.CatmullRomCurve3([[3.305, -.03, .125], [3.25, -.035, .135], [3.195, -.03, .125], [3.14, -.05, .12], [3.1, -.06, .1]].map(p => new THREE.Vector3(X(p[0]), p[1], p[2])));
-    eng.add(new THREE.Mesh(new THREE.TubeGeometry(line, 24, .004, 8), mk(0xd8d23a, .3, 0, { transparent: true, opacity: .9 })));
-    /* ring gear, starter pinion, propeller hub */
-    add(eng, cyl(.092, .092, .009, 72), alu, 3.39, 0, .005, ...AX);
-    for (let i = 0; i < 8; i++){ const a = i / 8 * PI * 2; add(eng, cyl(.014, .014, .011, 16), black, 3.39, Math.cos(a) * .06, .005 + Math.sin(a) * .06, ...AX); }
-    add(eng, cyl(.03, .03, .012, 24), alu, 3.39, .0, -.105, ...AX);
-    add(eng, cyl(.022, .022, .09, 20), black, 3.33, 0, -.105, ...AX);
-    add(eng, cyl(.03, .03, .05, 24), alu, 3.42, 0, .005, ...AX);
-    prop.position.z = .005;
-    prop.add(new THREE.Mesh(cyl(.042, .042, .016, 28), alu).rotateZ(PI / 2));
-    /* two-blade carbon propeller */
+    add(E, cyl(.0025, .0025, .14, 8), steel, 3.27, -.036, .138, ...AX);
+    [[[3.305, -.03, .12], [3.25, -.04, .135], [3.195, -.03, .12], [3.14, -.05, .118], [3.1, -.06, .1]],
+     [[3.305, .0, .135], [3.33, .02, .15], [3.25, .03, .15], [3.195, .0, .135]]].forEach(pts => {
+      const line = new THREE.CatmullRomCurve3(pts.map(q => new THREE.Vector3(X(q[0]), q[1], q[2])));
+      E.add(new THREE.Mesh(new THREE.TubeGeometry(line, 24, .0038, 8), mk(0xd8d23a, .3, 0, { transparent: true, opacity: .9 })));
+    });
+    /* toothed ring gear with lightening holes, starter pinion and motor */
+    const gear = new THREE.Shape(), T = 72;
+    for (let i = 0; i < T * 2; i++){ const a = i / (T * 2) * PI * 2, r = i % 2 ? .0975 : .091; i ? gear.lineTo(Math.cos(a) * r, Math.sin(a) * r) : gear.moveTo(r, 0); }
+    gear.closePath();
+    for (let i = 0; i < 8; i++){ const a = i / 8 * PI * 2, h = new THREE.Path(); h.absarc(Math.cos(a) * .062, Math.sin(a) * .062, .015, 0, PI * 2, true); gear.holes.push(h); }
+    const gg = new THREE.ExtrudeGeometry(gear, { depth: .008, bevelEnabled: false, curveSegments: 20 }); gg.translate(0, 0, -.004);
+    add(E, gg, alu, 3.392, 0, .005, 0, PI / 2, 0);
+    add(E, cyl(.034, .034, .02, 28), alu, 3.392, 0, .005, ...AX);
+    add(E, cyl(.02, .02, .012, 18), steel, 3.392, .0, -.112, ...AX);
+    add(E, cyl(.024, .024, .1, 22), black, 3.33, 0, -.112, ...AX);
+    /* propeller shaft, hub flange with bolts */
+    add(E, cyl(.02, .02, .06, 20), steel, 3.425, 0, .005, ...AX);
+    prop.position.set(X(3.458), 0, .005);
+    prop.add(new THREE.Mesh(cyl(.044, .044, .012, 32), alu).rotateZ(PI / 2));
+    const front = new THREE.Mesh(cyl(.04, .04, .008, 32), alu); front.rotation.z = PI / 2; front.position.x = .024; prop.add(front);
+    for (let i = 0; i < 6; i++){ const a = i / 6 * PI * 2, bolt = new THREE.Mesh(cyl(.005, .005, .012, 6), steel); bolt.rotation.z = PI / 2; bolt.position.set(.032, Math.cos(a) * .028, Math.sin(a) * .028); prop.add(bolt); }
+    /* two-blade carbon propeller, scimitar planform */
     const sh = new THREE.Shape();
-    sh.moveTo(-.022, .0); sh.bezierCurveTo(-.05, .08, -.05, .16, -.03, .27); sh.quadraticCurveTo(-.012, .352, .004, .355);
-    sh.quadraticCurveTo(.02, .345, .024, .27); sh.bezierCurveTo(.032, .16, .034, .08, .022, 0); sh.closePath();
-    const bg = new THREE.ExtrudeGeometry(sh, { depth: .012, bevelEnabled: true, bevelThickness: .003, bevelSize: .003, bevelSegments: 2, curveSegments: 16 }); bg.translate(0, 0, -.006);
-    [0, PI].forEach(r => { const g = new THREE.Group(); g.rotation.x = r; const b = new THREE.Mesh(bg, carbon); b.rotation.y = PI / 2 + .28; g.add(b); prop.add(g); });
+    sh.moveTo(-.03, 0); sh.bezierCurveTo(-.06, .07, -.068, .17, -.05, .27); sh.bezierCurveTo(-.04, .33, -.02, .372, .0, .38);
+    sh.bezierCurveTo(.014, .37, .016, .32, .014, .27); sh.bezierCurveTo(.02, .17, .034, .07, .03, 0); sh.closePath();
+    const bg = new THREE.ExtrudeGeometry(sh, { depth: .012, bevelEnabled: true, bevelThickness: .004, bevelSize: .004, bevelSegments: 3, curveSegments: 20 }); bg.translate(0, 0, -.006);
+    [0, PI].forEach(r => { const g = new THREE.Group(); g.rotation.x = r; g.position.x = .012; const bl = new THREE.Mesh(bg, carbon); bl.rotation.y = PI / 2 + .3; g.add(bl); prop.add(g); });
   }
 
   /* camera: stabilised ball under the nose */
@@ -198,7 +223,7 @@ export async function mount(box){
 
   /* numbered markers that follow the parts */
   const marks = [];
-  const anchors = { camera: [.15, 0, -.1], gnss: [1.5, 0, .24], antennas: [.7, 0, .34], tank: [1.95, 0, -.05], warhead: [.95, 0, 0], engine: [3.27, 0, .22], pitot: [1.5, .62, 0], elevons: [2.85, .9, .03] };
+  const anchors = { camera: [.15, 0, -.1], gnss: [1.5, 0, .24], antennas: [.7, 0, .34], tank: [1.95, 0, -.05], warhead: [.95, 0, 0], engine: [3.3, 0, .27], pitot: [1.5, .62, 0], elevons: [2.85, .9, .03] };
   box.querySelectorAll('[data-mark]').forEach(el => {
     const kind = el.dataset.mark, node = Object.values(groups).find(n => n.userData.kind === kind), a = anchors[kind]; if (!node || !a) return;
     const o = new THREE.Object3D(); o.position.set(X(a[0]), a[1], a[2]); node.add(o);
@@ -251,6 +276,21 @@ export async function mount(box){
   const rs = box.querySelector('[data-home]');
   if (rs) rs.addEventListener('click', () => { home(); if (ex){ ex.value = 0; setApart(0); } });
 
+  /* real photo of a part, opened from its marker on the model */
+  const fig = box.querySelector('.s3d-photo');
+  if (fig){
+    const im = fig.querySelector('img'), cap = fig.querySelector('figcaption');
+    let from = null;
+    const close = () => { fig.hidden = true; if (from) from.setAttribute('aria-expanded', 'false'); from = null; };
+    box.querySelectorAll('.s3d-mark.has-pic').forEach(b => b.addEventListener('click', () => {
+      if (from === b) return close();
+      if (from) from.setAttribute('aria-expanded', 'false');
+      from = b; im.src = b.dataset.pic; im.alt = b.dataset.alt || ''; cap.textContent = b.textContent.trim();
+      b.setAttribute('aria-expanded', 'true'); fig.hidden = false; ctl.autoRotate = false;
+    }));
+    fig.querySelector('button').addEventListener('click', () => { const f = from; close(); if (f) f.focus(); });
+    box.addEventListener('keydown', e => { if (e.key === 'Escape' && !fig.hidden){ const f = from; close(); if (f) f.focus(); } });
+  }
   box.s3d = { cam, ctl };
   box.classList.add('s3d-on');
 }
