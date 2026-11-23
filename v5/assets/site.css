@@ -675,3 +675,15 @@ html{scrollbar-color:rgba(242,242,239,.5) var(--ground)}
 .s3d-legend .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--camel);color:var(--ink);font:600 .75rem var(--display)}
 .s3d-legend b{font-weight:500;color:var(--ink)}
 .s3d-legend span.d{grid-column:2;color:var(--muted);font-size:.9375rem;line-height:1.45}
+.s3d-hint{left:16px;top:14px;bottom:auto}
+.s3d-ctl{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:22px 14px 12px;background:linear-gradient(180deg,rgba(9,14,20,0),rgba(9,14,20,.86) 55%)}
+.s3d-ctl .s3d-range{flex:1 1 220px;min-height:36px;color:var(--ink);font-size:.8125rem}
+.s3d-ctl .chip{background:rgba(10,17,26,.7)}
+.s3d-ctl .chip[aria-pressed="true"]{background:rgba(242,140,40,.22)}
+.chip{min-height:34px;padding:5px 12px;font-size:.75rem;gap:7px}
+.chip::before{width:7px;height:7px}
+.s3d-bar{gap:8px;margin-top:12px}
+.s3d-bar .lbl{margin:4px 0 0;font-size:.6875rem}
+.s3d-legend{margin-top:18px;gap:10px 24px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.s3d-legend span.d{font-size:.875rem}
+@media(max-width:640px){.s3d-stage{aspect-ratio:4/3.9}.s3d-ctl{padding:18px 10px 10px}}

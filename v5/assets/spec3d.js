@@ -120,7 +120,7 @@ export async function mount(box){
   const ctl = new OrbitControls(cam, cv);
   ctl.enableDamping = true; ctl.dampingFactor = .08; ctl.enablePan = false;
   ctl.minDistance = 2.2; ctl.maxDistance = 11; ctl.enableZoom = false; ctl.autoRotate = !reduce; ctl.autoRotateSpeed = .7;
-  const home = () => { cam.position.set(-3.3, 1.9, 3.9); ctl.target.set(0, 0, 0); ctl.update(); };
+  const home = () => { cam.position.set(-3.3, 1.9, 3.9); ctl.target.set(0, -.12, 0); ctl.update(); };
   home();
   ctl.addEventListener('start', () => { ctl.autoRotate = false; box.classList.add('s3d-used'); });
 
@@ -148,7 +148,7 @@ export async function mount(box){
   if (xr){ setXray(xr.getAttribute('aria-pressed') === 'true'); xr.addEventListener('click', () => { const on = xr.getAttribute('aria-pressed') !== 'true'; xr.setAttribute('aria-pressed', on ? 'true' : 'false'); setXray(on); }); }
   /* take apart */
   const ex = box.querySelector('[data-apart]');
-  function setApart(k){ Object.values(groups).forEach(n => { const d = APART[n.userData.id] || [0, 0, 0]; n.position.set(d[0] * k * .8, d[1] * k * .8, d[2] * k * .8); }); }
+  function setApart(k){ model.scale.setScalar(1 - .2 * k); Object.values(groups).forEach(n => { const d = APART[n.userData.id] || [0, 0, 0]; n.position.set(d[0] * k * .8, d[1] * k * .8, d[2] * k * .8); }); }
   if (ex){ setApart(ex.value / 100); ex.addEventListener('input', () => { ctl.autoRotate = false; setApart(ex.value / 100); }); }
   const rs = box.querySelector('[data-home]');
   if (rs) rs.addEventListener('click', () => { home(); if (ex){ ex.value = 0; setApart(0); } });
