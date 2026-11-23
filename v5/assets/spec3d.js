@@ -103,10 +103,10 @@ export async function mount(box){
   const ring = add(camn, new THREE.CylinderGeometry(.05, .05, .03, 24), .012, 0, -.03, new THREE.MeshStandardMaterial({ color: 0xf28c28, roughness: .5 })); ring.rotation.z = Math.PI / 2;
   const lens = add(camn, new THREE.SphereGeometry(.038, 24, 16), -.002, 0, -.03);
   /* warhead in the payload bay */
-  const wh = part('warhead', 0x6b7178, { roughness: .4, metalness: .6 });
+  const wh = part('warhead', 0xd9482b, { roughness: .45, metalness: .3, emissive: 0x3a0d05 });
   add(wh, new THREE.CylinderGeometry(.115, .115, .42, 32), .98, 0, -.03).rotation.z = Math.PI / 2;
   add(wh, new THREE.SphereGeometry(.115, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2), .77, 0, -.03).rotation.z = Math.PI / 2;
-  add(wh, new THREE.CylinderGeometry(.118, .118, .05, 32), .9, 0, -.03, new THREE.MeshStandardMaterial({ color: 0xf28c28, roughness: .5 })).rotation.z = Math.PI / 2;
+  add(wh, new THREE.CylinderGeometry(.118, .118, .05, 32), .9, 0, -.03, new THREE.MeshStandardMaterial({ color: 0xf2f2ef, roughness: .5 })).rotation.z = Math.PI / 2;
   /* two GNSS antennas on the back */
   const gn = part('gnss', 0xf28c28);
   [1.55, 2.25].forEach(x => { add(gn, new THREE.CylinderGeometry(.045, .05, .022, 24), x, 0, .188).rotation.x = Math.PI / 2; });
@@ -118,7 +118,7 @@ export async function mount(box){
 
   /* numbered markers that follow the parts */
   const marks = [];
-  const anchors = { camera: [-.02, 0, -.03], gnss: [1.55, 0, .2], antennas: [1.95, 0, .3], tank: [1.95, 0, -.05], warhead: [.95, 0, .1], engine: [3.28, 0, .12] };
+  const anchors = { camera: [-.02, 0, -.03], gnss: [1.55, 0, .2], antennas: [1.95, 0, .3], tank: [1.95, 0, -.05], warhead: [.95, 0, .0], engine: [3.28, 0, .12] };
   box.querySelectorAll('[data-mark]').forEach(el => {
     const kind = el.dataset.mark, node = groups[kind], a = anchors[kind]; if (!node || !a) return;
     const o = new THREE.Object3D(); o.position.set(X(a[0]), a[1], a[2]); node.add(o);
@@ -131,7 +131,7 @@ export async function mount(box){
       m.o.getWorldPosition(v3).project(cam);
       const on = m.node.visible && v3.z < 1;
       m.el.hidden = !on;
-      if (on) m.el.style.transform = 'translate(' + ((v3.x * .5 + .5) * w).toFixed(1) + 'px,' + ((-v3.y * .5 + .5) * h).toFixed(1) + 'px)';
+      if (on){ m.el.style.left = ((v3.x * .5 + .5) * w).toFixed(1) + 'px'; m.el.style.top = ((-v3.y * .5 + .5) * h).toFixed(1) + 'px'; }
     });
   }
 
