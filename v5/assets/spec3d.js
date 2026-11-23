@@ -244,7 +244,7 @@ export async function mount(box){
   const ctl = new OrbitControls(cam, cv);
   ctl.enableDamping = true; ctl.dampingFactor = .08; ctl.enablePan = false;
   ctl.minDistance = 2.2; ctl.maxDistance = 11; ctl.enableZoom = false; ctl.autoRotate = !reduce; ctl.autoRotateSpeed = .7;
-  const home = () => { cam.position.set(-3.4, 1.95, 4.0); ctl.target.set(0, .1, 0); ctl.update(); };
+  const home = () => { cam.position.set(-2.6, 1.45, 3.05); ctl.target.set(0, -.02, 0); ctl.update(); };
   home();
   ctl.addEventListener('start', () => { ctl.autoRotate = false; box.classList.add('s3d-used'); });
 
@@ -252,7 +252,7 @@ export async function mount(box){
   function fit(){
     const w = stage.clientWidth, h = stage.clientHeight; if (!w || !h) return;
     renderer.setSize(w, h, false); cam.aspect = w / h;
-    cam.fov = w / h < 1 ? 40 : (w / h < 1.4 ? 32 : 28); cam.updateProjectionMatrix();
+    cam.fov = w / h < 1.15 ? 62 : (w / h < 1.5 ? 36 : 28); cam.updateProjectionMatrix();
   }
   function frame(){ raf = 0; ctl.update(); if (!reduce && !jet && eng.visible) prop.rotation.x += .12; renderer.render(scene, cam); placeMarks(); if (visible) raf = requestAnimationFrame(frame); }
   function wake(){ if (!raf && visible) raf = requestAnimationFrame(frame); }

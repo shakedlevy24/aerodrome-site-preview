@@ -732,3 +732,17 @@ button.s3d-mark.off{opacity:.55;border-style:dashed}
 .s3d-stage{aspect-ratio:1/.84}
 @media(max-width:980px){.s3d-stage{aspect-ratio:16/11}}
 @media(max-width:640px){.s3d-stage{aspect-ratio:4/4.2}.s3d-info{left:10px;right:10px;top:auto;bottom:64px}}
+/* compact specifications block */
+.specs .head{margin-bottom:28px}
+.specs .head h2{font-size:clamp(1.75rem,3vw,2.5rem)}
+.spec-grid{grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:24px 44px;align-items:stretch}
+.s3d-stage{aspect-ratio:auto;height:clamp(380px,52vh,540px)}
+.spec-list h3{font-size:.6875rem;margin:0}
+.spec-list dl{margin:0 0 14px}
+.spec-list dl:last-child{margin-bottom:0}
+.spec-list .srow{padding:7px 0;gap:16px;font-size:.9375rem}
+.spec-note{margin-top:18px;font-size:.8125rem}
+.picband{border-radius:12px;overflow:hidden;height:clamp(240px,38vw,520px);border:1px solid var(--line)}
+.picband img{display:block;width:100%;height:100%;object-fit:cover;object-position:55% 50%}
+@media(max-width:980px){.spec-grid{grid-template-columns:minmax(0,1fr)}.s3d-stage{height:clamp(340px,60vw,460px)}}
+@media(max-width:640px){.s3d-stage{aspect-ratio:auto;height:clamp(330px,100vw,420px)}}
