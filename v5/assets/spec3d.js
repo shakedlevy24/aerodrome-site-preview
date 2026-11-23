@@ -205,11 +205,12 @@ export async function mount(box){
   add(an, cyl(.005, .005, .022, 12), alu, 1.12, 0, .186, ...AZ);
   add(an, new THREE.SphereGeometry(.02, 24, 12, 0, PI * 2, 0, PI / 2), alu, 1.12, 0, .195, ...AZ);
 
-  /* airspeed sensors (pitot tubes) on both wings; elevon servos, horns and pushrods */
+  /* airspeed sensor: one pitot tube, on the left wing */
+  const pt = part('pitot', 'pitot:l');
+  add(pt, cyl(.0055, .0055, .27, 14), alu, 1.585, .62, -.008, ...AX);
+  add(pt, cyl(.0055, .002, .025, 14), alu, 1.4375, .62, -.008, ...AX);
+  /* elevon servos, horns and pushrods */
   [['l', 1], ['r', -1]].forEach(s => {
-    const pt = part('pitot', 'pitot:' + s[0]);
-    add(pt, cyl(.0055, .0055, .27, 14), alu, 1.585, s[1] * .62, -.008, ...AX);
-    add(pt, cyl(.0055, .002, .025, 14), alu, 1.4375, s[1] * .62, -.008, ...AX);
     const el = part('elevons', 'elevons:' + s[0]);
     add(el, bx(.005, 1.02, .0025), black, 2.93, s[1] * .75, -.0165);
     add(el, bx(.004, .003, .012), black, 3.03, s[1] * .675, -.02);
@@ -234,8 +235,8 @@ export async function mount(box){
     const w = stage.clientWidth, h = stage.clientHeight;
     marks.forEach(m => {
       m.o.getWorldPosition(v3).project(cam);
-      const on = m.node.visible && v3.z < 1;
-      m.el.hidden = !on;
+      const on = v3.z < 1;
+      m.el.hidden = !on; m.el.classList.toggle('off', !m.node.visible);
       if (on){ m.el.style.left = ((v3.x * .5 + .5) * w).toFixed(1) + 'px'; m.el.style.top = ((-v3.y * .5 + .5) * h).toFixed(1) + 'px'; }
     });
   }
@@ -243,7 +244,7 @@ export async function mount(box){
   const ctl = new OrbitControls(cam, cv);
   ctl.enableDamping = true; ctl.dampingFactor = .08; ctl.enablePan = false;
   ctl.minDistance = 2.2; ctl.maxDistance = 11; ctl.enableZoom = false; ctl.autoRotate = !reduce; ctl.autoRotateSpeed = .7;
-  const home = () => { cam.position.set(-3.0, 1.75, 3.55); ctl.target.set(0, -.12, 0); ctl.update(); };
+  const home = () => { cam.position.set(-3.4, 1.95, 4.0); ctl.target.set(0, .1, 0); ctl.update(); };
   home();
   ctl.addEventListener('start', () => { ctl.autoRotate = false; box.classList.add('s3d-used'); });
 
@@ -251,7 +252,7 @@ export async function mount(box){
   function fit(){
     const w = stage.clientWidth, h = stage.clientHeight; if (!w || !h) return;
     renderer.setSize(w, h, false); cam.aspect = w / h;
-    cam.fov = w / h < 1.25 ? 40 : 28; cam.updateProjectionMatrix();
+    cam.fov = w / h < 1 ? 40 : (w / h < 1.4 ? 32 : 28); cam.updateProjectionMatrix();
   }
   function frame(){ raf = 0; ctl.update(); if (!reduce && !jet && eng.visible) prop.rotation.x += .12; renderer.render(scene, cam); placeMarks(); if (visible) raf = requestAnimationFrame(frame); }
   function wake(){ if (!raf && visible) raf = requestAnimationFrame(frame); }
@@ -290,6 +291,24 @@ export async function mount(box){
     }));
     fig.querySelector('button').addEventListener('click', () => { const f = from; close(); if (f) f.focus(); });
     box.addEventListener('keydown', e => { if (e.key === 'Escape' && !fig.hidden){ const f = from; close(); if (f) f.focus(); } });
+  }
+  /* labels on the model: tap to read about a part and to show or hide it */
+  const info = box.querySelector('.s3d-info');
+  if (info){
+    const nm = info.querySelector('b'), ds = info.querySelector('p'), tg = info.querySelector('[data-toggle]');
+    let cur = null;
+    const isOn = k => Object.values(groups).some(n => n.userData.kind === k && n.visible);
+    const paint = () => { const on = isOn(cur.dataset.mark); tg.setAttribute('aria-pressed', on ? 'true' : 'false'); tg.textContent = on ? 'Shown' : 'Hidden'; };
+    const close = () => { info.hidden = true; if (cur) cur.setAttribute('aria-pressed', 'false'); cur = null; };
+    box.querySelectorAll('button.s3d-mark').forEach(b => b.addEventListener('click', () => {
+      if (cur === b) return close();
+      if (cur) cur.setAttribute('aria-pressed', 'false');
+      cur = b; b.setAttribute('aria-pressed', 'true'); nm.textContent = b.dataset.name; ds.textContent = b.dataset.desc;
+      paint(); info.hidden = false; ctl.autoRotate = false;
+    }));
+    tg.addEventListener('click', () => { if (!cur) return; setPart(cur.dataset.mark, !isOn(cur.dataset.mark)); paint(); });
+    info.querySelector('.x').addEventListener('click', () => { const f = cur; close(); if (f) f.focus(); });
+    box.addEventListener('keydown', e => { if (e.key === 'Escape' && !info.hidden){ const f = cur; close(); if (f) f.focus(); } });
   }
   box.s3d = { cam, ctl };
   box.classList.add('s3d-on');
