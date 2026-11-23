@@ -18,8 +18,8 @@
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="../assets/fonts/chakra-petch-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/tapx-desert.jpg" as="image" type="image/jpeg" fetchpriority="high">
-<link rel="stylesheet" href="../assets/site.css?v=20261123d">
-<script src="../assets/early.js?v=20261123d"></script>
+<link rel="stylesheet" href="../assets/site.css?v=20261123e">
+<script src="../assets/early.js?v=20261123e"></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "Phoenix TAP-X", "category": "Jet-powered precision strike system (one-way attack unmanned aircraft, loitering munition)", "brand": {"@type": "Brand", "name": "Aerodrome"}, "manufacturer": {"@type": "Organization", "name": "Aerodrome Group", "url": "https://aerodrome-group.com/"}, "description": "Phoenix TAP-X: a jet-powered one-way attack unmanned aircraft (loitering munition) from the Phoenix family. Up to 600 km range, rocket-booster launch, no runway.", "image": "https://aerodrome-group.com/assets/tapx-desert.jpg", "url": "https://aerodrome-group.com/phoenix-tap-x/"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://aerodrome-group.com/"}, {"@type": "ListItem", "position": 2, "name": "Phoenix TAP-X", "item": "https://aerodrome-group.com/phoenix-tap-x/"}]}</script>
 </head>
@@ -109,7 +109,7 @@
     </div><p class="muted" style="max-width:40ch">Phoenix TAP-X takes the Phoenix airframe and replaces the propeller engine with a jet module. Turn it, switch sections on and off, or take it apart.</p></div>
     <div class="spec-grid">
       <div data-s3d="../assets/model/phoenix-lt" data-engine="jet" data-label="3D model of the Phoenix TAP-X airframe with its jet engine. Use the buttons below to show or hide sections.">
-        <div class="s3d-stage"><img class="s3d-poster" src="../assets/spec-tapx-3d-poster.jpg" alt="Phoenix TAP-X airframe, 3D view" width="1280" height="720" loading="lazy" decoding="async"><p class="s3d-hint">Drag to rotate</p><div class="s3d-ctl"><label class="s3d-range"><span>Take apart</span><input type="range" min="0" max="100" value="0" data-apart></label><button type="button" class="chip" data-xray aria-pressed="true">See-through</button><button type="button" class="chip plain" data-home>Reset</button></div><span class="s3d-mark" data-mark="camera" aria-hidden="true" hidden>Camera</span><span class="s3d-mark" data-mark="gnss" aria-hidden="true" hidden>GNSS</span><span class="s3d-mark" data-mark="antennas" aria-hidden="true" hidden>Antennas</span><span class="s3d-mark" data-mark="tank" aria-hidden="true" hidden>Fuel tank</span><span class="s3d-mark" data-mark="engine" aria-hidden="true" hidden>Jet engine</span><span class="s3d-mark" data-mark="warhead" aria-hidden="true" hidden>Warhead</span></div>
+        <div class="s3d-stage"><img class="s3d-poster" src="../assets/spec-tapx-3d-poster.jpg" alt="Phoenix TAP-X airframe, 3D view" width="1280" height="720" loading="lazy" decoding="async"><p class="s3d-hint">Drag to rotate</p><div class="s3d-ctl"><label class="s3d-range"><span>Take apart</span><input type="range" min="0" max="100" value="0" data-apart></label><button type="button" class="chip" data-xray aria-pressed="true">See-through</button><button type="button" class="chip plain" data-home>Reset</button></div><span class="s3d-mark" data-mark="camera" aria-hidden="true" hidden>Camera</span><span class="s3d-mark" data-mark="antennas" aria-hidden="true" hidden>Antennas</span><span class="s3d-mark" data-mark="gnss" aria-hidden="true" hidden>GNSS</span><span class="s3d-mark" data-mark="warhead" aria-hidden="true" hidden>Warhead</span><span class="s3d-mark" data-mark="tank" aria-hidden="true" hidden>Fuel tank</span><span class="s3d-mark" data-mark="engine" aria-hidden="true" hidden>Jet engine</span><span class="s3d-mark" data-mark="pitot" aria-hidden="true" hidden>Airspeed</span><span class="s3d-mark" data-mark="elevons" aria-hidden="true" hidden>Elevons</span></div>
         <div class="s3d-bar" role="group" aria-label="Sections shown in the 3D model">
           <p class="lbl">Airframe sections</p>
           <button type="button" class="chip" data-part="fuselage" aria-pressed="true">Fuselage</button>
@@ -122,17 +122,19 @@
           <button type="button" class="chip" data-part="avionics" aria-pressed="true">Avionics</button>
           <p class="lbl">Components</p>
           <button type="button" class="chip" data-part="camera" aria-pressed="true">Camera</button>
-          <button type="button" class="chip" data-part="gnss" aria-pressed="true">GNSS antennas</button>
           <button type="button" class="chip" data-part="antennas" aria-pressed="true">Communication antennas</button>
-          <button type="button" class="chip" data-part="warhead" aria-pressed="true">Warhead</button>
+          <button type="button" class="chip" data-part="gnss" aria-pressed="true">GNSS antennas</button>
+          <button type="button" class="chip" data-part="warhead" aria-pressed="true">Warhead section</button>
           <button type="button" class="chip" data-part="tank" aria-pressed="true">Fuel tank</button>
           <button type="button" class="chip" data-part="engine" aria-pressed="true">Jet engine</button>
+          <button type="button" class="chip" data-part="pitot" aria-pressed="true">Airspeed sensors</button>
+          <button type="button" class="chip" data-part="elevons" aria-pressed="true">Elevons</button>
         </div>
-        <ol class="s3d-legend" aria-label="Components"><li><span class="n" aria-hidden="true"></span><b>Camera</b><span class="d">Nose-mounted thermal camera with real-time video over the data link.</span></li><li><span class="n" aria-hidden="true"></span><b>GNSS antennas</b><span class="d">Two multi-constellation receivers (GPS, Galileo, GLONASS, BeiDou) with RTK.</span></li><li><span class="n" aria-hidden="true"></span><b>Communication antennas</b><span class="d">Dual-redundant, encrypted links for command, telemetry and video.</span></li><li><span class="n" aria-hidden="true"></span><b>Fuel tank</b><span class="d">Integral composite tank with baffles that keep the fuel steady in manoeuvres.</span></li><li><span class="n" aria-hidden="true"></span><b>Jet engine</b><span class="d">Jet engine module fitted in place of the propeller engine, on the same airframe.</span></li><li><span class="n" aria-hidden="true"></span><b>Warhead</b><span class="d">Up to 50 kg, carried in the modular payload bay.</span></li></ol>
+        <ol class="s3d-legend cards" aria-label="Components"><li><span class="ph" aria-hidden="true"></span><b>Camera</b><span class="d">Stabilised nose camera with real-time video over the data link.</span></li><li><img src="../assets/parts/antennas.jpg" alt="Antenna mast on the fuselage behind the nose" width="640" height="480" loading="lazy" decoding="async"><b>Communication antennas</b><span class="d">Dual-redundant, encrypted links for command, telemetry and video.</span></li><li><img src="../assets/parts/gnss.jpg" alt="GNSS antenna on the fuselage" width="640" height="480" loading="lazy" decoding="async"><b>GNSS antennas</b><span class="d">Two multi-constellation receivers (GPS, Galileo, GLONASS, BeiDou) with RTK.</span></li><li><img src="../assets/parts/warhead.jpg" alt="Open front section of the fuselage with the payload cradle" width="640" height="480" loading="lazy" decoding="async"><b>Warhead section</b><span class="d">Up to 50 kg, carried in the section behind the nose.</span></li><li><span class="ph" aria-hidden="true"></span><b>Fuel tank</b><span class="d">Integral composite tank with baffles that keep the fuel steady in manoeuvres.</span></li><li><span class="ph" aria-hidden="true"></span><b>Jet engine</b><span class="d">Jet engine module fitted in place of the propeller engine, on the same airframe.</span></li><li><img src="../assets/parts/pitot.jpg" alt="Airspeed tube on the wing" width="640" height="480" loading="lazy" decoding="async"><b>Airspeed sensors</b><span class="d">Pitot tubes on both wings measure airspeed for the autopilot.</span></li><li><img src="../assets/parts/elevons.jpg" alt="Two elevons with their servo linkages on the wing" width="640" height="480" loading="lazy" decoding="async"><b>Elevons</b><span class="d">Two control surfaces on each wing, each with its own servo, for redundancy.</span></li></ol>
       </div>
       <div class="spec-list"><h3>Performance</h3><dl><div class="srow"><dt>Range</dt><dd>Up to 600 km</dd></div><div class="srow"><dt>Warhead</dt><dd>Up to 50 kg</dd></div><div class="srow"><dt>Cruise speed</dt><dd>370 km/h (200 kt)</dd></div></dl><h3>Airframe</h3><dl><div class="srow"><dt>Length</dt><dd class="tbc">To confirm</dd></div><div class="srow"><dt>Wingspan</dt><dd class="tbc">To confirm</dd></div><div class="srow"><dt>Propulsion</dt><dd>Jet engine</dd></div></dl><h3>Operation</h3><dl><div class="srow"><dt>Launch</dt><dd>Rocket booster, no runway</dd></div><div class="srow"><dt>Navigation</dt><dd>Image-based, anti-jam GNSS, inertial</dd></div><div class="srow"><dt>Engagement</dt><dd>Human-authorised</dd></div></dl></div>
     </div>
-    <p class="spec-note">Figures depend on configuration and mission profile. The 3D model is a simplified illustration; engine, camera and antennas are shown schematically.</p>
+    <p class="spec-note">Figures depend on configuration and mission profile. The 3D model is a simplified illustration; engine, sensors and antennas are modelled after the real parts.</p>
   </section>
 
   <section class="px" style="padding-bottom:130px" aria-labelledby="ptx-del-title">
@@ -171,8 +173,8 @@
     <nav class="legal" aria-label="Legal"><a href="../accessibility/">Accessibility Statement</a><a href="../privacy/">Privacy Policy</a><a href="../terms/">Terms of Use</a><a href="../disclaimers/">Disclaimers</a><span style="margin-left:auto">© 2026 Aerodrome Group Ltd.</span></nav>
   </footer>
 
-<script src="../assets/site.js?v=20261123d"></script>
-<script src="../assets/runtime.js?v=20261123d"></script>
+<script src="../assets/site.js?v=20261123e"></script>
+<script src="../assets/runtime.js?v=20261123e"></script>
 <script type="speculationrules">{"prefetch": [{"where": {"and": [{"href_matches": "/*"}, {"not": {"href_matches": ["/admin/*", "/api/*"]}}, {"not": {"selector_matches": "[download],[target=_blank]"}}]}, "eagerness": "moderate"}]}</script>
 </body>
 </html>

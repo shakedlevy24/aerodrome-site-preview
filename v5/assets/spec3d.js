@@ -1,12 +1,13 @@
 /* Aerodrome 3D specification viewer. Loaded only when a [data-s3d] block scrolls into view. */
 import * as THREE from './vendor/three.module.min.js';
 import { OrbitControls } from './vendor/OrbitControls.js';
+import { RoomEnvironment } from './vendor/RoomEnvironment.js';
 
 const LOOK = {
-  fuselage: { color: 0xc9ced3, skin: true },  nose: { color: 0xd6dade, skin: true },
-  wings: { color: 0xc3c8cd, skin: true },     winglets: { color: 0xd6dade, skin: true },
-  hatches: { color: 0xaeb4ba, skin: true },   structure: { color: 0x5d6770 },
-  payload: { color: 0xf28c28 },               avionics: { color: 0xff9a4d },
+  fuselage: { color: 0xa3abb6, skin: true },  nose: { color: 0xa3abb6, skin: true },
+  wings: { color: 0xa3abb6, skin: true },     winglets: { color: 0xa3abb6, skin: true },
+  hatches: { color: 0x1d1f22, skin: true },   structure: { color: 0x5d6770 },
+  payload: { color: 0x8a9097 },               avionics: { color: 0xff9a4d },
   tank: { color: 0x3f86c9 }
 };
 /* direction each section moves when the model is taken apart (model axes: x aft, y left, z up) */
@@ -14,7 +15,8 @@ const APART = {
   fuselage: [0, 0, .42], nose: [-.5, 0, 0], 'wings:l': [0, .4, 0], 'wings:r': [0, -.4, 0],
   'winglets:l': [.1, .65, 0], 'winglets:r': [.1, -.65, 0], hatches: [0, 0, .75],
   structure: [0, 0, 0], payload: [0, 0, -.42], avionics: [.2, 0, -.42], tank: [0, 0, -.2],
-  warhead: [-.15, 0, -.7], engine: [.55, 0, 0], camera: [-.75, 0, 0], gnss: [0, 0, .95], antennas: [0, 0, .95]
+  warhead: [-.15, 0, -.7], engine: [.55, 0, 0], camera: [-.5, 0, -.25], gnss: [0, 0, .95], antennas: [0, 0, .95],
+  'pitot:l': [0, .4, 0], 'pitot:r': [0, -.4, 0], 'elevons:l': [0, .4, 0], 'elevons:r': [0, -.4, 0]
 };
 
 export async function mount(box){
@@ -33,9 +35,11 @@ export async function mount(box){
   stage.appendChild(cv);
 
   const scene = new THREE.Scene();
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x20262e, 1.15));
-  const key = new THREE.DirectionalLight(0xffffff, 1.9); key.position.set(-3, 5, 4); scene.add(key);
-  const rim = new THREE.DirectionalLight(0xffb070, .7); rim.position.set(4, 1.5, -5); scene.add(rim);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = .82;
+  const pm = new THREE.PMREMGenerator(renderer); scene.environment = pm.fromScene(new RoomEnvironment(), .04).texture;
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x20262e, .35));
+  const key = new THREE.DirectionalLight(0xffffff, 1.5); key.position.set(-3, 5, 4); scene.add(key);
+  const rim = new THREE.DirectionalLight(0xffb070, .5); rim.position.set(4, 1.5, -5); scene.add(rim);
 
   const cam = new THREE.PerspectiveCamera(28, 1, .05, 60);
   const size = man.scale, mid = man.min.map((m, i) => m + [man.scale, 2.6, .65][i] / 2);
@@ -45,7 +49,7 @@ export async function mount(box){
   const groups = {};
   man.groups.forEach(g => {
     const kind = g.id.split(':')[0], look = LOOK[kind] || LOOK.structure;
-    const mat = new THREE.MeshStandardMaterial({ color: look.color, roughness: kind === 'avionics' ? .45 : .62, metalness: look.skin ? .08 : .2, side: THREE.DoubleSide, transparent: true, opacity: 1, polygonOffset: !look.skin, polygonOffsetFactor: 2, polygonOffsetUnits: 2 });
+    const mat = new THREE.MeshStandardMaterial({ color: look.color, roughness: kind === 'avionics' ? .45 : (kind === 'hatches' ? .4 : .68), metalness: look.skin ? .05 : .2, side: THREE.DoubleSide, transparent: true, opacity: 1, polygonOffset: !look.skin, polygonOffsetFactor: 2, polygonOffsetUnits: 2 });
     const node = new THREE.Group(); node.userData = { kind, id: g.id, mat, skin: !!look.skin };
     g.chunks.forEach(c => {
       const q = new Uint16Array(bin, c.v[0], c.v[1] * 3), pos = new Float32Array(q.length);
@@ -64,63 +68,139 @@ export async function mount(box){
   });
 
 
-  /* components drawn as simple illustrative shapes (not in the airframe file) */
+  /* components modelled after the real parts (not in the airframe file) */
   const X = x => x - mid[0];
-  function part(kind, color, opts){
-    const mat = new THREE.MeshStandardMaterial(Object.assign({ color, roughness: .5, metalness: .35, transparent: true, opacity: 1 }, opts || {}));
-    const node = new THREE.Group(); node.userData = { kind, id: kind, mat };
-    model.add(node); groups[kind] = node; return node;
+  const PI = Math.PI;
+  const mk = (color, rough, metal, more) => new THREE.MeshStandardMaterial(Object.assign({ color, roughness: rough, metalness: metal }, more || {}));
+  const alu = mk(0xc4c8cc, .32, .9), steel = mk(0x9a9ea3, .4, .85), black = mk(0x18191b, .55, .3), rubber = mk(0x101112, .9, 0),
+        grey = mk(0x8f949a, .6, .15), red = mk(0xc22a22, .45, .4), finHead = mk(0x1d1e20, .5, .5);
+  const carbon = new THREE.MeshPhysicalMaterial({ color: 0x0c0d0f, roughness: .35, metalness: .2, clearcoat: 1, clearcoatRoughness: .15 });
+  function part(kind, id){
+    const node = new THREE.Group(); node.userData = { kind, id: id || kind };
+    model.add(node); groups[id || kind] = node; return node;
   }
-  function add(node, geo, x, y, z, mat){ const m = new THREE.Mesh(geo, mat || node.userData.mat); m.position.set(X(x), y, z); node.add(m); return m; }
-  const red = new THREE.MeshStandardMaterial({ color: 0xb8322a, roughness: .5, metalness: .3 });
-  const dark = new THREE.MeshStandardMaterial({ color: 0x15181b, roughness: .35, metalness: .5 });
-  /* engine: piston engine with pusher propeller, or the jet module (data-engine="jet") */
+  function add(node, geo, mat, x, y, z, rx, ry, rz){
+    const m = new THREE.Mesh(geo, mat); m.position.set(X(x), y, z); m.rotation.set(rx || 0, ry || 0, rz || 0); node.add(m); return m;
+  }
+  const cyl = (r1, r2, h, seg) => new THREE.CylinderGeometry(r1, r2, h, seg || 24);
+  const bx = (a, b, c) => new THREE.BoxGeometry(a, b, c);
+  /* cylinder axes: default along model y; AX turns it along x, AZ along z */
+  const AX = [0, 0, PI / 2], AZ = [PI / 2, 0, 0];
+
+  /* airframe finish: yellow band behind the nose joint */
+  if (groups.fuselage) add(groups.fuselage, new THREE.CylinderGeometry(.1768, .1768, .05, 48, 1, true), mk(0xe3cc1c, .6, .05, { side: THREE.DoubleSide }), .665, 0, 0, ...AX);
+
+  /* engine */
   const jet = box.dataset.engine === 'jet';
-  const eng = part('engine', jet ? 0x9aa1a8 : 0x4a5057);
-  const prop = new THREE.Group(); prop.position.set(X(3.45), 0, 0); eng.add(prop);
+  const eng = part('engine');
+  const prop = new THREE.Group(); prop.position.set(X(3.452), 0, 0); eng.add(prop);
   if (jet){
-    const copper = new THREE.MeshStandardMaterial({ color: 0x9a5a34, roughness: .4, metalness: .7 });
-    const hot = new THREE.MeshStandardMaterial({ color: 0x1a1210, roughness: .6, metalness: .3, side: THREE.BackSide });
+    const shell = mk(0x9aa1a8, .45, .6), copper = mk(0x9a5a34, .4, .75), hot = mk(0x1a1210, .6, .3, { side: THREE.BackSide });
     [-1, 1].forEach(sd => {
-      add(eng, new THREE.CylinderGeometry(.075, .085, .5, 28), 3.2, sd * .09, -.02).rotation.z = Math.PI / 2;
-      add(eng, new THREE.CylinderGeometry(.075, .058, .12, 28, 1, true), 3.51, sd * .09, -.02, copper).rotation.z = Math.PI / 2;
-      add(eng, new THREE.CylinderGeometry(.072, .055, .118, 28, 1, true), 3.51, sd * .09, -.02, hot).rotation.z = Math.PI / 2;
-      add(eng, new THREE.TorusGeometry(.08, .012, 10, 28), 2.95, sd * .09, -.02).rotation.y = Math.PI / 2;
+      add(eng, cyl(.075, .085, .5, 32), shell, 3.2, sd * .09, -.02, ...AX);
+      add(eng, new THREE.CylinderGeometry(.075, .058, .12, 32, 1, true), copper, 3.51, sd * .09, -.02, ...AX);
+      add(eng, new THREE.CylinderGeometry(.072, .055, .118, 32, 1, true), hot, 3.51, sd * .09, -.02, ...AX);
+      add(eng, new THREE.TorusGeometry(.08, .012, 12, 32), alu, 2.95, sd * .09, -.02, 0, PI / 2, 0);
     });
-    add(eng, new THREE.BoxGeometry(.42, .2, .1), 3.2, 0, -.02);
+    add(eng, bx(.42, .2, .1), shell, 3.2, 0, -.02);
   } else {
-    add(eng, new THREE.BoxGeometry(.2, .15, .15), 3.25, 0, 0);
-    [3.2, 3.3].forEach(x => [-1, 1].forEach(sd => {
-      add(eng, new THREE.CylinderGeometry(.045, .045, .11, 20), x, sd * .13, 0, red);
-      add(eng, new THREE.CylinderGeometry(.052, .052, .02, 20), x, sd * .195, 0);
+    /* mounts and mount plate on the rear bulkhead */
+    [-1, 1].forEach(a => [-1, 1].forEach(b => add(eng, cyl(.024, .024, .07), rubber, 3.075, a * .075, b * .06 + .01, ...AX)));
+    add(eng, bx(.012, .21, .18), alu, 3.115, 0, .01);
+    /* crankcase */
+    add(eng, bx(.23, .1, .12), alu, 3.25, 0, .005);
+    add(eng, cyl(.05, .05, .23, 28), alu, 3.25, 0, .005, ...AX);
+    /* four opposed cylinders: finned barrels, black finned heads, plugs, exhaust stubs */
+    const fin = bx(.094, .0032, .104), hfin = bx(.098, .0045, .108);
+    [3.195, 3.305].forEach(x => [-1, 1].forEach(sd => {
+      add(eng, cyl(.037, .037, .1, 24), alu, x, sd * .1, .005);
+      for (let i = 0; i < 9; i++) add(eng, fin, alu, x, sd * (.06 + i * .0105), .005);
+      add(eng, bx(.086, .034, .096), finHead, x, sd * .172, .005);
+      for (let i = 0; i < 5; i++) add(eng, hfin, finHead, x, sd * (.157 + i * .0085), .005);
+      add(eng, cyl(.007, .007, .035, 12), steel, x, sd * .205, .012);
+      add(eng, cyl(.017, .017, .12, 20), steel, x, sd * .135, -.105, ...AZ);
     }));
-    add(eng, new THREE.CylinderGeometry(.035, .035, .1, 20), 3.4, 0, 0).rotation.z = Math.PI / 2;
-    const blade = new THREE.Mesh(new THREE.BoxGeometry(.014, .76, .07), dark); blade.rotation.y = .25; prop.add(blade);
-    const cone = new THREE.Mesh(new THREE.ConeGeometry(.04, .09, 20), eng.userData.mat); cone.rotation.z = -Math.PI / 2; cone.position.x = .05; prop.add(cone);
+    /* carburettors with air filters, ignition boxes, fuel line */
+    [3.195, 3.305].forEach(x => {
+      add(eng, bx(.05, .055, .06), alu, x, 0, .1);
+      add(eng, cyl(.02, .02, .03, 16), alu, x, 0, .14, ...AZ);
+      add(eng, cyl(.035, .035, .052, 28), rubber, x, 0, .18, ...AZ);
+      add(eng, cyl(.037, .034, .012, 28), black, x, 0, .211, ...AZ);
+      add(eng, bx(.07, .03, .035), black, x, .05, .085);
+    });
+    const line = new THREE.CatmullRomCurve3([[3.305, -.03, .125], [3.25, -.035, .135], [3.195, -.03, .125], [3.14, -.05, .12], [3.1, -.06, .1]].map(p => new THREE.Vector3(X(p[0]), p[1], p[2])));
+    eng.add(new THREE.Mesh(new THREE.TubeGeometry(line, 24, .004, 8), mk(0xd8d23a, .3, 0, { transparent: true, opacity: .9 })));
+    /* ring gear, starter pinion, propeller hub */
+    add(eng, cyl(.092, .092, .009, 72), alu, 3.39, 0, .005, ...AX);
+    for (let i = 0; i < 8; i++){ const a = i / 8 * PI * 2; add(eng, cyl(.014, .014, .011, 16), black, 3.39, Math.cos(a) * .06, .005 + Math.sin(a) * .06, ...AX); }
+    add(eng, cyl(.03, .03, .012, 24), alu, 3.39, .0, -.105, ...AX);
+    add(eng, cyl(.022, .022, .09, 20), black, 3.33, 0, -.105, ...AX);
+    add(eng, cyl(.03, .03, .05, 24), alu, 3.42, 0, .005, ...AX);
+    prop.position.z = .005;
+    prop.add(new THREE.Mesh(cyl(.042, .042, .016, 28), alu).rotateZ(PI / 2));
+    /* two-blade carbon propeller */
+    const sh = new THREE.Shape();
+    sh.moveTo(-.022, .0); sh.bezierCurveTo(-.05, .08, -.05, .16, -.03, .27); sh.quadraticCurveTo(-.012, .352, .004, .355);
+    sh.quadraticCurveTo(.02, .345, .024, .27); sh.bezierCurveTo(.032, .16, .034, .08, .022, 0); sh.closePath();
+    const bg = new THREE.ExtrudeGeometry(sh, { depth: .012, bevelEnabled: true, bevelThickness: .003, bevelSize: .003, bevelSegments: 2, curveSegments: 16 }); bg.translate(0, 0, -.006);
+    [0, PI].forEach(r => { const g = new THREE.Group(); g.rotation.x = r; const b = new THREE.Mesh(bg, carbon); b.rotation.y = PI / 2 + .28; g.add(b); prop.add(g); });
   }
-  /* camera in the nose */
-  const camn = part('camera', 0x15181b, { roughness: .2, metalness: .6 });
-  const ring = add(camn, new THREE.CylinderGeometry(.05, .05, .03, 24), .012, 0, -.03, new THREE.MeshStandardMaterial({ color: 0xf28c28, roughness: .5 })); ring.rotation.z = Math.PI / 2;
-  const lens = add(camn, new THREE.SphereGeometry(.038, 24, 16), -.002, 0, -.03);
-  /* warhead in the payload bay */
-  const wh = part('warhead', 0xd9482b, { roughness: .45, metalness: .3, emissive: 0x3a0d05 });
-  add(wh, new THREE.CylinderGeometry(.115, .115, .42, 32), .98, 0, -.03).rotation.z = Math.PI / 2;
-  add(wh, new THREE.SphereGeometry(.115, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2), .77, 0, -.03).rotation.z = Math.PI / 2;
-  add(wh, new THREE.CylinderGeometry(.118, .118, .05, 32), .9, 0, -.03, new THREE.MeshStandardMaterial({ color: 0xf2f2ef, roughness: .5 })).rotation.z = Math.PI / 2;
-  /* two GNSS antennas on the back */
-  const gn = part('gnss', 0xf28c28);
-  [1.55, 2.25].forEach(x => { add(gn, new THREE.CylinderGeometry(.045, .05, .022, 24), x, 0, .188).rotation.x = Math.PI / 2; });
-  /* blade antennas on the back */
-  const an = part('antennas', 0xf28c28);
-  const bl = new THREE.Shape(); bl.moveTo(0, 0); bl.lineTo(.11, 0); bl.lineTo(.085, .1); bl.lineTo(.05, .1); bl.closePath();
-  const blGeo = new THREE.ExtrudeGeometry(bl, { depth: .012, bevelEnabled: false }); blGeo.translate(0, 0, -.006);
-  [[1.9, .18, 1], [2.9, .17, 1]].forEach(a => { const m = add(an, blGeo, a[0], 0, a[1]); m.rotation.x = Math.PI / 2 * a[2]; });
+
+  /* camera: stabilised ball under the nose */
+  const camn = part('camera');
+  add(camn, new THREE.SphereGeometry(.052, 32, 20), grey, .15, 0, -.105);
+  add(camn, cyl(.057, .057, .02, 32), grey, .15, 0, -.1, ...AZ);
+  add(camn, cyl(.022, .022, .02, 24), mk(0x050506, .1, .8), .112, 0, -.125, 0, 0, PI / 2 - .5);
+
+  /* warhead in the section behind the nose */
+  const wh = part('warhead'), whm = mk(0xd9482b, .45, .3, { emissive: 0x3a0d05 });
+  add(wh, cyl(.115, .115, .42, 36), whm, .98, 0, -.03, ...AX);
+  add(wh, new THREE.SphereGeometry(.115, 36, 18, 0, PI * 2, 0, PI / 2), whm, .77, 0, -.03, ...AX);
+  add(wh, cyl(.118, .118, .05, 36), mk(0xf2f2ef, .5, 0), .9, 0, -.03, ...AX);
+
+  /* GNSS antennas: black two-step pucks */
+  const gn = part('gnss');
+  [[1.5, 0, .175], [2.965, .075, .13]].forEach(p => {
+    add(gn, cyl(.04, .042, .02, 32), black, p[0], p[1], p[2] + .01, ...AZ);
+    add(gn, cyl(.036, .036, .045, 32), black, p[0], p[1], p[2] + .042, ...AZ);
+  });
+
+  /* communication antennas: mast with crossbar behind the yellow band, small button antenna on the front hatch */
+  const an = part('antennas');
+  const UP = new THREE.Vector3(0, 1, 0);
+  function rod(node, mat, r, p, q){
+    const A = new THREE.Vector3(X(p[0]), p[1], p[2]), B = new THREE.Vector3(X(q[0]), q[1], q[2]), d = B.clone().sub(A);
+    const m = new THREE.Mesh(cyl(r, r, d.length(), 14), mat); m.position.copy(A).add(B).multiplyScalar(.5);
+    m.quaternion.setFromUnitVectors(UP, d.normalize()); node.add(m); return m;
+  }
+  add(an, bx(.07, .04, .005), grey, .705, 0, .177);
+  rod(an, grey, .011, [.7, 0, .177], [.762, 0, .312]);
+  add(an, new THREE.CapsuleGeometry(.011, .15, 6, 12), grey, .765, 0, .318);
+  [-1, 1].forEach(sd => rod(an, grey, .007, [.722, 0, .222], [.665, sd * .05, .28]));
+  add(an, cyl(.005, .005, .022, 12), alu, 1.12, 0, .186, ...AZ);
+  add(an, new THREE.SphereGeometry(.02, 24, 12, 0, PI * 2, 0, PI / 2), alu, 1.12, 0, .195, ...AZ);
+
+  /* airspeed sensors (pitot tubes) on both wings; elevon servos, horns and pushrods */
+  [['l', 1], ['r', -1]].forEach(s => {
+    const pt = part('pitot', 'pitot:' + s[0]);
+    add(pt, cyl(.0055, .0055, .27, 14), alu, 1.585, s[1] * .62, -.008, ...AX);
+    add(pt, cyl(.0055, .002, .025, 14), alu, 1.4375, s[1] * .62, -.008, ...AX);
+    const el = part('elevons', 'elevons:' + s[0]);
+    add(el, bx(.005, 1.02, .0025), black, 2.93, s[1] * .75, -.0165);
+    add(el, bx(.004, .003, .012), black, 3.03, s[1] * .675, -.02);
+    [.45, .9].forEach(y => {
+      add(el, bx(.1, .1, .003), carbon, 2.74, s[1] * y, .004);
+      add(el, bx(.014, .008, .034), red, 2.775, s[1] * y + .03, .02);
+      add(el, cyl(.003, .003, .2, 8), steel, 2.875, s[1] * y + .03, .022, 0, .09, PI / 2);
+      add(el, bx(.022, .007, .04), black, 2.975, s[1] * y + .03, -.002);
+    });
+  });
 
   /* numbered markers that follow the parts */
   const marks = [];
-  const anchors = { camera: [-.02, 0, -.03], gnss: [1.55, 0, .2], antennas: [1.95, 0, .3], tank: [1.95, 0, -.05], warhead: [.95, 0, .0], engine: [3.28, 0, .12] };
+  const anchors = { camera: [.15, 0, -.1], gnss: [1.5, 0, .24], antennas: [.7, 0, .34], tank: [1.95, 0, -.05], warhead: [.95, 0, 0], engine: [3.27, 0, .22], pitot: [1.5, .62, 0], elevons: [2.85, .9, .03] };
   box.querySelectorAll('[data-mark]').forEach(el => {
-    const kind = el.dataset.mark, node = groups[kind], a = anchors[kind]; if (!node || !a) return;
+    const kind = el.dataset.mark, node = Object.values(groups).find(n => n.userData.kind === kind), a = anchors[kind]; if (!node || !a) return;
     const o = new THREE.Object3D(); o.position.set(X(a[0]), a[1], a[2]); node.add(o);
     stage.appendChild(el); marks.push({ el, o, node });
   });
@@ -138,7 +218,7 @@ export async function mount(box){
   const ctl = new OrbitControls(cam, cv);
   ctl.enableDamping = true; ctl.dampingFactor = .08; ctl.enablePan = false;
   ctl.minDistance = 2.2; ctl.maxDistance = 11; ctl.enableZoom = false; ctl.autoRotate = !reduce; ctl.autoRotateSpeed = .7;
-  const home = () => { cam.position.set(-3.3, 1.9, 3.9); ctl.target.set(0, -.12, 0); ctl.update(); };
+  const home = () => { cam.position.set(-3.0, 1.75, 3.55); ctl.target.set(0, -.12, 0); ctl.update(); };
   home();
   ctl.addEventListener('start', () => { ctl.autoRotate = false; box.classList.add('s3d-used'); });
 
@@ -162,7 +242,7 @@ export async function mount(box){
   });
   /* see-through skin */
   const xr = box.querySelector('[data-xray]');
-  function setXray(on){ Object.values(groups).forEach(n => { if (n.userData.skin){ n.userData.mat.opacity = on ? .16 : 1; n.userData.mat.depthWrite = !on; } }); }
+  function setXray(on){ Object.values(groups).forEach(n => { if (n.userData.skin){ n.userData.mat.opacity = on ? (n.userData.kind === 'hatches' ? .3 : .2) : 1; n.userData.mat.depthWrite = !on; } }); }
   if (xr){ setXray(xr.getAttribute('aria-pressed') === 'true'); xr.addEventListener('click', () => { const on = xr.getAttribute('aria-pressed') !== 'true'; xr.setAttribute('aria-pressed', on ? 'true' : 'false'); setXray(on); }); }
   /* take apart */
   const ex = box.querySelector('[data-apart]');
@@ -171,5 +251,6 @@ export async function mount(box){
   const rs = box.querySelector('[data-home]');
   if (rs) rs.addEventListener('click', () => { home(); if (ex){ ex.value = 0; setApart(0); } });
 
+  box.s3d = { cam, ctl };
   box.classList.add('s3d-on');
 }
