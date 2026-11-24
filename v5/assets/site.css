@@ -775,3 +775,22 @@ button.s3d-mark.off{opacity:.55;border-style:dashed}
 .monitor .screen{border-bottom-width:10px;border-radius:14px}
 .monitor .stand{background:linear-gradient(#eef0f2,#aeb4ba);clip-path:none;width:16%;height:54px;margin-top:3px}
 .monitor .foot{background:linear-gradient(90deg,#9aa0a7,#eef0f2 20%,#c9cdd2 50%,#eef0f2 80%,#9aa0a7);width:34%;border-radius:4px}
+/* APEX LT page: compact layout */
+.monitor.curved{--mw:min(100%,calc((100vh - var(--hdr,72px) - 40px) * 2.05))}
+.monitor.curved .screen{aspect-ratio:2.05/1}
+.apexh{font-size:clamp(2rem,4.2vw,3.5rem)!important}
+.apexc .head{margin-bottom:28px}
+.apexc .head h2{font-size:clamp(1.6rem,2.8vw,2.25rem)}
+.apex-rows.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+.apex-rows.cards .apex-row{display:block;margin:0;padding:0;border:0}
+.apex-rows.cards .shot{order:0;margin-bottom:14px}
+.apex-rows.cards .pt{padding:0}
+.apex-rows.cards h3{margin-top:6px!important;font-size:1.125rem}
+.apex-rows.cards .bullets{margin-top:10px!important;font-size:.875rem}
+.apex-rows.cards .bullets li{margin-top:6px}
+.apexc .grid4{gap:22px 28px!important}
+.apexc .note{margin-top:18px!important;font-size:.8125rem}
+@media(max-width:1100px){.apex-rows.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.apex-rows.cards{grid-template-columns:minmax(0,1fr)}}
+.apexc .cta{padding-top:36px;padding-bottom:0;align-items:center}
+.apexc .cta h2{font-size:clamp(1.6rem,2.8vw,2.25rem);max-width:none!important}
