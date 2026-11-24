@@ -801,3 +801,14 @@ button.s3d-mark.off{opacity:.55;border-style:dashed}
 .monitor.curved{--mw:min(100%,1040px,calc((100vh - var(--hdr,72px) - 40px) * 2.05 * .68))}
 /* curved screen: medium size */
 .monitor.curved{--mw:min(100%,1500px,calc((100vh - var(--hdr,72px) - 40px) * 2.05 * .88))}
+/* Five reasons: when a closed panel is narrow, its title runs vertically instead of breaking words */
+.panel{container-type:inline-size}
+.panel .h{overflow-wrap:normal;word-break:normal;hyphens:manual}
+@container (max-width:200px){
+  .panel:not(.on) .txt{left:0;right:0;bottom:20px;align-items:center}
+  .panel:not(.on) .h{writing-mode:vertical-rl;transform:rotate(180deg);max-height:430px;font-size:1.125rem;line-height:1.25;white-space:normal;text-align:left;transition:none}
+}
+/* responsible-use stamp */
+.human{display:inline-flex!important;flex-direction:column;align-items:center;gap:4px!important;width:auto!important;max-width:100%;background:transparent!important;color:var(--camel)!important;border:3px solid var(--camel)!important;outline:1.5px solid var(--camel);outline-offset:4px;border-radius:10px!important;padding:14px 26px!important;transform:rotate(-3deg);margin-left:8px;text-align:center;opacity:.95}
+.human .mono{color:var(--camel)!important;font-size:.6875rem!important;letter-spacing:.28em!important;margin:0!important}
+.human .big{color:var(--camel)!important;font-family:var(--display);font-weight:700!important;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(1rem,1.7vw,1.375rem)!important;line-height:1.2!important;margin:0!important}
