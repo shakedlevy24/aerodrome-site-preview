@@ -797,3 +797,5 @@ button.s3d-mark.off{opacity:.55;border-style:dashed}
 .apexc .cta{flex-direction:row!important;align-items:center!important;justify-content:space-between;gap:20px 40px}
 .apexc .cta h2{flex:0 1 auto!important}
 .apexc .cta{justify-content:flex-start!important;gap:16px 32px}
+/* smaller curved screen */
+.monitor.curved{--mw:min(100%,1040px,calc((100vh - var(--hdr,72px) - 40px) * 2.05 * .68))}
