@@ -32,8 +32,8 @@ if (box && video) try {
     const w = stage.clientWidth, h = stage.clientHeight; if (!w || !h) return;
     renderer.setSize(w, h, false); cam.aspect = w / h;
     /* choose the field of view so the whole screen and its base fit */
-    const ex = R * Math.sin(ARC / 2 + .016), ez = CZ + R * Math.cos(ARC / 2), top = H / 2 + .06, bot = H / 2 + .06;
-    const vy = Math.max((top - CY) / ez, (bot + CY) / ez), vx = ex / ez / cam.aspect;
+    const ex = R * Math.sin(ARC / 2) * 1.03, ez = CZ + R * Math.cos(ARC / 2), top = H / 2 + .1, bot = H / 2 + .1;
+    const vy = Math.max((top - CY) / ez, (bot + CY) / ez) * 1.0, vx = ex / ez / cam.aspect * 1.02;
     cam.fov = 2 * Math.atan(Math.max(vy, vx)) * 180 / PI; cam.updateProjectionMatrix();
   }
   /* draw only when the film has a new picture, not on every screen refresh */
