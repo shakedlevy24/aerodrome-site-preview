@@ -752,3 +752,13 @@ button.s3d-mark.off{opacity:.55;border-style:dashed}
 .apextop .vframe{max-width:min(100%,calc((100vh - var(--hdr,72px) - 60px) * 16 / 9));aspect-ratio:16/9}
 .apextop .vframe video{object-fit:contain}
 .apextop .vframe{aspect-ratio:1280/672;max-width:min(100%,calc((100vh - var(--hdr,72px) - 60px) * 1280 / 672))}
+/* workstation monitor around the APEX film */
+.monitor{--mw:min(100%,calc((100vh - var(--hdr,72px) - 170px) * 1280 / 672));width:var(--mw);margin:0 auto;display:flex;flex-direction:column;align-items:center}
+.monitor .screen{position:relative;width:100%;aspect-ratio:1280/672;background:#05080c;border:10px solid #15191e;border-bottom-width:0;border-radius:14px 14px 0 0;box-shadow:0 0 0 1px #2b3138,0 30px 80px rgba(0,0,0,.55),inset 0 0 0 1px #000;overflow:hidden}
+.monitor .screen video{display:block;width:100%;height:100%;object-fit:contain}
+.monitor .screen::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,0) 28%)}
+.monitor .chin{width:100%;height:26px;background:linear-gradient(#1a1e24,#111418);border-radius:0 0 14px 14px;box-shadow:0 0 0 1px #2b3138;display:grid;place-items:center}
+.monitor .chin span{width:6px;height:6px;border-radius:50%;background:var(--camel);box-shadow:0 0 8px var(--camel)}
+.monitor .stand{width:14%;height:46px;background:linear-gradient(90deg,#0e1114,#22272e 50%,#0e1114);clip-path:polygon(18% 0,82% 0,100% 100%,0 100%)}
+.monitor .foot{width:30%;height:10px;border-radius:6px 6px 2px 2px;background:linear-gradient(#262b32,#111418);box-shadow:0 14px 30px rgba(0,0,0,.6)}
+@media(max-width:640px){.monitor .screen{border-width:6px;border-bottom-width:0;border-radius:10px 10px 0 0}.monitor .chin{height:16px;border-radius:0 0 10px 10px}.monitor .stand{height:26px}}
