@@ -751,3 +751,4 @@ button.s3d-mark.off{opacity:.55;border-style:dashed}
 .apextop{padding-top:calc(var(--hdr,72px) + 20px)}
 .apextop .vframe{max-width:min(100%,calc((100vh - var(--hdr,72px) - 60px) * 16 / 9));aspect-ratio:16/9}
 .apextop .vframe video{object-fit:contain}
+.apextop .vframe{aspect-ratio:1280/672;max-width:min(100%,calc((100vh - var(--hdr,72px) - 60px) * 1280 / 672))}
