@@ -253,7 +253,7 @@
   var boxes=document.querySelectorAll('[data-s3d]');
   if(boxes.length && 'IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(!e.isIntersecting) return; io.unobserve(e.target);
-      import('./spec3d.js?v=20261123k').then(function(m){ return m.mount(e.target); }).catch(function(){ e.target.classList.add('s3d-off'); }); }); },{rootMargin:'400px'});
+      import('./spec3d.js?v=20261124a').then(function(m){ return m.mount(e.target); }).catch(function(){ e.target.classList.add('s3d-off'); }); }); },{rootMargin:'400px'});
     boxes.forEach(function(b){ io.observe(b); });
   }
   document.querySelectorAll('[data-scrub]').forEach(function(box){

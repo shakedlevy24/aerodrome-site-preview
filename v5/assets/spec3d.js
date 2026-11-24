@@ -96,14 +96,23 @@ export async function mount(box){
   const eng = part('engine');
   const prop = new THREE.Group(); prop.position.set(X(3.452), 0, 0); eng.add(prop);
   if (jet){
-    const shell = mk(0x9aa1a8, .45, .6), copper = mk(0x9a5a34, .4, .75), hot = mk(0x1a1210, .6, .3, { side: THREE.BackSide });
+    /* twin jet module: two faired nacelles blended into the rear fuselage, top intakes, bronze nozzles */
+    const skin = mk(0xa3abb6, .68, .05), bronze = mk(0x5e3a26, .38, .8), soot = mk(0x0d0b0a, .7, .2, { side: THREE.DoubleSide }), dark = mk(0x08090a, .5, .3);
+    const prof = new THREE.SplineCurve([[.0, 2.42], [.045, 2.5], [.088, 2.62], [.118, 2.78], [.128, 2.95], [.128, 3.2], [.119, 3.36], [.1, 3.445]].map(q => new THREE.Vector2(q[0], q[1] - 2.42))).getPoints(48);
+    const nac = new THREE.LatheGeometry(prof, 40);
     [-1, 1].forEach(sd => {
-      add(eng, cyl(.075, .085, .5, 32), shell, 3.2, sd * .09, -.02, ...AX);
-      add(eng, new THREE.CylinderGeometry(.075, .058, .12, 32, 1, true), copper, 3.51, sd * .09, -.02, ...AX);
-      add(eng, new THREE.CylinderGeometry(.072, .055, .118, 32, 1, true), hot, 3.51, sd * .09, -.02, ...AX);
-      add(eng, new THREE.TorusGeometry(.08, .012, 12, 32), alu, 2.95, sd * .09, -.02, 0, PI / 2, 0);
+      add(eng, nac, skin, 2.42, sd * .125, .05, 0, 0, -PI / 2);
+      /* intake: dark oval scoop with a lip, on top of each nacelle */
+      const mouth = add(eng, new THREE.SphereGeometry(.05, 28, 16), dark, 2.675, sd * .128, .139, 0, .3, 0); mouth.scale.set(1.9, .72, .2);
+      /* nozzle */
+      add(eng, new THREE.CylinderGeometry(.082, .099, .1, 40, 1, true), bronze, 3.495, sd * .125, .05, 0, 0, -PI / 2);
+      add(eng, new THREE.CylinderGeometry(.078, .095, .098, 40, 1, true), soot, 3.495, sd * .125, .05, 0, 0, -PI / 2);
+      add(eng, new THREE.TorusGeometry(.0815, .004, 8, 40), bronze, 3.545, sd * .125, .05, 0, PI / 2, 0);
+      add(eng, cyl(.092, .092, .004, 32), soot, 3.452, sd * .125, .05, ...AX);
+      add(eng, new THREE.ConeGeometry(.03, .07, 20), mk(0x2a2320, .5, .6), 3.49, sd * .125, .05, 0, 0, -PI / 2);
     });
-    add(eng, bx(.42, .2, .1), shell, 3.2, 0, -.02);
+    /* saddle between the nacelles */
+    const sad = add(eng, new THREE.SphereGeometry(.5, 32, 20), skin, 3.02, 0, .045); sad.scale.set(.82, .2, .2);
   } else {
     /* built after the real engine: scaled about the rear bulkhead */
     const E = new THREE.Group(), K = 1.14; E.scale.setScalar(K); E.position.set(X(3.1) * (1 - K), 0, .005 * (1 - K)); eng.add(E); E.add(prop);
@@ -185,7 +194,7 @@ export async function mount(box){
 
   /* GNSS antennas: black two-step pucks */
   const gn = part('gnss');
-  [[1.5, 0, .175], [2.965, .075, .13]].forEach(p => {
+  [[1.5, 0, .175], jet ? [2.3, 0, .175] : [2.965, .075, .13]].forEach(p => {
     add(gn, cyl(.04, .042, .02, 32), black, p[0], p[1], p[2] + .01, ...AZ);
     add(gn, cyl(.036, .036, .045, 32), black, p[0], p[1], p[2] + .042, ...AZ);
   });
@@ -224,7 +233,7 @@ export async function mount(box){
 
   /* numbered markers that follow the parts */
   const marks = [];
-  const anchors = { camera: [.15, 0, -.1], gnss: [1.5, 0, .24], antennas: [.7, 0, .34], tank: [1.95, 0, -.05], warhead: [.95, 0, 0], engine: [3.3, 0, .27], pitot: [1.5, .62, 0], elevons: [2.85, .9, .03] };
+  const anchors = { camera: [.15, 0, -.1], gnss: [1.5, 0, .24], antennas: [.7, 0, .34], tank: [1.95, 0, -.05], warhead: [.95, 0, 0], engine: jet ? [3.1, 0, .2] : [3.3, 0, .27], pitot: [1.5, .62, 0], elevons: [2.85, .9, .03] };
   box.querySelectorAll('[data-mark]').forEach(el => {
     const kind = el.dataset.mark, node = Object.values(groups).find(n => n.userData.kind === kind), a = anchors[kind]; if (!node || !a) return;
     const o = new THREE.Object3D(); o.position.set(X(a[0]), a[1], a[2]); node.add(o);
