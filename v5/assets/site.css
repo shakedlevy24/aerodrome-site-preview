@@ -762,3 +762,10 @@ button.s3d-mark.off{opacity:.55;border-style:dashed}
 .monitor .stand{width:14%;height:46px;background:linear-gradient(90deg,#0e1114,#22272e 50%,#0e1114);clip-path:polygon(18% 0,82% 0,100% 100%,0 100%)}
 .monitor .foot{width:30%;height:10px;border-radius:6px 6px 2px 2px;background:linear-gradient(#262b32,#111418);box-shadow:0 14px 30px rgba(0,0,0,.6)}
 @media(max-width:640px){.monitor .screen{border-width:6px;border-bottom-width:0;border-radius:10px 10px 0 0}.monitor .chin{height:16px;border-radius:0 0 10px 10px}.monitor .stand{height:26px}}
+/* curved screen (when WebGL is available) */
+.monitor.curved{--mw:min(100%,calc((100vh - var(--hdr,72px) - 90px) * 1.9))}
+.monitor.curved .screen{aspect-ratio:1.9/1;border:0;background:none;box-shadow:none;border-radius:0;overflow:visible}
+.monitor.curved .screen::after,.monitor.curved .chin,.monitor.curved .stand,.monitor.curved .foot{display:none}
+.monitor.curved .screen video{position:absolute;inset:0;opacity:0;pointer-events:none}
+.curve-canvas{position:absolute;inset:0;width:100%!important;height:100%!important;display:block}
+.monitor.curved .vpause{top:3%!important;right:3%!important}
