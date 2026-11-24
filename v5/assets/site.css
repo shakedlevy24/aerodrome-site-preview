@@ -746,3 +746,5 @@ button.s3d-mark.off{opacity:.55;border-style:dashed}
 .picband img{display:block;width:100%;height:100%;object-fit:cover;object-position:55% 50%}
 @media(max-width:980px){.spec-grid{grid-template-columns:minmax(0,1fr)}.s3d-stage{height:clamp(340px,60vw,460px)}}
 @media(max-width:640px){.s3d-stage{aspect-ratio:auto;height:clamp(330px,100vw,420px)}}
+.vframe{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#0b1118;aspect-ratio:16/9;max-width:1280px;margin:0 auto}
+.vframe video{display:block;width:100%;height:100%;object-fit:cover}
