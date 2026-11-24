@@ -769,3 +769,9 @@ button.s3d-mark.off{opacity:.55;border-style:dashed}
 .monitor.curved .screen video{position:absolute;inset:0;opacity:0;pointer-events:none}
 .curve-canvas{position:absolute;inset:0;width:100%!important;height:100%!important;display:block}
 .monitor.curved .vpause{top:3%!important;right:3%!important}
+/* silver aluminium finish for the flat fallback monitor */
+.monitor .screen{border-color:#0a0b0d;box-shadow:0 0 0 3px #cfd3d8,0 30px 80px rgba(0,0,0,.55)}
+.monitor .chin{display:none}
+.monitor .screen{border-bottom-width:10px;border-radius:14px}
+.monitor .stand{background:linear-gradient(#eef0f2,#aeb4ba);clip-path:none;width:16%;height:54px;margin-top:3px}
+.monitor .foot{background:linear-gradient(90deg,#9aa0a7,#eef0f2 20%,#c9cdd2 50%,#eef0f2 80%,#9aa0a7);width:34%;border-radius:4px}

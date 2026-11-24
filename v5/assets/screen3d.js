@@ -5,7 +5,7 @@ const box = document.querySelector('.monitor'), video = box && box.querySelector
 if (box && video) try {
   const stage = box.querySelector('.screen');
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' });
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   const cv = renderer.domElement; cv.className = 'curve-canvas'; cv.setAttribute('aria-hidden', 'true');
 
@@ -15,14 +15,19 @@ if (box && video) try {
   tex.wrapS = THREE.RepeatWrapping; tex.repeat.x = -1; tex.offset.x = 1;
   tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
   scene.add(new THREE.Mesh(arc(R, H, ARC), new THREE.MeshBasicMaterial({ map: tex, side: THREE.BackSide })));
-  /* bezel, back shell, glass highlight, stand and base */
-  const dark = c => new THREE.MeshBasicMaterial({ color: c, side: THREE.DoubleSide });
-  scene.add(new THREE.Mesh(arc(R + .004, H + .1, ARC + .026), dark(0x14181d)));
-  scene.add(new THREE.Mesh(arc(R + .012, H + .12, ARC + .032), dark(0x2a3038)));
-  const led = new THREE.Mesh(new THREE.CircleGeometry(.012, 16), new THREE.MeshBasicMaterial({ color: 0xf28c28 }));
-  led.position.set(0, -H / 2 - .028, -R + .002); scene.add(led);
-  const neck = new THREE.Mesh(new THREE.BoxGeometry(.34, .5, .08), dark(0x1a1e24)); neck.position.set(0, -H / 2 - .28, -R - .12); scene.add(neck);
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(.75, .8, .035, 48), dark(0x20252c)); base.position.set(0, -H / 2 - .54, -R + .1); base.scale.z = .5; scene.add(base);
+  /* thin black bezel, silver aluminium shell, silver stand and base */
+  function metal(w, h, stops){
+    const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d');
+    const gr = g.createLinearGradient(0, 0, w > h ? w : 0, w > h ? 0 : h); stops.forEach(([o, col]) => gr.addColorStop(o, col));
+    g.fillStyle = gr; g.fillRect(0, 0, w, h); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+  }
+  const silverH = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, map: metal(256, 4, [[0, '#8f959c'], [.18, '#e9ecef'], [.5, '#c3c8cd'], [.82, '#eef0f2'], [1, '#8f959c']]) });
+  const silverV = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, map: metal(4, 128, [[0, '#eef0f2'], [.5, '#c9cdd2'], [1, '#9aa0a7']]) });
+  scene.add(new THREE.Mesh(arc(R + .004, H + .07, ARC + .018), new THREE.MeshBasicMaterial({ color: 0x08090b, side: THREE.DoubleSide })));
+  scene.add(new THREE.Mesh(arc(R + .012, H + .1, ARC + .026), silverH));
+  const neck = new THREE.Mesh(new THREE.BoxGeometry(.5, .56, .05), silverV); neck.position.set(0, -H / 2 - .3, -R - .1); scene.add(neck);
+  const base = new THREE.Mesh(new THREE.BoxGeometry(1.3, .03, .62), silverH); base.position.set(0, -H / 2 - .585, -R + .12); scene.add(base);
+  const baseTop = new THREE.Mesh(new THREE.PlaneGeometry(1.3, .62), new THREE.MeshBasicMaterial({ color: 0xdfe3e7 })); baseTop.rotation.x = -PI / 2; baseTop.position.set(0, -H / 2 - .569, -R + .12); scene.add(baseTop);
 
   const cam = new THREE.PerspectiveCamera(30, 2, .1, 50), CZ = 2.6, CY = .18;
   cam.position.set(0, CY, CZ); cam.lookAt(0, -.2, -R);
@@ -34,9 +39,13 @@ if (box && video) try {
     const vy = Math.max((top - CY) / ez, (bot + CY) / (CZ + R)) * .8, vx = ex / ez / cam.aspect * 1.02;
     cam.fov = 2 * Math.atan(Math.max(vy, vx)) * 180 / PI; cam.updateProjectionMatrix();
   }
+  /* draw only when the film has a new picture, not on every screen refresh */
+  const draw = () => renderer.render(scene, cam);
   let visible = true, raf = 0;
-  function frame(){ raf = 0; renderer.render(scene, cam); if (visible) raf = requestAnimationFrame(frame); }
-  const wake = () => { if (!raf && visible) raf = requestAnimationFrame(frame); };
+  const hasVfc = 'requestVideoFrameCallback' in video;
+  function frame(){ raf = 0; draw(); if (visible && !hasVfc) raf = requestAnimationFrame(frame); }
+  const wake = () => { if (!raf) raf = requestAnimationFrame(frame); };
+  if (hasVfc){ const onPic = () => { if (visible) draw(); video.requestVideoFrameCallback(onPic); }; video.requestVideoFrameCallback(onPic); }
   stage.appendChild(cv); box.classList.add('curved');
   new ResizeObserver(() => { fit(); wake(); }).observe(stage);
   new IntersectionObserver(es => { visible = es[0].isIntersecting; wake(); }).observe(stage);
