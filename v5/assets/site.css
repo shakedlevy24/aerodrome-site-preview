@@ -794,3 +794,5 @@ button.s3d-mark.off{opacity:.55;border-style:dashed}
 @media(max-width:560px){.apex-rows.cards{grid-template-columns:minmax(0,1fr)}}
 .apexc .cta{padding-top:36px;padding-bottom:0;align-items:center}
 .apexc .cta h2{font-size:clamp(1.6rem,2.8vw,2.25rem);max-width:none!important}
+.apexc .cta{flex-direction:row!important;align-items:center!important;justify-content:space-between;gap:20px 40px}
+.apexc .cta h2{flex:0 1 auto!important}
