@@ -812,3 +812,10 @@ button.s3d-mark.off{opacity:.55;border-style:dashed}
 .human{display:inline-flex!important;flex-direction:column;align-items:center;gap:4px!important;width:auto!important;max-width:100%;background:transparent!important;color:var(--camel)!important;border:3px solid var(--camel)!important;outline:1.5px solid var(--camel);outline-offset:4px;border-radius:10px!important;padding:14px 26px!important;transform:rotate(-3deg);margin-left:8px;text-align:center;opacity:.95}
 .human .mono{color:var(--camel)!important;font-size:.6875rem!important;letter-spacing:.28em!important;margin:0!important}
 .human .big{color:var(--camel)!important;font-family:var(--display);font-weight:700!important;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(1rem,1.7vw,1.375rem)!important;line-height:1.2!important;margin:0!important}
+/* with / for: keeps alternating (still off when the visitor asks for reduced motion) */
+@keyframes wboxA2{0%,40%{opacity:1;transform:none}50%,90%{opacity:0;transform:translateY(-.5em)}100%{opacity:1;transform:none}}
+@keyframes wboxB2{0%,40%{opacity:0;transform:translateY(.5em)}50%,90%{opacity:1;transform:none}100%{opacity:0;transform:translateY(.5em)}}
+@media (prefers-reduced-motion:no-preference){
+  .wbox>span{animation:wboxA2 6s var(--ease) infinite both;animation-play-state:running}
+  .wbox>span+span{animation-name:wboxB2;opacity:0}
+}
