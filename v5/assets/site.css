@@ -748,3 +748,6 @@ button.s3d-mark.off{opacity:.55;border-style:dashed}
 @media(max-width:640px){.s3d-stage{aspect-ratio:auto;height:clamp(330px,100vw,420px)}}
 .vframe{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#0b1118;aspect-ratio:16/9;max-width:1280px;margin:0 auto}
 .vframe video{display:block;width:100%;height:100%;object-fit:cover}
+.apextop{padding-top:calc(var(--hdr,72px) + 20px)}
+.apextop .vframe{max-width:min(100%,calc((100vh - var(--hdr,72px) - 60px) * 16 / 9));aspect-ratio:16/9}
+.apextop .vframe video{object-fit:contain}
